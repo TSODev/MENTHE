@@ -1,87 +1,27 @@
-# MENTHE
+You have to add some files :
 
-Express Menthe RestAPI server
+1 - MENTHE_SERVER/.env with :
+APP_ID = MENTHE
+LOG_LEVEL=debug
+PORT=3000
+RUN_MODE = secure
 
-## Quick Start
+SESSION_SECRET = (add the secret password...)
+SESSION_DURATION = 240
+REQUEST_LIMIT= 100kb
+SWAGGER_API_SPEC=/spec
 
-Get started developing...
+DB_CONNECTION_STRING = mongodb+srv://
+DB_SERVER = cluster0-crmg9.mongodb.net
+DB_PORT = 
+DB_ROOT = Menthe_User
+DB_PASSWORD = (add the user password to access the db)
+DB_NAME = MENTHE
+DB_OPTIONS = ?retryWrites=true&w=majority
 
-```shell
-# install deps
-npm install
+and :
 
-# run in development mode
-npm run dev
-
-# run tests
-npm run test
-```
-
----
-
-## Install Dependencies
-
-Install all package dependencies (one time operation)
-
-```shell
-npm install
-```
-
-## Run It
-#### Run in *development* mode:
-Runs the application is development mode. Should not be used in production
-
-```shell
-npm run dev
-```
-
-or debug it
-
-```shell
-npm run dev:debug
-```
-
-```shell
-npm run server
-```
-
-#### Run in *production* mode:
-
-Compiles the application and starts it in production production mode.
-
-```shell
-npm run compile
-npm start
-```
-
-## Test It
-
-Run the Mocha unit tests
-
-```shell
-npm test
-```
-
-or debug them
-
-```shell
-npm run test:debug
-```
-
-## Debug It
-
-#### Debug the server:
-
-```
-npm run dev:debug
-```
-
-#### Debug Tests
-
-```
-npm run test:debug
-```
-
-#### Debug with VSCode
-
-Add these [contents](https://github.com/cdimascio/generator-express-no-stress/blob/next/assets/.vscode/launch.json) to your `.vscode/launch.json` file
+MENTHE_SERVER/server/authentication/private.key
+MENTHE_SERVER/server/common/tsodev.crt
+MENTHE_SERVER/server/common/tsodev.key
+MENTHE_SERVER/server/authentication/public.key
