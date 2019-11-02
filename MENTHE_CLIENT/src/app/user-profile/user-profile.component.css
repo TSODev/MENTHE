@@ -1,0 +1,41 @@
+
+.grid-container {  
+  margin: 10px;  
+}  
+.mat-card-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #26A69A;
+}
+.mat-card-avatar {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  top: 5px;
+  left: 60px;
+}
+
+.mat-card-content {
+  position: relative;
+  top:  10px;
+  left: 15px;
+  font-size: 15px;
+}
+
+.timeline-card {
+  position: absolute;
+  top: 15px;  
+  left: 8px;  
+  right: 15px;  
+  bottom: 15px; 
+  background-color: #B2DFDB;
+}
+
+.profile-card {
+  position: absolute;
+  top: 15px;  
+  left: 15px;  
+  right: 7px;  
+  bottom: 15px; 
+  background-color: #E0F2F1;
+}

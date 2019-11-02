@@ -1,0 +1,32 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-toolbar *ngIf="isAuthenticated" color="primary">
+    <mat-toolbar-row>
+      <span>Menthe</span>
+      <span class="spacer"></span>
+      <button mat-button [matMenuTriggerFor]="appMenu1">Menu 1</button>
+      <mat-menu #appMenu1="matMenu">
+        <button mat-menu-item>Sub Menu 11</button>
+        <button mat-menu-item>Sub Menu 12</button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="appMenu2">Menu 2</button>
+      <mat-menu #appMenu2="matMenu">
+        <button mat-menu-item>Sub Menu 21</button>
+        <button mat-menu-item>Sub Menu 22</button>
+      </mat-menu>
+      <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+      <mat-icon mat-button [matMenuTriggerFor]="menu" class="example-icon">settings</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon [routerLink]="['/profile']">face</mat-icon>
+          <span [routerLink]="['/profile']">Profile</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon (click)='logout()'>exit_to_app</mat-icon>
+            <span (click)='logout()'>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+  <!-- Add Content Here -->
+</mat-sidenav-container>

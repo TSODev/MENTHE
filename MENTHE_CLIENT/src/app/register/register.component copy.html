@@ -1,0 +1,79 @@
+<div class='login-container'>
+  <mat-grid-list cols=2 rows=1>
+    <mat-grid-tile class='login-element'>
+      <div class="login-container">
+        <mat-card class="registercard">
+          <mat-card-title>Menthe - Register</mat-card-title>
+          <mat-card-subtitle> Create your account</mat-card-subtitle>
+          <mat-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <p>
+              <mat-form-field apparence="legacy">
+                <mat-label>FirstName</mat-label>
+                <input matInput type="text" formControlName="firstName" placeholder="firstname" />
+                <mat-error *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                </mat-error>
+              </mat-form-field>                
+            </p>
+            <p>
+              <mat-form-field apparence="legacy">
+                <mat-label>LastName</mat-label>
+                <input matInput type="text" formControlName="lastName" placeholder="lastname" />
+                <mat-error *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                </mat-error>
+              </mat-form-field>              
+            </p>
+            <p>
+              <mat-form-field apparence=legacy>
+                <mat-label>Email Address</mat-label>
+                <input matInput type="text" formControlName="email" placeholder="email" />
+                <mat-error *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email Address is required</div>
+                  <div *ngIf="f.email.errors.email">a Valid Email Address is required</div>
+                </mat-error>
+              </mat-form-field>              
+            </p>
+            <p>
+              <mat-form-field apparence="legacy">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="password" />
+                <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field apparence="legacy">
+                <mat-label>Confirm</mat-label>
+                <input matInput type="password" formControlName="confirm" placeholder="confirm" />
+                <mat-error *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
+                  <div *ngIf="f.confirm.errors.required">Password is required</div>
+                  <div *ngIf="f.confirm.errors.minlength">Password must be at least 6 characters</div>
+                </mat-error>
+              </mat-form-field>              
+            </p>
+
+              <mat-card-actions>
+                <div class="button-actions">
+                  <span>
+                    <button mat-raised-button color="primary" [disabled]="loading" class="btn btn-primary">Register</button>
+                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    <button mat-raised-button color="secondary" [routerLink]="['/login']" class="btn btn-link">Cancel</button>
+                  </span>
+                </div>
+              </mat-card-actions>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class='login-image'>
+        <img src="https://images.unsplash.com/photo-1532509279463-999d8e6554e6?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjIwOTIyfQ&s=933c56768a16492e1caa4a5f40164d2e">
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
