@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
       this.currentUser = user;
     });
     this.currentUser = localStorage.getItem['currentUser'];
-    this.loadAllUsers();
+//    this.loadAllUsers();
     this.data_to_display = true;
   }
 
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
       this.userService.delete(user.user_id).subscribe(response => {
         if (response.status === 201) {
           this.alertService.success('User deleted');
-          this.loadAllUsers();
+//          this.loadAllUsers();
         } else {
           this.alertService.error('Error in delete');
         }
@@ -42,9 +42,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private loadAllUsers() {
-    this.userService.getAllUsers().subscribe(users => {
-      this.users = users;
-    });
-  }
+  // private loadAllUsers() {
+  //   this.userService.getAllUsers().subscribe(users => {
+  //     this.users = users;
+  //   });
+  // }
 }

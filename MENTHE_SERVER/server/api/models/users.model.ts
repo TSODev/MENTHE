@@ -25,7 +25,7 @@ export const UserSchema: Schema = new Schema({
     passwordDigest: String,
     firstname: String,
     lastname: String,
-    roles: [{role: String}],
+    roles: [String],
     license: String,
     lastLogin: Date,
     createDate: Date

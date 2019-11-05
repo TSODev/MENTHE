@@ -37,6 +37,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MainDashComponent } from './main-dash/main-dash.component';
 
 import { CookieService } from 'ngx-cookie-service';
+import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
+import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
+import { AccountComponent } from './admin/account/account.component';
+
+import { RbacAllowDirective } from './_directives/rbacAllow.directive';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,10 @@ import { CookieService } from 'ngx-cookie-service';
     MainNavComponent,
     UserProfileComponent,
     MainDashComponent,
+    AccountadminComponent,
+    GroupadminComponent,
+    AccountComponent,
+    RbacAllowDirective,
 
   ],
   imports: [

@@ -1,0 +1,9 @@
+
+  <div class='container'>
+    <mat-grid-list cols="4" rowHeight="200px">
+      <mat-grid-tile *ngFor="let user of users">
+          <app-account [theUser]="user"></app-account>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+

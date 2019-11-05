@@ -50,6 +50,7 @@ class InMongoDatabase {
             firstname: credentials.firstName,
         });
         user.domain = UserSchema.methods.GetDomainName(user.email);
+        user.roles.push('VIEWER');
         user.save();
         return user;        
     }

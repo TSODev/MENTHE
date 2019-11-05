@@ -14,23 +14,23 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getAllUsers() {
-        return <Observable<User[]>>this.http.get<User[]>(environment.APIEndpoint + '/api/v1/users')
-            .pipe(map(resp => resp['users']));
+        return this.http.get<User[]>(environment.APIEndpoint + '/api/v1/users')
+            .pipe(map(resp => resp['users'])) as Observable<User[]>;
     }
 
 
     getById(id: string) {
-        return <Observable<User>>this.http.get<User>(environment.APIEndpoint + '/api/v1/user/' + id)
-        .pipe(map(resp => resp['user']));
+        return this.http.get<User>(environment.APIEndpoint + '/api/v1/user/' + id)
+        .pipe(map(resp => resp['user'])) as Observable<User>;
     }
 
     getCurrentUser() {
-        return <Observable<User>>this.http.get<User>(environment.APIEndpoint + '/api/v1/user')
-            .pipe(map(resp => resp['user']));
+        return this.http.get<User>(environment.APIEndpoint + '/api/v1/user')
+            .pipe(map(resp => resp['user'])) as Observable<User>;
     }
 
     register(user: User) {
-        return <Observable<User>>this.http.post(environment.APIEndpoint + '/api/v1/signup', user);
+        return this.http.post(environment.APIEndpoint + '/api/v1/signup', user) as Observable<User>;
     }
 
     update(user: User) {
