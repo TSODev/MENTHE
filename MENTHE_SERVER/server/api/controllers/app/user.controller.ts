@@ -92,7 +92,7 @@ async function createUserAndSession(res:Response, credentials) {
 
   try {
       const user = await db.createUser(credentials, passwordDigest);
-      const sessionToken = await createSessionToken(user.user_id.toString());
+      const sessionToken = await createSessionToken(user);
       const csrfToken = await createCsrfToken(sessionToken);
 
       res.cookie("SESSIONID", sessionToken, {httpOnly:true, secure:true});
@@ -115,7 +115,7 @@ async function loginAndBuildResponse(credentials:any, user:IUser, res: Response)
     l.debug("Login successful");
     res.cookie("SESSIONID", sessionToken, {httpOnly:true, secure:true});
     res.cookie('XSRF-TOKEN', csrfToken);
-    res.status(200).json({user_id:user.user_id, email:user.email, firstname: user.firstname, lastname: user.lastname});
+    res.status(200).json({user_id:user.user_id, email:user.email, firstname: user.firstname, lastname: user.lastname, roles: user.roles});
   } catch (error) {
     l.error("Login failed!");
     res.sendStatus(401);
@@ -129,7 +129,7 @@ async function attemptLogin(credentials:any, user: IUser){
   if (!isPasswordValid) {
     throw new Error("Password Invalid");
   }
-  return createSessionToken(user.user_id.toString());
+  return createSessionToken(user);
 }
 
 export default new userController();

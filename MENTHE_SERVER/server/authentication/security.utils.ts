@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import * as fs from "fs";
 import l from "../common/logger";
 import argon2 from 'argon2';
+import { IUser } from "../api/models/users.model";
 
 
 
@@ -21,12 +22,15 @@ const RSA_PUBLIC_KEY = fs.readFileSync('./server/authentication/public.key');
 
 const SESSION_DURATION = 240;
 
-export  async function createSessionToken(userId:string){
+export  async function createSessionToken(user: IUser){
 
-    return signJwt({}, RSA_PRIVATE_KEY, {
+    return signJwt({
+        roles: user.roles
+    }, 
+        RSA_PRIVATE_KEY, {
         algorithm: 'RS256',
         expiresIn: SESSION_DURATION,
-        subject: userId
+        subject: user.user_id.toString()
     });
 }
 

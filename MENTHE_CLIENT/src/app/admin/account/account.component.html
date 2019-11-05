@@ -1,0 +1,16 @@
+<div class=container>
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>{{ theUser.email }}
+        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>Edit</button>
+          <button mat-menu-item>Remove</button>
+        </mat-menu>
+      </mat-card-title>
+      <mat-card-subtitle>{{ theUser.firstname }} {{ theUser.lastname }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>

@@ -7,6 +7,8 @@ import { AuthGuard } from './_guards';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
+import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
 
 const appRoutes: Routes = [
 
@@ -14,6 +16,8 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+    { path: 'Accountadmin', component: AccountadminComponent, canActivate: [AuthGuard]},
+    { path: 'Groupadmin', component: GroupadminComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

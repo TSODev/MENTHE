@@ -13,7 +13,8 @@ export const ANONYMOUS_USER: User = {
     user_id: undefined,
     email: '',
     firstName: 'anonymous',
-    lastName: 'anonymous'
+    lastName: 'anonymous',
+    roles: ['VIEWER'],
 };
 
 @Injectable()
@@ -25,7 +26,7 @@ export class AuthenticationService {
     constructor(private http: HttpClient) { }
 
     signup(user: User) {
-        return this.http.post(environment.APIEndpoint + '/api/v1/signup', user);
+      return this.http.post(environment.APIEndpoint + '/api/v1/signup', user);
     }
 
     login(email: string, password: string): Observable<User> {
@@ -41,12 +42,6 @@ export class AuthenticationService {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     this.isUserAuthenticated.next(true);
                     localStorage.setItem('currentUser', JSON.stringify(response));
-//                    loggedUser = ({
-//                        user_id: response['user_id'],
-//                        email: response['email'],
-//                        firstName: response['firstname'],
-//                        lastName: response['lastname']
-//                    }) as User;
                     loggedUser = response as unknown as User;
                     this.authenticatedUser.next(loggedUser);
                 }
@@ -81,5 +76,4 @@ export class AuthenticationService {
     IsUserAuthenticated(): Observable<boolean> {
         return this.isUserAuthenticated;
     }
-
 }
