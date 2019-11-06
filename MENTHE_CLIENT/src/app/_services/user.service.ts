@@ -19,8 +19,13 @@ export class UserService {
     }
 
 
-    getById(id: string) {
+    getUserById(id: string) {
         return this.http.get<User>(environment.APIEndpoint + '/api/v1/user/' + id)
+        .pipe(map(resp => resp['user'])) as Observable<User>;
+    }
+
+    getUserByEmail(email: string) {
+      return this.http.get<User>(environment.APIEndpoint + '/api/v1/user/email/' + email)
         .pipe(map(resp => resp['user'])) as Observable<User>;
     }
 

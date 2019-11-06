@@ -1,15 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 html,body {
   height:100%;
   margin:0;
   padding:0;
 }
-
-body {
-
-}
-
 .app-header {
   justify-content:space-between;
   position:fixed;
@@ -46,12 +42,12 @@ body {
 }
 
 .logincard {
-    background-color: #2c5e1c;
+    background-color: #dafecc;
     width: 300px;
 }
 
 .registercard {
-    background-color: #2c5e1c;
+    background-color: #dafecc;
     width: 300px;
 }
 .button-actions

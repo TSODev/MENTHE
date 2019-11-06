@@ -17,6 +17,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
 import { MatInputModule,
           MatFormFieldModule,
           MatButtonModule,

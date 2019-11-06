@@ -76,10 +76,21 @@ export class userController {
     }
   }
 
+  async getUserByEmail(req: Request, res: Response){
+    const email = req.params['email'];
+    l.debug("looking for user email: ", email);
+    const user = await db.findUserByEmail(email);
+    if (user) {
+      res.status(200).json({user: user});
+    } else {
+      res.sendStatus(500);
+    }
+  }
+
   async deleteUser(req: Request, res:Response){
     l.debug('Request for delete userId:', req.params.id);
     const user = await db.deleteUser(req.params.id)
-      .catch(err => res.sendStatus(204));
+      .catch(err => res.sendStatus(500));
     res.sendStatus(201);
   }
 }

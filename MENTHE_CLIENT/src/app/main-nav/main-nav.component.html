@@ -3,21 +3,16 @@
     <mat-toolbar-row>
       <span>Menthe</span>
       <span class="spacer"></span>
-      <button mat-button [matMenuTriggerFor]="appMenu1">Menu 1</button>
+      <button mat-button [matMenuTriggerFor]="appMenu1">Menu</button>
       <mat-menu #appMenu1="matMenu">
-        <button mat-menu-item>Sub Menu 11</button>
-        <button mat-menu-item>Sub Menu 12</button>
+        <button mat-menu-item>Sub Menu 1</button>
+        <button mat-menu-item>Sub Menu 2</button>
       </mat-menu>
       <div *rbacAllow="['ADMIN']">
         <button mat-button [matMenuTriggerFor]="appAdminMenu">Admin</button>
         <mat-menu #appAdminMenu="matMenu">
           <button mat-menu-item>
-            <mat-icon [routerLink]="['/Accountadmin']">account</mat-icon>
             <span [routerLink]="['/Accountadmin']">Account</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon [routerLink]="['/Groupadmin']">account-group</mat-icon>
-            <span [routerLink]="['/Groupadmin']">Group</span>
           </button>
         </mat-menu>
       </div>

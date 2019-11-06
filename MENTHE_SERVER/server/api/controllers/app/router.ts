@@ -13,6 +13,7 @@ export default express.Router()
     .get('/content', checkIfAuthenticated, usercontroller.getContent)
     .get('/user', checkIfAuthenticated, usercontroller.getUser)                       // Get user email address from SESSIONID cookie
     .get('/user/:id', checkIfAuthenticated, usercontroller.getUserById)
+    .get('/user/email/:email', checkIfAuthenticated,usercontroller.getUserByEmail)
     .get('/users', checkIfAuthenticated, usercontroller.allUsers)
     .delete('/user/:id', checkIfAuthenticated,
                     _.partial(checkIfAuthorized,(['ADMIN']))
