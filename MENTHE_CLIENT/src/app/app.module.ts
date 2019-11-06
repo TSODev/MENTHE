@@ -12,7 +12,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { ApiRequestInterceptor } from './_helpers/apirequest.interceptor';
 import { AlertService, AuthenticationService, UserService } from './_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './session/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -43,6 +43,8 @@ import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
 import { AccountComponent } from './admin/account/account.component';
 
 import { RbacAllowDirective } from './_directives/rbacAllow.directive';
+import { DisconnectComponent } from './session/disconnect/disconnect.component';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { RbacAllowDirective } from './_directives/rbacAllow.directive';
     GroupadminComponent,
     AccountComponent,
     RbacAllowDirective,
+    DisconnectComponent,
 
   ],
   imports: [

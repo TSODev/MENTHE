@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, EmailValidator } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AlertService, AuthenticationService } from '../_services';
+import { AlertService, AuthenticationService } from '../../_services';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 @Component({templateUrl: 'login.component.html'})
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
 //        this.authenticationService.logout().subscribe(response => console.log(response));
 
         // get return url from route parameters or default to '/'
+        // tslint:disable-next-line: no-string-literal
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 

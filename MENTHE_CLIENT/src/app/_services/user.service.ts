@@ -14,6 +14,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getAllUsers() {
+        console.log('Get All Users');
         return this.http.get<User[]>(environment.APIEndpoint + '/api/v1/users')
             .pipe(map(resp => resp['users'])) as Observable<User[]>;
     }
@@ -30,8 +31,9 @@ export class UserService {
     }
 
     getCurrentUser() {
+        console.log('Get Current User');
         return this.http.get<User>(environment.APIEndpoint + '/api/v1/user')
-            .pipe(map(resp => resp['user'])) as Observable<User>;
+           .pipe(map(resp => resp['user'])) as Observable<User>;
     }
 
     register(user: User) {

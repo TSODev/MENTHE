@@ -1,7 +1,7 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home';
-import { LoginComponent } from './login';
+import { LoginComponent } from './session/login';
 import { RegisterComponent } from './register';
 import { AuthGuard } from './_guards';
 import { MainNavComponent } from './main-nav/main-nav.component';
@@ -10,6 +10,7 @@ import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
 import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
 import { AccountComponent } from './admin/account/account.component';
+import { DisconnectComponent } from './session/disconnect/disconnect.component';
 
 const appRoutes: Routes = [
 
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
     { path: 'Groupadmin', component: GroupadminComponent, canActivate: [AuthGuard]},
     { path: 'AccountEdit', component: AccountComponent, canActivate: [AuthGuard]},
     { path: 'AccountDel/:email', component: AccountComponent, canActivate: [AuthGuard]},
+    { path: 'disconnect', component: DisconnectComponent},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
