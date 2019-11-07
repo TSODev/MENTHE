@@ -11,6 +11,7 @@ import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { ApiRequestInterceptor } from './_helpers/apirequest.interceptor';
 import { AlertService, AuthenticationService, UserService } from './_services';
+import { ArticleService } from './_services/article.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './session/login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -92,6 +93,7 @@ import 'hammerjs';
     AlertService,
     AuthenticationService,
     UserService,
+    ArticleService,
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: ApiRequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
