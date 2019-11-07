@@ -9,7 +9,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
 import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
-import { AccountComponent } from './admin/account/account.component';
 import { DisconnectComponent } from './session/disconnect/disconnect.component';
 
 const appRoutes: Routes = [
@@ -20,8 +19,6 @@ const appRoutes: Routes = [
     { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
     { path: 'Accountadmin', component: AccountadminComponent, canActivate: [AuthGuard]},
     { path: 'Groupadmin', component: GroupadminComponent, canActivate: [AuthGuard]},
-    { path: 'AccountEdit', component: AccountComponent, canActivate: [AuthGuard]},
-    { path: 'AccountDel/:email', component: AccountComponent, canActivate: [AuthGuard]},
     { path: 'disconnect', component: DisconnectComponent},
 
     // otherwise redirect to home

@@ -1,23 +1,21 @@
-<div class="grid-container">
-  <mat-grid-list cols="4" rowHeight="200px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class=container>
+<mat-form-field class="search-form">
+  <input matInput placeholder="Search" type="text">
+</mat-form-field>
+<button button="submit" mat-raised-button color="primary">Search</button>
+<br>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="0.5%" fxLayoutAlign="center">
+  <mat-card class="card-article" *ngFor="let article of articles">
+    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="columun">
+      <span fxFlex="80%">{{ article.title}}</span>
+      <mat-icon fxFlex="10%">mode_edit</mat-icon>
+      <mat-icon fxFlex="10%">delete</mat-icon>
+    </mat-card-title>
+    <img mat-card-image [src]="">
+    <mat-card-content class="dashboard-card-content">
+        <div>{{ article.content }}</div>
+      </mat-card-content>
+  </mat-card>
+</div>
 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../_services';
+import { UserService, AlertService } from '../../_services';
 import { User } from '../../_models';
 import { map } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-accountadmin',
@@ -10,21 +11,45 @@ import { map } from 'rxjs/operators';
 })
 export class AccountadminComponent implements OnInit {
 
-  public users: User[];
+  users: User[];
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private alert: AlertService,
   ) { }
 
+
   ngOnInit() {
+    this.loadUsers();
+  }
 
+  isAdmin(user: User) {
+    return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
+  }
 
+  OnUserDelete(email: string) {
+    console.log('Deleting : ', email);
+    this.userService.getUserByEmail(email).subscribe(
+      user => {
+        console.log(user);
+        this.userService.delete(user.user_id).subscribe(
+          result => {
+            this.alert.success('User deleted !');
+            this.loadUsers();
+//             this.router.navigate(['/Accountadmin']);
+          },
+          error => this.alert.error(error)
+        );
+      },
+      error => this.alert.error(error)
+    );
+  }
+
+  loadUsers() {
     this.userService.getAllUsers()
       .subscribe(
         users => {
-          console.log(users);
           this.users = users;
         }
     );
   }
-
 }

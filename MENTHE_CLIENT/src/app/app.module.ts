@@ -40,7 +40,6 @@ import { MainDashComponent } from './main-dash/main-dash.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
 import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
-import { AccountComponent } from './admin/account/account.component';
 
 import { RbacAllowDirective } from './_directives/rbacAllow.directive';
 import { DisconnectComponent } from './session/disconnect/disconnect.component';
@@ -58,7 +57,6 @@ import 'hammerjs';
     MainDashComponent,
     AccountadminComponent,
     GroupadminComponent,
-    AccountComponent,
     RbacAllowDirective,
     DisconnectComponent,
 

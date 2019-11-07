@@ -1,9 +1,17 @@
-
-  <div class='container'>
-    <mat-grid-list cols="3" rowHeight="200px">
-      <mat-grid-tile *ngFor="let user of users">
-          <app-account [theUser]="user"></app-account>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-
+<mat-list>
+  <h3 mat-subheader>Users</h3>
+  <mat-divider></mat-divider>
+  <mat-list-item *ngFor="let user of users; index as i">
+    <span *ngIf="!isAdmin(user)">
+      <button mat-icon-button (click)='OnUserDelete(user.email)'>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </span>
+    <span *ngIf="isAdmin(user)">
+      <mat-icon>lock</mat-icon>
+    </span>
+    <h2 matLine>{{ user.email }}</h2>
+    <p matLine> {{ user.firstname }} {{user.lastname}}</p>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
