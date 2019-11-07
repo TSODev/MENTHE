@@ -48,9 +48,10 @@ class InMongoDatabase {
             passwordDigest: passwordDigest,
             lastname: credentials.lastName,
             firstname: credentials.firstName,
+            roles: credentials.roles,
         });
         user.domain = UserSchema.methods.GetDomainName(user.email);
-        user.roles.push('VIEWER');
+        user.roles.push('VIEWER');                                      //default role is VIEWVER
         user.save();
         return user;        
     }

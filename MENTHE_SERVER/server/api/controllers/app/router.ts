@@ -2,6 +2,7 @@ import express from 'express';
 import * as _ from 'underscore';
 
 import usercontroller from './user.controller';
+import articlecontroller from './article.controller';
 import { checkIfAuthenticated } from '../../../authentication/auth.middleware';
 import { checkCsrfToken } from '../../../common/csrf.middleware';
 import { checkIfAuthorized } from '../../../autorization/autorization.middleware';
@@ -18,5 +19,12 @@ export default express.Router()
     .delete('/user/:id', checkIfAuthenticated,
                     _.partial(checkIfAuthorized,(['ADMIN']))
                     , usercontroller.deleteUser)
+// Articles 
+    .post('/article', articlecontroller.createArticle)
+    .get('/articles', articlecontroller.allArticles)
+    .get('/article', articlecontroller.getArticle)
+    .get('/article/:id', articlecontroller.getArticleById)
+    .delete('/article/:id', _.partial(checkIfAuthorized,(['LOCAL_ADMIN'])),
+                            articlecontroller.deleteArticle)
 //    .get('/:id', controller.byId)
     ;
