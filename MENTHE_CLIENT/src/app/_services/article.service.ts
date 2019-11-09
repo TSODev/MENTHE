@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
-import { Article } from '../_models';
+import { Article } from '../_models/article';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

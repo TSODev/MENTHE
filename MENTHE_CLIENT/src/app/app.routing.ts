@@ -10,6 +10,7 @@ import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { GroupadminComponent } from './admin/groupadmin/groupadmin.component';
 import { AccountadminComponent } from './admin/accountadmin/accountadmin.component';
 import { DisconnectComponent } from './session/disconnect/disconnect.component';
+import { MainDashComponent } from './main-dash/main-dash.component';
 
 const appRoutes: Routes = [
 
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'Accountadmin', component: AccountadminComponent, canActivate: [AuthGuard]},
     { path: 'Groupadmin', component: GroupadminComponent, canActivate: [AuthGuard]},
     { path: 'disconnect', component: DisconnectComponent},
+    { path: 'dashboard', component: MainDashComponent},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
