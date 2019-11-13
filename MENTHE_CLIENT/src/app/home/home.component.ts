@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { User } from '../_models';
 import { UserService, AlertService } from '../_services';
+import { SubSink } from 'subsink';
 
 @Component({ templateUrl: 'home.component.html' })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   users: User[] = [];
-  data_to_display = false;
+  datatodisplay = false;
+
+  subs = new SubSink();
 
   constructor(
     private userService: UserService,
@@ -18,23 +20,29 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getCurrentUser().subscribe(user => {
-      this.currentUser = user;
-    });
+    this.subs.add(
+      this.userService.getCurrentUser().subscribe(user => {
+        this.currentUser = user;
+      })
+    );
     this.currentUser = localStorage.getItem['currentUser'];
-//    this.loadAllUsers();
-    this.data_to_display = true;
+    //    this.loadAllUsers();
+    this.datatodisplay = true;
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   deleteUser(event: Event, user: User) {
     if (user.user_id === this.currentUser.user_id) {
-        this.alertService.error('Cannot remove myself !');
+      this.alertService.error('Cannot remove myself !');
     } else {
-        console.log('User :', user);
+      console.log('User :', user);
       this.userService.delete(user.user_id).subscribe(response => {
         if (response.status === 201) {
           this.alertService.success('User deleted');
-//          this.loadAllUsers();
+          //          this.loadAllUsers();
         } else {
           this.alertService.error('Error in delete');
         }

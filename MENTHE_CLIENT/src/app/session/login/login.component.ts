@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, EmailValidator } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { SubSink } from 'subsink';
 
 import { AlertService, AuthenticationService } from '../../_services';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 @Component({templateUrl: 'login.component.html'})
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
+
+    subs = new SubSink();
 
     constructor(
         private formBuilder: FormBuilder,
@@ -36,6 +39,10 @@ export class LoginComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
+    ngOnDestroy() {
+        this.subs.unsubscribe();
+    }
+
     onSubmit() {
         this.submitted = true;
 
@@ -45,8 +52,9 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f.email.value, this.f.password.value)
-//            .pipe(first())
+        this.subs.add(
+          this.authenticationService.login(this.f.email.value, this.f.password.value)
+            .pipe(first())
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
@@ -54,6 +62,7 @@ export class LoginComponent implements OnInit {
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
-                });
+                })
+        );
     }
 }

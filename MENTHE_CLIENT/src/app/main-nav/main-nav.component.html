@@ -8,6 +8,11 @@
         <button mat-menu-item>Sub Menu 1</button>
         <button mat-menu-item>Sub Menu 2</button>
       </mat-menu>
+      <button mat-button [matMenuTriggerFor]="bpmnMenu">WorkFlow</button>
+      <mat-menu #bpmnMenu="matMenu">
+        <button mat-menu-item [routerLink]="['/workflow']">Editor</button>
+        <button mat-menu-item>Sub Menu 2</button>
+      </mat-menu>
       <div *rbacAllow="['ADMIN']">
         <button mat-button [matMenuTriggerFor]="appAdminMenu">Admin</button>
         <mat-menu #appAdminMenu="matMenu">
