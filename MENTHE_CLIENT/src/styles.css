@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'bpmn-js/dist/assets/diagram-js.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+@import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 
 html,body {
+  font-family: "Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  font-size: 12px;
   height:100%;
   margin:0;
   padding:0;

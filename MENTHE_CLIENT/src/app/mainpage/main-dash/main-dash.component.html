@@ -1,0 +1,15 @@
+<br>
+<div class=container>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around">
+    <mat-form-field fxFlex="85%" class="search-form">
+      <input matInput placeholder="Search" type="text">
+    </mat-form-field>
+    <button fxFlex="10%" button="submit" mat-raised-button color="primary">Search</button>
+  </div>
+</div>
+<br>
+
+  <div class=card-container fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" >
+      <app-wfcard fxFlex="40" fxLayoutGap="5px" *ngFor="let wf of workflows" class=wfcard [workflow]=wf ></app-wfcard>
+  </div>
+

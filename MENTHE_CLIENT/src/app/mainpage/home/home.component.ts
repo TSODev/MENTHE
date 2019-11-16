@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { User } from '../_models';
-import { UserService, AlertService } from '../_services';
+import { User } from '../../_models/user';
+import { UserService, AlertService } from '../../_services';
 import { SubSink } from 'subsink';
 
 @Component({ templateUrl: 'home.component.html' })

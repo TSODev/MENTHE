@@ -1,0 +1,15 @@
+<br>
+<mat-card class="card-article" >
+  <mat-card-title fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+    <span fxFlex="80%">{{ workflow.title }}</span>
+    <mat-icon *ngIf="workflow.mode != 'ro'" fxFlex="7%" (click)='editWorkflow()'>mode_edit</mat-icon>
+    <mat-icon *ngIf="workflow.mode === 'ro'" fxFlex="7%" (click)='viewWorkflow()'>mode_edit</mat-icon>
+    <mat-icon *ngIf="workflow.mode === 'ro'" fxFlex="7%" (click)='locked()'>lock</mat-icon>
+    <mat-icon *ngIf="workflow.mode != 'ro'" fxFlex="7%" (click)='deleteWorkflow()'>delete</mat-icon>
+  </mat-card-title>
+  <img mat-card-image [src]=workflow.image>
+  <mat-card-content class="dashboard-card-content">
+    <div>{{ workflow.lastModifiedDate | date : "short" }}</div>
+  </mat-card-content>
+</mat-card>
+<br>
