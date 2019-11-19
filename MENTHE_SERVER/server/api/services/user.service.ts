@@ -7,7 +7,7 @@ import { User, UserSchema } from '../models/users.model';
 
 class InMongoDatabase {
 
-    userCounter = 0;
+    private dbConnected = false;
 // 
     constructor() {
         const connectionString = process.env.DB_CONNECTION_STRING +
@@ -27,8 +27,32 @@ class InMongoDatabase {
                 useUnifiedTopology: true,
                 useNewUrlParser: true
             }
-            mongoose.connect(connectionString, mongo_Connection_Options);
-            mongoose.Promise = global.Promise;
+
+            mongoose.connect(connectionString, mongo_Connection_Options).then(
+                () => { /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */ 
+                    l.debug('Connected !');
+                    this.dbConnected = true;
+                },
+                err => { /** handle initial connection error */ 
+                    l.debug('Connection Error : ', err);
+                }
+              );
+
+              mongoose.connection.on('error', err => {
+                l.error('MongoDB: ',err);
+                this.dbConnected = false;
+              });
+
+              mongoose.connection.once('connected', () => {
+                  l.debug('MongoDB database connection established successfully');
+                  this.dbConnected = true;
+              })
+
+//            mongoose.Promise = global.Promise;
+    }
+
+    isDbConnected() {
+        return this.dbConnected;
     }
 
     async createUser(credentials, passwordDigest: string){
@@ -38,8 +62,7 @@ class InMongoDatabase {
             l.error(message);
             throw new Error(message);
         }
-        this.userCounter++;
-//        const id = this.userCounter;
+
         const id = this.uuidv4();
 
         let user = new User({

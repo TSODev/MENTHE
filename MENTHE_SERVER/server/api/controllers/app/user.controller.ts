@@ -13,11 +13,13 @@ import { IUser } from '../../models/users.model';
 export class userController {
 
   async allUsers(req: Request, res: Response) {
+    if (!db.dbConnected) res.sendStatus(500);
     const users = await db.findAllUsers();
     res.status(200).json({users: users});
   }
 
   createUser(req: Request, res: Response): void {
+    if (!db.dbConnected) res.sendStatus(500);
    const credentials = req.body;
     l.debug('Register User : ', credentials);
 //    const errors = validatePassword(credentials.password);
@@ -31,6 +33,9 @@ export class userController {
   }
 
   async login(req: Request, res: Response) {
+
+    if (!db.dbConnected) res.sendStatus(500);
+
     const credentials = req.body;
     const user = await db.findUserByEmail(credentials.email);
 
@@ -55,6 +60,7 @@ export class userController {
   }
 
   async getUser(req: Request, res: Response) {
+    if (!db.dbConnected) res.sendStatus(500);
     l.debug("looking for current User (id): ", req["userId"]);
     const user = await db.findUserById(req["userId"].sub);
 
@@ -66,6 +72,7 @@ export class userController {
   }
 
   async getUserById(req: Request, res: Response){
+    if (!db.dbConnected) res.sendStatus(500);
     const id = req.params['id'];
     l.debug("looking for userId: ", id);
     const user = await db.findUserById(id);
@@ -77,6 +84,7 @@ export class userController {
   }
 
   async getUserByEmail(req: Request, res: Response){
+    if (!db.dbConnected) res.sendStatus(500);
     const email = req.params['email'];
     l.debug("looking for user email: ", email);
     const user = await db.findUserByEmail(email);
@@ -88,6 +96,7 @@ export class userController {
   }
 
   async deleteUser(req: Request, res:Response){
+    if (!db.dbConnected) res.sendStatus(500);
     l.debug('Request for delete userId:', req.params.id);
     const user = await db.deleteUser(req.params.id)
       .catch(err => res.sendStatus(500));
