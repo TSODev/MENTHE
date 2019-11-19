@@ -1,0 +1,12 @@
+<br>
+<div class=container>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around">
+      <button mat-button fxFlex="10%" mat-raised-button
+        color="primary" (click)='onSubmit()'>Exit</button>
+    </div>
+</div>
+<br>
+<div class=viewer fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around stretch">
+  <div fxFlex="80%" fxFlexAlign="stretch" id='canvas' class=diagram-container></div>
+  <div fxFlex="20%" fxFlexAlign="stretch" id="properties-panel-parent" class=properties-panel-container></div>
+</div>

@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { first } from "rxjs/operators";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
-import { AlertService, UserService, AuthenticationService } from "../_services";
-import { User } from "../_models";
-import { Subscription } from "rxjs";
-import { SubSink } from "subsink";
+import { AlertService, UserService, AuthenticationService } from '../_services';
+import { User } from '../_models';
+import { Subscription } from 'rxjs';
+import { SubSink } from 'subsink';
 
-@Component({ templateUrl: "register.component.html" })
+@Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
   loading = false;
@@ -26,11 +26,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      email: ["", Validators.compose([Validators.required, Validators.email])],
-      password: ["", [Validators.required, Validators.minLength(6)]],
-      confirm: ["", [Validators.required, Validators.minLength(6)]]
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirm: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

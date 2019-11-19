@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { WorkflowService } from '../../_services/workflow.service';
 import * as Modeler from 'bpmn-js/dist/bpmn-modeler.development.js';
+import * as Viewer from 'bpmn-js/dist/bpmn-viewer.development.js';
 import OriginModule from 'diagram-js';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
@@ -11,6 +12,7 @@ import { SubSink } from 'subsink';
 import * as he from 'he';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as svgToMiniDataURI from 'mini-svg-data-uri';
 
 @Component({
   selector: 'app-modeler',
@@ -47,6 +49,7 @@ export class ModelerComponent implements OnInit, OnDestroy {
   // };
 
   modeler: Modeler;
+  viewer: Viewer;
   canbesaved = true;
   editmode = false;
   viewmode = false;
@@ -177,6 +180,14 @@ export class ModelerComponent implements OnInit, OnDestroy {
     console.log('Workflow need to be updated');
     this.getCurrentWorkflow(this.currentWorkFlow); // update the xmlcontent
     this.currentWorkFlow.title = name;
+    this.modeler.saveSVG({}, (err, svg) => {
+      if (err) {
+        console.log('Export SVG Erreor : ', err);
+      }
+      if (svg) {
+        this.currentWorkFlow.image = svg;
+      }
+    });
     this.subs.add(
       this.workflow.update(this.currentWorkFlow).subscribe(data => {
         this.router.navigate(['/dashboard']);

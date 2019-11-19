@@ -12,6 +12,7 @@ import { AccountadminComponent } from './admin/accountadmin/accountadmin.compone
 import { DisconnectComponent } from './session/disconnect/disconnect.component';
 import { MainDashComponent } from './mainpage/main-dash/main-dash.component';
 import { ModelerComponent } from './workflow/modeler/modeler.component';
+import { ViewerComponent } from './workflow/viewer/viewer.component';
 
 const appRoutes: Routes = [
 
@@ -25,7 +26,7 @@ const appRoutes: Routes = [
     { path: 'dashboard', component: MainDashComponent},
     { path: 'workflow/create', component: ModelerComponent},
     { path: 'workflow/edit/:id', component: ModelerComponent},
-    { path: 'workflow/view/:id', component: ModelerComponent},
+    { path: 'workflow/view/:id', component: ViewerComponent},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

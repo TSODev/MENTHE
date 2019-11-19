@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
@@ -48,6 +49,10 @@ import 'hammerjs';
 import { ModelerComponent } from './workflow/modeler/modeler.component';
 import { WorkflowService } from './_services/workflow.service';
 import { WfcardComponent } from './mainpage/wfcard/wfcard.component';
+import { SvgimageComponent } from './mainpage/svgimage/svgimage.component';
+import { ViewerComponent } from './workflow/viewer/viewer.component';
+import { CallbackPipe } from './_pipes/callback.pipe';
+import { DashfilterPipe } from './_pipes/dashfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -65,6 +70,10 @@ import { WfcardComponent } from './mainpage/wfcard/wfcard.component';
     DisconnectComponent,
     ModelerComponent,
     WfcardComponent,
+    SvgimageComponent,
+    ViewerComponent,
+    CallbackPipe,
+    DashfilterPipe,
 
   ],
   imports: [
@@ -72,6 +81,7 @@ import { WfcardComponent } from './mainpage/wfcard/wfcard.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    InlineSVGModule.forRoot(),
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,

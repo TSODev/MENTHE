@@ -50,4 +50,12 @@ export class WorkflowService {
             return response;
         }));
     }
+
+    getImage(id: string) {
+      this.getWorkflowById(id).subscribe(
+        wf => {
+          return wf.image;
+        }
+      );
+    }
 }
