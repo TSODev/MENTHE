@@ -44,3 +44,5 @@ MENTHE_SERVER/server/authentication/private.key
 MENTHE_SERVER/server/common/tsodev.crt
 MENTHE_SERVER/server/common/tsodev.key
 MENTHE_SERVER/server/authentication/public.key
+
+MENTHE_SERVER/package-lock-old.json

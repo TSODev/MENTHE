@@ -40,6 +40,7 @@ class InMongoDatabase {
 
               mongoose.connection.on('error', err => {
                 l.error('MongoDB: ',err);
+                l.error ('If you are using MongoDB Atlas (cloud), please verify your IP address is whitelisted in the Network Access Security tab ...');
                 this.dbConnected = false;
               });
 
