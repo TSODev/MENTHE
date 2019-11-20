@@ -2,19 +2,17 @@
 <div class=container>
   <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around">
-      <mat-form-field *ngIf=!viewmode fxFlex="50%" class="">
+      <mat-form-field fxFlex="50%" class="">
         <mat-label>Name</mat-label>
         <input matInput placeholder="Name" type="text" formControlName="name">
       </mat-form-field>
-      <mat-error *ngIf="submitted && f.name.errors && !viewmode">
+      <mat-error *ngIf="submitted && f.name.errors">
           <div>A name is required</div>
         </mat-error>
-      <button *ngIf='!editmode && !viewmode'  mat-button fxFlex="10%" mat-raised-button
+      <button *ngIf='!editmode'  mat-button fxFlex="10%" mat-raised-button
         color="primary">Save</button>
       <button *ngIf=editmode mat-button fxFlex="10%" mat-raised-button
         color="primary">Update</button>
-      <button *ngIf=viewmode mat-button fxFlex="10%" mat-raised-button
-        color="primary">Exit</button>
     </div>
   </form>
 </div>
