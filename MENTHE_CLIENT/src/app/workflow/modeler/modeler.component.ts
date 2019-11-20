@@ -1,18 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { WorkflowService } from '../../_services/workflow.service';
 import * as Modeler from 'bpmn-js/dist/bpmn-modeler.development.js';
 import * as Viewer from 'bpmn-js/dist/bpmn-viewer.development.js';
 import OriginModule from 'diagram-js';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
+import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/bpmn';
 import { Workflow } from 'src/app/_models/workflow';
-import * as parser from 'fast-xml-parser';
 import { SubSink } from 'subsink';
-import * as he from 'he';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as svgToMiniDataURI from 'mini-svg-data-uri';
 
 @Component({
   selector: 'app-modeler',
@@ -23,30 +20,6 @@ export class ModelerComponent implements OnInit, OnDestroy {
   subs = new SubSink();
   modelForm: FormGroup;
   submitted = false;
-
-  // xmlWF = '';
-  // jsonWF = {};
-
-  // options = {
-  //   attributeNamePrefix: '@_',
-  //   attrNodeName: 'attr', //default is 'false'
-  //   textNodeName: '#text',
-  //   ignoreAttributes: false,
-  //   ignoreNameSpace: false,
-  //   allowBooleanAttributes: false,
-  //   parseNodeValue: true,
-  //   parseAttributeValue: false,
-  //   trimValues: true,
-  //   cdataTagName: '__cdata', //default is 'false'
-  //   cdataPositionChar: '\\c',
-  //   localeRange: '', //To support non english character in tag/attribute values.
-  //   parseTrueNumberOnly: false,
-  //   arrayMode: false, //'strict'
-  //   attrValueProcessor: (val, attrName) =>
-  //     he.decode(val, { isAttributeValue: true }), //default is a=>a
-  //   tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
-  //   stopNodes: ['parse-me-as-string']
-  // };
 
   modeler: Modeler;
   viewer: Viewer;
@@ -83,18 +56,12 @@ export class ModelerComponent implements OnInit, OnDestroy {
     });
 
     this.editmode = this.route.snapshot.url[1].toString() === 'edit';
-    this.viewmode = this.route.snapshot.url[1].toString() === 'view';
-    //    const wfid = this.route.snapshot.params['id'];
 
     if (this.editmode) {
-      this.editworkflow(this.route.snapshot.params['id']);
+      this.editworkflow(this.route.snapshot.params.id);
     } else {
-      if (this.viewmode) {
-        this.viewworkflow(this.route.snapshot.params['id']);
-      } else {
       this.createWorkflow();
       }
-    }
   }
 
   get f() { return this.modelForm.controls; }
@@ -107,17 +74,10 @@ export class ModelerComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     console.log('Submit: view > ', this.viewmode , ' edit > ' , this.editmode);
-    if (this.viewmode) {
-      this.router.navigate(['/dashboard']);
-    }
-    // stop here if form is invalid
+
     if (this.modelForm.invalid) {
       return;
     }
-
-    if (this.viewmode) {
-      this.viewworkflow(this.f.name.value);
-    } else {
 
 
     if (this.editmode) {
@@ -125,13 +85,11 @@ export class ModelerComponent implements OnInit, OnDestroy {
       } else {
         this.saveWorkflow(this.f.name.value);
       }
-    }
 
   }
 
   createWorkflow() {
-    // const id = '318ee4e0-dca3-4561-b98d-f62751c7d228';          // Initial
-    // const id = '355cf8d2-12f9-461f-8377-d183b5bfa9fe';       // Pizza
+
 
     this.subs.add(
       this.http
@@ -148,20 +106,10 @@ export class ModelerComponent implements OnInit, OnDestroy {
             const canvas = this.modeler.get('canvas');
             const overlays = this.modeler.get('overlays');
             canvas.zoom('fit-viewport');
-//            this.wfname = wf.title;
             this.currentWorkFlow = this.getCurrentWorkflow(wf);
-            //            this.router.navigate(['/dashboard']);
           });
         })
     );
-
-    // this.subs.add(
-    //   this.workflow.getWorkflowById(id).subscribe(wf => {
-    //     //        this.xmlWF = wf.xmlcontent;
-    //     //        console.log('xmlWF :', this.xmlWF);
-
-    //   })
-    // );
   }
 
   getCurrentWorkflow(workflow: Workflow): Workflow {
@@ -169,11 +117,6 @@ export class ModelerComponent implements OnInit, OnDestroy {
       workflow.xmlcontent = xml;
     });
     return workflow;
-    /*     try {
-      this.jsonWF = parser.parse(this.xmlWF, this.options);
-    } catch (error) {
-      console.log(error.message);
-    } */
   }
 
   updateWorkflow(name: string) {
@@ -214,11 +157,9 @@ export class ModelerComponent implements OnInit, OnDestroy {
       this.workflow
         .create(this.currentWorkFlow)
         .subscribe(wf => {
-          //          this.currentWorkFlow = wf;
           this.router.navigate(['/dashboard']);
         })
     );
-    //    this.updateAction = true;   // Next action should be update !
   }
 
   editworkflow(workflowId) {
@@ -232,24 +173,6 @@ export class ModelerComponent implements OnInit, OnDestroy {
           const overlays = this.modeler.get('overlays');
           canvas.zoom('fit-viewport');
           this.canbesaved = wf.mode !== 'ro';
-          this.modelForm.controls.name.setValue(wf.title);
-          this.currentWorkFlow = this.getCurrentWorkflow(wf);
-        });
-      })
-    );
-  }
-
-  viewworkflow(workflowId) {
-    this.subs.add(
-      this.workflow.getWorkflowById(workflowId).subscribe(wf => {
-        this.modeler.importXML(wf.xmlcontent, err => {
-          if (err) {
-            return console.error('could not import BPMN diagram', err);
-          }
-          const canvas = this.modeler.get('canvas');
-          const overlays = this.modeler.get('overlays');
-          canvas.zoom('fit-viewport');
-          this.canbesaved = false;
           this.modelForm.controls.name.setValue(wf.title);
           this.currentWorkFlow = this.getCurrentWorkflow(wf);
         });
