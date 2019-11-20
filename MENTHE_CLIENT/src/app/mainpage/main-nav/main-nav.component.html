@@ -3,14 +3,9 @@
     <mat-toolbar-row>
       <span>Menthe</span>
       <span class="spacer"></span>
-      <button mat-button [matMenuTriggerFor]="appMenu1">Menu</button>
-      <mat-menu #appMenu1="matMenu">
-        <button mat-menu-item>Sub Menu 1</button>
-        <button mat-menu-item>Sub Menu 2</button>
-      </mat-menu>
       <button mat-button [matMenuTriggerFor]="bpmnMenu">WorkFlow</button>
       <mat-menu #bpmnMenu="matMenu">
-        <button mat-menu-item [routerLink]="['/workflow']">Editor</button>
+        <button mat-menu-item [routerLink]="['/workflow/create']">Create New Workflow</button>
         <button mat-menu-item>Sub Menu 2</button>
       </mat-menu>
       <div *rbacAllow="['ADMIN']">
@@ -22,7 +17,7 @@
         </mat-menu>
       </div>
       <mat-icon [routerLink]="['/dasboard']">home</mat-icon>
-      <mat-icon matBadge="2" matBadgeColor="warn">notifications</mat-icon>
+      <!-- <mat-icon matBadge="2" matBadgeColor="warn">notifications</mat-icon> -->
       <mat-icon mat-button [matMenuTriggerFor]="menu" class="example-icon">settings</mat-icon>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>

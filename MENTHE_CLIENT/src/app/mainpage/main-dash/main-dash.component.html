@@ -1,0 +1,17 @@
+<br>
+<div class=container>
+  <form [formGroup]="dashForm">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around">
+    <mat-form-field fxFlex="85%" class="search-form">
+      <input matInput placeholder="Filter" type="text" formControlName="filter">
+    </mat-form-field>
+    <!-- <button fxFlex="10%" button="submit" mat-raised-button color="primary">Search</button> -->
+  </div>
+</form>
+</div>
+<br>
+
+  <div class=card-container fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around stretch" >
+      <app-wfcard fxFlex="33" fxLayoutGap="5px" *ngFor="let wf of workflows | dashfilter: filter" class=wfcard [workflow]=wf ></app-wfcard>
+  </div>
+
