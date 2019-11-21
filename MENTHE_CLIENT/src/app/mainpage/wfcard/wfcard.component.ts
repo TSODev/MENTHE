@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Workflow } from 'src/app/_models/workflow';
 import { AlertService, UserService } from 'src/app/_services';
 import { Router } from '@angular/router';
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 import { User } from 'src/app/_models';
+import { isNull } from 'util';
 
 
 @Component({
@@ -13,8 +14,8 @@ import { User } from 'src/app/_models';
   styleUrls: ['./wfcard.component.css']
 })
 export class WfcardComponent implements OnInit, OnDestroy {
-  @Input()
-  workflow: Workflow;
+  @Input() workflow: Workflow;
+  @Output() delete = new EventEmitter<string>();
   createdBy = '';
   modifiedBy = '';
 
@@ -34,12 +35,16 @@ export class WfcardComponent implements OnInit, OnDestroy {
 //    console.log('WFCard : ', this.svg);
     this.subs.add(
     this.userService.getUserById(this.workflow.createdBy).subscribe(user => {
+      if (!isNull(user)) {
         this.createdBy = user.firstname.concat(' ', user.lastname);
+      }
     })
     );
     this.subs.add(
       this.userService.getUserById(this.workflow.lastModifiedBy).subscribe(user => {
+        if (!isNull(user)) {
           this.modifiedBy = user.firstname.concat(' ', user.lastname);
+        }
       })
     );
   }
@@ -62,7 +67,8 @@ export class WfcardComponent implements OnInit, OnDestroy {
         .subscribe(result => {
           if (result.status === 204) {
             this.alertService.success('Workflow deleted');
-            this.route.navigate(['/dashboard']);
+            this.delete.emit(this.workflow.workflow_id);
+//            this.route.navigate(['/dashboard']);
           } else {
             this.alertService.error('You cannot delete this workflow !');
           }

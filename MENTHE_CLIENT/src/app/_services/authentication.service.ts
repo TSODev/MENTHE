@@ -12,8 +12,8 @@ import { environment } from '../../environments/environment';
 export const ANONYMOUS_USER: User = {
     user_id: undefined,
     email: '',
-    firstName: 'anonymous',
-    lastName: 'anonymous',
+    firstname: 'anonymous',
+    lastname: 'anonymous',
     roles: ['VIEWER'],
 };
 

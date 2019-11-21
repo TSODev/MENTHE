@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 import { User } from '../_models';
-import { map } from 'rxjs/operators';
+import { map , tap} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 
@@ -22,7 +22,9 @@ export class UserService {
 
     getUserById(id: string) {
         return this.http.get<User>(environment.APIEndpoint + '/api/v1/user/' + id)
-        .pipe(map(resp => resp['user'])) as Observable<User>;
+        .pipe(
+//          tap(resp => console.log('GetUserById : ', resp)),
+          map(resp => resp['user'])) as Observable<User>;
     }
 
     getUserByEmail(email: string) {

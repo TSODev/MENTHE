@@ -48,9 +48,17 @@ export class MainDashComponent implements OnInit, OnDestroy {
   loadWorkflows() {
     this.subs.add(
       this.workflowService.getAllWorkflow().subscribe(
-        workflows => this.workflows = workflows
+        workflows => {
+//          console.log(workflows);
+          this.workflows = workflows;
+        }
       )
     );
+  }
+
+  onDelete($event) {
+    console.log('Event Delete :', $event);
+    this.loadWorkflows();
   }
 
 }
