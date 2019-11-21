@@ -7,7 +7,7 @@ import { User, UserSchema } from '../models/users.model';
 
 class InMongoDatabase {
 
-    private dbConnected = false;
+    public dbConnected = false;
 // 
     constructor() {
         const connectionString = process.env.DB_CONNECTION_STRING +
@@ -57,7 +57,7 @@ class InMongoDatabase {
     }
 
     async createUser(credentials, passwordDigest: string){
-        const usersPerEmail = await db.findUserByEmail(credentials.email)
+        const usersPerEmail = await dbUser.findUserByEmail(credentials.email)
         if (usersPerEmail) {
             const message = "An user already exists with email " + credentials.email;
             l.error(message);
@@ -108,6 +108,6 @@ class InMongoDatabase {
 }
 
 
-export const db = new InMongoDatabase();
+export const dbUser = new InMongoDatabase();
 
 

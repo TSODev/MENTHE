@@ -4,6 +4,8 @@ import { db } from '../../services/workflows.service';
 import l from '../../../common/logger';
 
 import { IWorkflow } from '../../models/workflows.model';
+import { dbUser } from '../../services/user.service';
+import { IUser } from '../../models/users.model'
 
 export class workflowControler {
 
@@ -14,13 +16,21 @@ export class workflowControler {
 
     async createWorkflow(req: Request, res: Response): Promise<void> {
         const workflow_data = req.body;
-        l.debug('Create Workflow : ', workflow_data);
+        const userId = req['userId'];
+        l.debug('Create Workflow by : ', userId);
+//        l.debug('Create Workflow : ', workflow_data);
         try {
-            const workflow = await db.createWorkflow(workflow_data);
-            res.status(200).json({workflow: workflow});
-        } catch (error) {
-            res.status(500).json({error: "Workflow already exist in database"});
+          const user: IUser = await dbUser.findUserById(userId.sub);
+          try {
+              const workflow = await db.createWorkflow(workflow_data, user);
+              res.status(200).json({workflow: workflow});
+          } catch (error) {
+              res.status(500).json({error: "Workflow already exist in database"});
+          }
+        } catch (err) {
+            res.status(500).json({ error: "Error when creating workflow"})
         }
+
     }
 
     async getWorkflow(req: Request, res: Response){
@@ -52,8 +62,10 @@ export class workflowControler {
       }
 
       async updateWorkflow(req: Request, res:Response){
+        const userId = req['userId'];
+        const user: IUser = await dbUser.findUserById(userId.sub);
         l.debug('Request for update workflowId:', req.params.id);
-        const workflow = await db.updateWorkflow(req.params.id, req.body)
+        const workflow = await db.updateWorkflow(req.params.id, req.body, user)
           .catch(err => res.sendStatus(500));
         res.sendStatus(204);
       }

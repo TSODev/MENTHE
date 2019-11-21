@@ -3,6 +3,7 @@ export class Workflow {
   domain: string;
   company: string;
   title: string;
+  description: string;
   image: string;
   xmlcontent: string;
   createDate: Date;

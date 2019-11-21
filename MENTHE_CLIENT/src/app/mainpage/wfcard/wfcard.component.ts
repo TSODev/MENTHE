@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Workflow } from 'src/app/_models/workflow';
-import { AlertService } from 'src/app/_services';
+import { AlertService, UserService } from 'src/app/_services';
 import { Router } from '@angular/router';
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
+import { User } from 'src/app/_models';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { SubSink } from 'subsink';
 export class WfcardComponent implements OnInit, OnDestroy {
   @Input()
   workflow: Workflow;
+  createdBy = '';
+  modifiedBy = '';
 
   svg: string;
 
@@ -22,12 +25,23 @@ export class WfcardComponent implements OnInit, OnDestroy {
   constructor(
     private alertService: AlertService,
     private route: Router,
-    private workflowService: WorkflowService
+    private workflowService: WorkflowService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.svg = this.workflow.image;
 //    console.log('WFCard : ', this.svg);
+    this.subs.add(
+    this.userService.getUserById(this.workflow.createdBy).subscribe(user => {
+        this.createdBy = user.firstname.concat(' ', user.lastname);
+    })
+    );
+    this.subs.add(
+      this.userService.getUserById(this.workflow.lastModifiedBy).subscribe(user => {
+          this.modifiedBy = user.firstname.concat(' ', user.lastname);
+      })
+    );
   }
 
   ngOnDestroy() {

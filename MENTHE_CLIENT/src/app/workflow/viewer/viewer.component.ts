@@ -16,7 +16,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   viewer: Viewer;
   canbesaved = true;
-  editmode = false;
   viewmode = false;
   currentWorkFlow: Workflow;
 
@@ -36,13 +35,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+    this.viewer.destroy();
   }
 
   onSubmit() {
     this.submitted = true;
-
-    console.log('Submit: view > ', this.viewmode , ' edit > ' , this.editmode);
-
     this.router.navigate(['/dashboard']);
   }
 

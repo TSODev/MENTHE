@@ -1,25 +1,25 @@
 //import UserService from '../../services/users.service';
 import { Request, Response } from 'express';
 
-//import { db } from '../../../db/database.mongo';
-import { db } from '../../services/user.service';
+//import { dbUser } from '../../../dbUser/database.mongo';
+import { dbUser } from '../../services/user.service';
 import argon2 from 'argon2';
 import { createSessionToken, createCsrfToken } from "../../../authentication/security.utils";
 import l from '../../../common/logger';
-//import { DbUser } from '../../../db/db-user';
+//import { DbUser } from '../../../dbUser/dbUser-user';
 import { User} from '../../models/users.model';
 import { IUser } from '../../models/users.model';
 
 export class userController {
 
   async allUsers(req: Request, res: Response) {
-    if (!db.dbConnected) res.sendStatus(500);
-    const users = await db.findAllUsers();
+    if (!dbUser.dbConnected) res.sendStatus(500);
+    const users = await dbUser.findAllUsers();
     res.status(200).json({users: users});
   }
 
   createUser(req: Request, res: Response): void {
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
    const credentials = req.body;
     l.debug('Register User : ', credentials);
 //    const errors = validatePassword(credentials.password);
@@ -34,10 +34,10 @@ export class userController {
 
   async login(req: Request, res: Response) {
 
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
 
     const credentials = req.body;
-    const user = await db.findUserByEmail(credentials.email);
+    const user = await dbUser.findUserByEmail(credentials.email);
 
     if (!user) {
       res.sendStatus(401);
@@ -60,9 +60,9 @@ export class userController {
   }
 
   async getUser(req: Request, res: Response) {
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
     l.debug("looking for current User (id): ", req["userId"]);
-    const user = await db.findUserById(req["userId"].sub);
+    const user = await dbUser.findUserById(req["userId"].sub);
 
     if (user) {
       res.status(200).json({user: user});
@@ -72,10 +72,10 @@ export class userController {
   }
 
   async getUserById(req: Request, res: Response){
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
     const id = req.params['id'];
     l.debug("looking for userId: ", id);
-    const user = await db.findUserById(id);
+    const user = await dbUser.findUserById(id);
     if (user) {
       res.status(200).json({user: user});
     } else {
@@ -84,10 +84,10 @@ export class userController {
   }
 
   async getUserByEmail(req: Request, res: Response){
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
     const email = req.params['email'];
     l.debug("looking for user email: ", email);
-    const user = await db.findUserByEmail(email);
+    const user = await dbUser.findUserByEmail(email);
     if (user) {
       res.status(200).json({user: user});
     } else {
@@ -96,9 +96,9 @@ export class userController {
   }
 
   async deleteUser(req: Request, res:Response){
-    if (!db.dbConnected) res.sendStatus(500);
+    if (!dbUser.dbConnected) res.sendStatus(500);
     l.debug('Request for delete userId:', req.params.id);
-    const user = await db.deleteUser(req.params.id)
+    const user = await dbUser.deleteUser(req.params.id)
       .catch(err => res.sendStatus(500));
     res.sendStatus(201);
   }
@@ -111,7 +111,7 @@ async function createUserAndSession(res:Response, credentials) {
   const passwordDigest = await argon2.hash(credentials.password);
 
   try {
-      const user = await db.createUser(credentials, passwordDigest);
+      const user = await dbUser.createUser(credentials, passwordDigest);
       const sessionToken = await createSessionToken(user);
       const csrfToken = await createCsrfToken(sessionToken);
 

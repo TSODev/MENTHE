@@ -3,11 +3,12 @@
 import l from '../../common/logger';
 import mongoose from 'mongoose';
 import { Workflow, WorkflowSchema, IWorkflow } from '../models/workflows.model';
+import { IUser } from '../models/users.model';
 
 
 class InMongoDatabase {
 
-    async createWorkflow(data: IWorkflow) {
+    async createWorkflow(data: IWorkflow, by: IUser) {
         const workflowPerId = await db.findWorkflowById(data.workflow_id)
            if (workflowPerId) {
                const message = "This Workflow id already exist in database";
@@ -21,15 +22,16 @@ class InMongoDatabase {
             domain: data.domain,
             company: data.company,
             title: data.title,
+            description: data.description,
             image: data.image,
             xmlcontent: data.xmlcontent,
-            createData: Date.now(),
-            createBy: data.createDate,
+            createDate: Date.now(),
+            createdBy: by.user_id,
             lastModifiedDate: Date.now(),
-            lastModifiedBy: data.lastModifiedBy,
+            lastModifiedBy: by.user_id,
             mode: data.mode,
         });
-        l.debug(workflow);
+        l.debug('Create : ',workflow);
         workflow.save();
         return workflow;
     }
@@ -47,8 +49,10 @@ class InMongoDatabase {
         return await Workflow.findOneAndDelete({workflow_id: id});
     }
 
-    async updateWorkflow(id: string, newWorkflow: IWorkflow) {
+    async updateWorkflow(id: string, newWorkflow: IWorkflow, by: IUser) {
         l.debug('Updating Workflow Id : ', id);
+        newWorkflow.lastModifiedBy = by.user_id;
+        newWorkflow.lastModifiedDate = new Date();
         return await Workflow.findOneAndUpdate({workflow_id: id},newWorkflow);
     }
 

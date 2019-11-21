@@ -5,13 +5,17 @@ import { environment } from '../../environments/environment';
 import { Workflow } from '../_models/workflow';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 
 @Injectable()
 export class WorkflowService {
 
 
-    constructor(private http: HttpClient) { }
+    constructor(
+      private http: HttpClient,
+      private userService: UserService
+      ) { }
 
     getAllWorkflow() {
         console.log('Get All Workflow');
@@ -35,6 +39,13 @@ export class WorkflowService {
 
     update(workflow: Workflow) {
 //        console.log('Updating : ', workflow);
+
+        // workflow.lastModifiedDate = new Date();
+        // const sub = this.userService.getCurrentUser().subscribe( user => {
+        //   console.log('Updated by :', user);
+        //   workflow.lastModifiedBy = user.firstname.concat(' ', user.lastname);
+
+        //        });
         return this.http.patch(environment.APIEndpoint + '/api/v1/workflow/' + workflow.workflow_id, workflow, {
           observe: 'response',
           responseType: 'text'
