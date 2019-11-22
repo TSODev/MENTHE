@@ -7,14 +7,18 @@
   </mat-card-title>
   <app-svgimage [imagesvg]=svg (click)='manageWorkflow()'></app-svgimage>
   <!-- <img mat-card-image [src]=workflow.image> -->
+  <mat-card-header fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne=" space-between center">
+    <div fxFlex="50%" class="header"> Domain : {{ workflow.domain }} </div>
+    <div fxFlex="50%" class="header"> Company : {{ workflow.company }} </div>
+  </mat-card-header>
   <mat-card-content class="dashboard-card-content" (click)='manageWorkflow()'>
     <mat-divider></mat-divider>
-    <p>{{ workflow.description}}</p>
+    <p class="description">{{ workflow.description}}</p>
     <mat-divider></mat-divider>
   </mat-card-content>
-  <mat-card-footer>
-    <div class="lastmodified"> Last modified :  {{ workflow.lastModifiedDate | date : "short" }} by {{ modifiedBy }}</div>
-    <div class="created"> Created : {{ workflow.createDate | date : "short" }} by {{ createdBy }}</div>
+  <mat-card-footer fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne=" space-between center">
+    <div fxFlex="50%" class="lastmodified"> Last modified :  {{ workflow.lastModifiedDate | date : "short" }} by {{ modifiedBy }}</div>
+    <div fxFlex="50%" class="created"> Created : {{ workflow.createDate | date : "short" }} by {{ createdBy }}</div>
   </mat-card-footer>
 </mat-card>
 <br>

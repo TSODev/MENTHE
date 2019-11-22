@@ -2,3 +2,25 @@
   background-image: url('../../../assets/workflow.jpg');
   background-size: cover;
 }
+
+.lastmodified{
+  font-size: xx-small;
+  margin-left: 15px;
+  margin-bottom: 5px;
+}
+
+.created{
+  font-size: xx-small;
+  margin-left: 15px;
+  margin-bottom: 5px;
+}
+
+.header{
+  font-size: xx-small;
+  margin: 5px;
+}
+
+.description {
+  margin: 5px;
+  padding: 5px;
+}
