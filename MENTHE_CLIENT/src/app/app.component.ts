@@ -14,7 +14,6 @@ export class AppComponent implements OnDestroy {
 
   subscription: Subscription;
 
-
   constructor(private router: Router) {
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
