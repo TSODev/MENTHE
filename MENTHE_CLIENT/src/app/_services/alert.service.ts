@@ -2,6 +2,11 @@
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 
+// It contains methods for sending and clearing alert messages,
+// it also subscribes to the router NavigationStart event to automatically clear alert messages
+// on route change, unless the keepAfterRouteChange flag is set to true,
+// in which case the alert messages survive a single route change and are cleared on the next route change.
+
 @Injectable()
 export class AlertService {
     private subject = new Subject<any>();
