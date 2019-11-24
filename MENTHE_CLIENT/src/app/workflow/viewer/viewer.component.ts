@@ -40,7 +40,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/home']);
   }
 
   getCurrentWorkflow(workflow: Workflow): Workflow {

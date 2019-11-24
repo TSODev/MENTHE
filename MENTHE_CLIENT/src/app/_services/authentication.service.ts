@@ -6,8 +6,7 @@ import { User } from '../_models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-
-
+import { browserRefresh } from '../app.component';
 
 export const ANONYMOUS_USER: User = {
     user_id: undefined,
@@ -20,8 +19,11 @@ export const ANONYMOUS_USER: User = {
 @Injectable()
 export class AuthenticationService {
 
+  public browserRefresh: boolean;
+
     protected authenticatedUser = new BehaviorSubject<User>(ANONYMOUS_USER);
     protected isUserAuthenticated = new BehaviorSubject<boolean>(false);
+    protected storedUser = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
 
     constructor(private http: HttpClient) { }
 
@@ -44,6 +46,7 @@ export class AuthenticationService {
                     localStorage.setItem('currentUser', JSON.stringify(response));
                     loggedUser = response as unknown as User;
                     this.authenticatedUser.next(loggedUser);
+                    this.storedUser.next(JSON.parse(localStorage.getItem('currentUser')));
                 }
                 return loggedUser;
             }));
@@ -62,11 +65,17 @@ export class AuthenticationService {
                     this.isUserAuthenticated.next(false);
                     this.authenticatedUser.next(ANONYMOUS_USER);
                     localStorage.removeItem('currentUser');
+                    this.storedUser.next(ANONYMOUS_USER);
                     return response;
                 })
             );
 
 
+    }
+
+    getLoggedUser(): Observable<User> {
+      const logged = JSON.parse(localStorage.getItem('currentUser'));
+      return this.storedUser;
     }
 
     getAuthenticatedUser(): Observable<User> {

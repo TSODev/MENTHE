@@ -4,6 +4,8 @@ import { User } from '../_models';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
+import { SubSink } from 'subsink';
+
 @Directive({
   selector: '[rbacAllow]'
 })
@@ -11,6 +13,8 @@ export class  RbacAllowDirective implements OnDestroy {
 
   allowedRoles: string[];
   user: User;
+
+  subs = new SubSink();
 
   sub: Subscription;
 
@@ -25,17 +29,28 @@ export class  RbacAllowDirective implements OnDestroy {
         //     this.showIfUserAllowed();
         //   }
         // );
-        this.sub = this.authService.getAuthenticatedUser().subscribe(
-            user => {
-              this.user = user;
-              this.showIfUserAllowed();
-            }
-        );
+
+        // this.sub = this.authService.getAuthenticatedUser().subscribe(
+        //     user => {
+        //       this.user = user;
+        //       this.showIfUserAllowed();
+        //     }
+        // );
+
+      //  this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+      this.subs.add(
+        this.authService.getLoggedUser()
+          .subscribe(user => {
+            return this.user = user;
+          } )
+      );
 
       }
 
     ngOnDestroy() {
-      this.sub.unsubscribe();
+      this.subs.unsubscribe();
+//      this.sub.unsubscribe();
     }
 
     @Input()

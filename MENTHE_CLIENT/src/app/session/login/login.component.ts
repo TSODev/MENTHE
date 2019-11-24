@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         private alertService: AlertService) {}
 
     ngOnInit() {
-        this.loginForm = this.formBuilder.group({
+      console.log('Login Component');
+      this.loginForm = this.formBuilder.group({
             email: ['', Validators.required],
             password: ['', Validators.required]
         });
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         // get return url from route parameters or default to '/'
         // tslint:disable-next-line: no-string-literal
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     }
 
     // convenience getter for easy access to form fields
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                   this.router.navigate([this.returnUrl]);
                 },
                 error => {
                     this.alertService.error(error);

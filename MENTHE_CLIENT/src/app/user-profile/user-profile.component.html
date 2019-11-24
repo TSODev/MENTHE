@@ -1,4 +1,4 @@
-<mat-grid-list class="grid-container" *ngIf="!loading" cols="4" rowHeight="760px">
+<mat-grid-list class="grid-container" cols="4" rowHeight="760px">
   <mat-grid-tile [colspan]="1" [rowspan]="1">
     <mat-card class="profile-card">
       <mat-card-header>
@@ -31,10 +31,3 @@
     <button mat-raised-button color="primary" [routerLink]="['']">OK</button>
   </span>
 </div>
-
-<mat-card *ngIf="loading">
-  <mat-card-content>
-    <mat-progress-spinner class="example-margin" [color]="primary" [mode]="indeterminate">
-    </mat-progress-spinner>
-  </mat-card-content>
-</mat-card>

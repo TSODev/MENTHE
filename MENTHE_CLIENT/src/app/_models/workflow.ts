@@ -4,8 +4,11 @@ export class Workflow {
   company: string;
   title: string;
   description: string;
+  state: string;
+  status: string;
   image: string;
   xmlcontent: string;
+  readonly: boolean;
   createDate: Date;
   createdBy: string;
   lastModifiedDate: Date;

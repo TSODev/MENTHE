@@ -1,7 +1,3 @@
-.sidenav-container {
-  height: 100%;
-}
-
 .sidenav {
   width: 200px;
 }
@@ -20,10 +16,14 @@
   top: 0;
 }
 
-.example-icon {
+.icon {
   padding: 0 14px;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.information {
+  font-size: 18px;
 }

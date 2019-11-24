@@ -58,6 +58,7 @@ export class WorkflowService {
             responseType: 'text'
         })
         .pipe(map(response => {
+            console.log(response);
             return response;
         }));
     }

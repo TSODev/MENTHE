@@ -4,7 +4,11 @@ import { User } from '../../_models/user';
 import { UserService, AlertService } from '../../_services';
 import { SubSink } from 'subsink';
 
-@Component({ templateUrl: 'home.component.html' })
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.component.html',
+  styleUrls: ['./home.component.css']
+ })
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   users: User[] = [];
@@ -20,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('Home Component');
     this.subs.add(
       this.userService.getCurrentUser().subscribe(user => {
         this.currentUser = user;

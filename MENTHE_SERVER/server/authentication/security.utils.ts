@@ -20,7 +20,7 @@ const RSA_PRIVATE_KEY = fs.readFileSync('./server/authentication/private.key');
 
 const RSA_PUBLIC_KEY = fs.readFileSync('./server/authentication/public.key');
 
-const SESSION_DURATION = 240;
+const SESSION_DURATION = '1d';
 
 export  async function createSessionToken(user: IUser){
 

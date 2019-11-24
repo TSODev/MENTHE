@@ -11,21 +11,20 @@ import { SubSink } from 'subsink';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   currentUser: User;
-  loading = true;
 
   subs = new SubSink();
 
   constructor(private userService: UserService) {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
   }
 
   ngOnInit() {
-    this.subs.add(
-      this.userService.getCurrentUser().subscribe(user => {
-        this.currentUser = user;
-        this.loading = false;
-      })
-    );
+    // this.subs.add(
+    //   this.userService.getCurrentUser().subscribe(user => {
+    //     this.currentUser = user;
+    //   })
+    // );
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   ngOnDestroy() {

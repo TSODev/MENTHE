@@ -18,6 +18,7 @@ export class MainNavComponent implements OnInit {
     isLoggedIn$: Observable<boolean>;
     isLoggedOut$: Observable<boolean>;
     isAuthenticated: boolean;
+    loggedUser: User;
     url: string;
 
     constructor(private authService: AuthenticationService,
@@ -27,6 +28,8 @@ export class MainNavComponent implements OnInit {
     }
 
     ngOnInit() {
+      console.log('Nav Component');
+      this.loggedUser = JSON.parse(localStorage.getItem('currentUser'));
       this.authService.IsUserAuthenticated().subscribe(value => {
         this.isAuthenticated = value;
       });

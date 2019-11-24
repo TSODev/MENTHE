@@ -134,7 +134,7 @@ export class ModelerComponent implements OnInit, OnDestroy {
     //   this.currentWorkFlow.lastModifiedBy = user.firstname.concat(' ', user.lastname);
     this.subs.add(
         this.workflow.update(this.currentWorkFlow).subscribe(data => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         })
       );
     // }));
@@ -145,8 +145,11 @@ export class ModelerComponent implements OnInit, OnDestroy {
     this.getCurrentWorkflow(this.currentWorkFlow); // update the xmlcontent
     this.currentWorkFlow.workflow_id = '';
     this.currentWorkFlow.mode = 'rw';
+    this.currentWorkFlow.readonly = false;
     this.currentWorkFlow.title = name;
     this.currentWorkFlow.description = description;
+    this.currentWorkFlow.state = 'ACTIVE';
+    this.currentWorkFlow.status = 'WAITING';
     this.modelForm.controls.name.setValue(this.currentWorkFlow.title);
     this.modelForm.controls.desc.setValue(this.currentWorkFlow.description);
     this.modeler.saveSVG({}, (err, svg) => {
@@ -165,7 +168,7 @@ export class ModelerComponent implements OnInit, OnDestroy {
           this.workflow
             .create(this.currentWorkFlow)
             .subscribe(wf => {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/home']);
             })
         );
     //   })

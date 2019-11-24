@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import 'rxjs/add/observable/of';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
+
 @Component({
   selector: 'app-main-dash',
   templateUrl: './main-dash.component.html',
@@ -30,6 +31,7 @@ export class MainDashComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log('Dashboard Component');
     this.dashForm = this.formBuilder.group({
       filter: ['']
     });
@@ -49,7 +51,6 @@ export class MainDashComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.workflowService.getAllWorkflow().subscribe(
         workflows => {
-//          console.log(workflows);
           this.workflows = workflows;
         }
       )
@@ -57,8 +58,18 @@ export class MainDashComponent implements OnInit, OnDestroy {
   }
 
   onDelete($event) {
-    console.log('Event Delete :', $event);
-    this.loadWorkflows();
+    this.workflows = this.workflowsRemoveById(this.workflows, $event);
   }
+
+  workflowsRemoveById(arr: Workflow[], id: string): Workflow[] {
+
+    const removed = arr.splice(
+        arr.indexOf(
+          arr.find((e) => (e.workflow_id === id))
+        ), 1);
+
+    return arr;
+  }
+
 
 }
