@@ -5,7 +5,7 @@ import * as Modeler from 'bpmn-js/dist/bpmn-modeler.development.js';
 import OriginModule from 'diagram-js';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/bpmn';
-import { Workflow } from 'src/app/_models/workflow';
+import { Workflow, stateType, statusType } from 'src/app/_models/workflow';
 import { SubSink } from 'subsink';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -148,8 +148,8 @@ export class ModelerComponent implements OnInit, OnDestroy {
     this.currentWorkFlow.readonly = false;
     this.currentWorkFlow.title = name;
     this.currentWorkFlow.description = description;
-    this.currentWorkFlow.state = 'ACTIVE';
-    this.currentWorkFlow.status = 'WAITING';
+    this.currentWorkFlow.state = stateType.ACTIVE;
+    this.currentWorkFlow.status = statusType.WAITING;
     this.modelForm.controls.name.setValue(this.currentWorkFlow.title);
     this.modelForm.controls.desc.setValue(this.currentWorkFlow.description);
     this.modeler.saveSVG({}, (err, svg) => {

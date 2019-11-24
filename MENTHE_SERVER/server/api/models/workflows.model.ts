@@ -1,13 +1,31 @@
 import { Model, Schema, Document, model } from 'mongoose';
 
+export enum stateType {
+    ACTIVE,
+    INACTIVE,
+    DELETED,
+};
+
+export enum statusType {
+    WAITING = 1000,
+    READY = 20000,
+    RUNNING = 3000,
+    STOPPED = 4000,
+    PAUSED = 5000,
+    CANCELED = 7000,
+    ERROR = 9000,
+    COMPLETED = 6000,
+    UNKNOW = 1,
+};
+
 export interface IWorkflow {
     workflow_id: string,
     domain: string,
     company: string,
     title: string,
     description: string,
-    state: string,
-    status: string,
+    state: stateType,
+    status: statusType,
     image: string,
     xmlcontent: string,
     readonly: boolean,
@@ -27,8 +45,8 @@ export const WorkflowSchema: Schema = new Schema({
     title: String,
     description: String,
     image: String,
-    state: String,
-    status: String,
+    state: Number,
+    status: Number,
     xmlcontent: String,
     readonly: Boolean,
     createDate: Date,
