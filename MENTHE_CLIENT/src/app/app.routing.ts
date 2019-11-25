@@ -13,6 +13,7 @@ import { DisconnectComponent } from './session/disconnect/disconnect.component';
 import { MainDashComponent } from './mainpage/main-dash/main-dash.component';
 import { ModelerComponent } from './workflow/modeler/modeler.component';
 import { ViewerComponent } from './workflow/viewer/viewer.component';
+import { AnalysisComponent } from './workflow/analysis/analysis.component';
 
 const appRoutes: Routes = [
 
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     { path: 'workflow/create', component: ModelerComponent},
     { path: 'workflow/edit/:id', component: ModelerComponent},
     { path: 'workflow/view/:id', component: ViewerComponent},
+    { path: 'workflow/analysis/:id', component: AnalysisComponent},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

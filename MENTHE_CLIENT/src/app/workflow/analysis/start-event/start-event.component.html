@@ -1,0 +1,12 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        startEvent :
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ startEvent.attr.name }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-outgoing [outgoing]='startEvent.outgoing'></app-outgoing>
+
+  </mat-expansion-panel>

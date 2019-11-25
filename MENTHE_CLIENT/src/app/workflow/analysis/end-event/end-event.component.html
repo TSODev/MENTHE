@@ -1,0 +1,14 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        endEvent :
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ endEvent.attr.name }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div *ngFor=' let endEvent of endEvents'>
+    <app-incoming [incoming]='endEvent.incoming'></app-incoming>
+    </div>
+  </mat-expansion-panel>

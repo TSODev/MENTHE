@@ -1,0 +1,14 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Participant :
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ participant.attr.name }}
+      </mat-panel-description>
+      <mat-panel-description>
+          (for process {{ participant.attr.processRef}})
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <span> Process Ref : {{ participant.attr.processRef}}</span>
+  </mat-expansion-panel>

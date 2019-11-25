@@ -79,4 +79,8 @@ export class WfcardComponent implements OnInit, OnDestroy {
   locked() {
     this.alertService.error('Workflow is locked !');
   }
+
+  analysis() {
+    this.route.navigate(['/workflow/analysis/' + this.workflow.workflow_id]);
+  }
 }

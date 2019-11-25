@@ -1,0 +1,21 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Process :
+    </mat-panel-title>
+    <mat-panel-description>
+      name : {{ process.attr.name }}
+    </mat-panel-description>
+    <mat-panel-description>
+      id : {{ process.attr.id }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div *ngIf='hasParticipant'>
+    <div *ngFor='let participant of participants'>
+      <app-participant [participant]='participant'></app-participant>
+    </div>
+  </div>
+  <app-start-event [startEvent]='process.startEvent'></app-start-event>
+  <app-task [tasks]='process.task'></app-task>
+  <app-end-event [endEvent]='process.endEvent'></app-end-event>
+</mat-expansion-panel>

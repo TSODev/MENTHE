@@ -33,6 +33,7 @@ import { MatInputModule,
           MatProgressSpinnerModule,
           MatSnackBarModule, MatTableModule, MatPaginatorModule, MatSortModule, MatGridListModule,
           MatBadgeModule,
+          MatExpansionModule,
         } from '@angular/material';
 import { MainNavComponent } from './mainpage/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -53,6 +54,16 @@ import { SvgimageComponent } from './mainpage/svgimage/svgimage.component';
 import { ViewerComponent } from './workflow/viewer/viewer.component';
 import { CallbackPipe } from './_pipes/callback.pipe';
 import { DashfilterPipe } from './_pipes/dashfilter.pipe';
+import { AnalysisComponent } from './workflow/analysis/analysis.component';
+import { TaskComponent } from './workflow/analysis/task/task.component';
+import { OutgoingComponent } from './workflow/analysis/outgoing/outgoing.component';
+import { StartEventComponent } from './workflow/analysis/start-event/start-event.component';
+import { EndEventComponent } from './workflow/analysis/end-event/end-event.component';
+import { ProcessComponent } from './workflow/analysis/process/process.component';
+import { CollaborationComponent } from './workflow/analysis/collaboration/collaboration.component';
+import { ParticipantComponent } from './workflow/analysis/participant/participant.component';
+import { ParallelComponent } from './workflow/analysis/gateways/parallel/parallel.component';
+import { IncomingComponent } from './workflow/analysis/incoming/incoming.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +85,16 @@ import { DashfilterPipe } from './_pipes/dashfilter.pipe';
     ViewerComponent,
     CallbackPipe,
     DashfilterPipe,
+    AnalysisComponent,
+    TaskComponent,
+    OutgoingComponent,
+    StartEventComponent,
+    EndEventComponent,
+    ProcessComponent,
+    CollaborationComponent,
+    ParticipantComponent,
+    ParallelComponent,
+    IncomingComponent,
 
   ],
   imports: [
@@ -102,6 +123,7 @@ import { DashfilterPipe } from './_pipes/dashfilter.pipe';
     MatPaginatorModule,
     MatSortModule,
     MatGridListModule,
+    MatExpansionModule,
   ],
   providers: [
     AuthGuard,

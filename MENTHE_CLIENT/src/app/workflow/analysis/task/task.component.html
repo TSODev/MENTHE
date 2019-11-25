@@ -1,0 +1,16 @@
+<div *ngFor='let task of tasks'>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Task :
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ task.attr.name }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-incoming [incoming]='task.incoming'></app-incoming>
+      <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
+
+    </mat-expansion-panel>
+  </div>
