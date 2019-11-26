@@ -64,6 +64,10 @@ import { CollaborationComponent } from './workflow/analysis/collaboration/collab
 import { ParticipantComponent } from './workflow/analysis/participant/participant.component';
 import { ParallelComponent } from './workflow/analysis/gateways/parallel/parallel.component';
 import { IncomingComponent } from './workflow/analysis/incoming/incoming.component';
+import { ExclusiveComponent } from './workflow/analysis/gateways/exclusive/exclusive.component';
+import { InclusiveComponent } from './workflow/analysis/gateways/inclusive/inclusive.component';
+import { ComplexComponent } from './workflow/analysis/gateways/complex/complex.component';
+import { EventbasedComponent } from './workflow/analysis/gateways/eventbased/eventbased.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +99,10 @@ import { IncomingComponent } from './workflow/analysis/incoming/incoming.compone
     ParticipantComponent,
     ParallelComponent,
     IncomingComponent,
+    ExclusiveComponent,
+    InclusiveComponent,
+    ComplexComponent,
+    EventbasedComponent,
 
   ],
   imports: [
