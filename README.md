@@ -8,7 +8,7 @@
 ---
 
 
- Menthe is a ***workshop*** project implementing Angular / Angular Security / Node Server with Express and REST APIs / connected to a MongoDB database (cloud ou local with docker).
+ Menthe is a ***personal*** project implementing Angular / Angular Security / Node Server with Express and REST APIs / connected to a MongoDB database (cloud ou local with docker).
  
 User registration and login	(JWT authentication).  
 Workflow Create / Edit with BPMN Diagrams. 
