@@ -1,16 +1,26 @@
-<div *ngFor='let task of tasks'>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Task :
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ task.attr.name }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+<!-- <div *ngFor='let task of tasks'> -->
+    <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+      <div fxFlex="15%" fxLayoutAlign="center">
+      <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
+      <img class="taskicon" src='{{ task_icon }}'>
 
-      <app-incoming [incoming]='task.incoming'></app-incoming>
-      <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
+    </div>
 
-    </mat-expansion-panel>
+    <mat-divider></mat-divider>
+    <mat-card fxFlex="85%">
+
+      <mat-card-header>
+
+      <mat-card-title-group>
+        <mat-card-title class="tasktitle"> Task : {{ task.attr.name | uppercase }}   ({{ task.attr.id }})</mat-card-title>
+
+      <mat-card-subtitle>[ {{ task.type }} ]</mat-card-subtitle>
+    </mat-card-title-group>
+    </mat-card-header>
+      <mat-card-content>
+          <app-incoming [incoming]='task.incoming'></app-incoming>
+          <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
+      </mat-card-content>
+    </mat-card>
   </div>
+  <!-- </div> -->

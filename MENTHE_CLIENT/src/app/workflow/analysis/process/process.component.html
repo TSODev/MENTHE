@@ -16,6 +16,8 @@
     </div>
   </div>
   <app-start-event [startEvent]='process.startEvent'></app-start-event>
-  <app-task [tasks]='process.task'></app-task>
+  <div *ngFor="let task of masterTask">
+  <app-task [task]='task'></app-task>
+  </div>
   <app-end-event [endEvent]='process.endEvent'></app-end-event>
 </mat-expansion-panel>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Task } from 'src/app/_models/bpmn';
+import { Task, MasterTask, TaskTypeEnumerated } from 'src/app/_models/bpmn';
 
 @Component({
   selector: 'app-task',
@@ -9,11 +9,24 @@ import { Task } from 'src/app/_models/bpmn';
 export class TaskComponent implements OnInit {
 
   @Input()
-    tasks: Task[];
+    task: MasterTask;
+
+    taskIcon = '';
+    taskIdentifier = '';
+
 
   constructor() { }
 
   ngOnInit() {
+
+    const iconPath = 'assets/task_icons/';
+    this.taskIcon = iconPath.concat('Task_').concat(this.task.type).concat('.png');
+
+    if (this.task.attr.name != null) {
+        this.taskIdentifier = this.task.attr.name;
+    } else {
+        this.taskIdentifier = this.task.attr.id;
+    }
   }
 
 }

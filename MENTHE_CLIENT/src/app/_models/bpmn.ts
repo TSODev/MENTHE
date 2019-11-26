@@ -201,6 +201,14 @@ export class Process {
   public attr: Attr___;
   public startEvent: StartEvent;
   public task: Task[];
+  public sendTask: SendTask[];
+  public receiveTask: ReceiveTask[];
+  public userTask: UserTask[];
+  public manualTask: ManualTask[];
+  public businessruleTask: BusinessRuleTask[];
+  public serviceTask: ServiceTask[];
+  public scriptTask: ScriptTask[];
+  public callActivity: CallActivity[];
   //public SequenceFlow: List<SequenceFlow>;
   public SequenceFlow: SequenceFlow[];
   public endEvent: EndEvent;
@@ -218,6 +226,14 @@ export class StartEvent {
 
 }
 
+export class GenericTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
 export class Task {
 
   public attr: Attr_____;
@@ -225,6 +241,124 @@ export class Task {
   public outgoing: string;
 
 }
+
+export class SendTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class ReceiveTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class UserTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class ManualTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class BusinessRuleTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class ServiceTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class ScriptTask {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export class CallActivity {
+
+  public attr: Attr_____;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+export enum TaskTypeEnumerated {
+  STANDARD = 'STANDARD',
+  SEND = 'SEND',
+  RECEIVE = 'RECEIVE',
+  USER = 'USER',
+  MANUAL = 'MANUAL',
+  BUSINESSRULE = 'BUSINESSRULE',
+  SERVICE = 'SERVICE',
+  SCRIPT= 'SCRIPT',
+  CALLACTIVITY = 'CALLACTIVITY',
+}
+
+export   enum TypeFamily {
+  STANDARD,
+  SEND,
+  RECEIVE,
+  USER,
+  MANUAL,
+  BUSINESSRULE,
+  SERVICE,
+  SCRIPT,
+  CALLACTIVITY,
+}
+
+export   enum TypeFamilyName {
+  'STANDARD',
+  'SEND',
+  'RECEIVE',
+  'USER',
+  'MANUAL',
+  'BUSINESSRULE',
+  'SERVICE',
+  'SCRIPT',
+  'CALLACTIVITY',
+}
+
+// export class TaskType {
+//   type: TypeFamily;
+//   name: TypeFamilyName;
+// }
+
+
+export class MasterTask {
+
+  public attr: Attr_____;
+  public type: TaskTypeEnumerated;
+  public incoming: string;
+  public outgoing: string;
+
+}
+
+
+
 export class Waypoint {
 
   public attr: Attr______________;

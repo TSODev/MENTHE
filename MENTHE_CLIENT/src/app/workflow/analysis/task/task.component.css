@@ -1,0 +1,15 @@
+.tasktitle {
+  font-size: 16px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.taskicon {
+  /* background: center / contain no-repeat url('src/assets/task_icons/Task_STANDARD.png'); */
+  height: 75px;
+  width: 100px;
+  border: none;
+}

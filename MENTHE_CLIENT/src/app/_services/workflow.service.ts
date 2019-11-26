@@ -6,7 +6,13 @@ import { Workflow } from '../_models/workflow';
 import { map, partition } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { UserService } from './user.service';
-import { Participant, Process, BpmnFile } from '../_models/bpmn';
+import { Participant,
+          Process,
+          BpmnFile,
+          TypeFamily,
+          TaskTypeEnumerated,
+          MasterTask,
+          GenericTask } from '../_models/bpmn';
 import * as parser from 'fast-xml-parser';
 
 
@@ -119,6 +125,10 @@ export class WorkflowService {
 }
 
 getElementAsArray(element): any[] {         // Test if element is an Array , then return it , Else push it in an Array
+  if (typeof element === 'undefined') {
+    return null;
+  } else {
+
   let arr = [];
   if (this.isAnArray(element)) {
     arr = element as unknown as [];
@@ -126,6 +136,32 @@ getElementAsArray(element): any[] {         // Test if element is an Array , the
     arr.push(element);
   }
   return arr;
+}
+}
+
+createMasterTypeEntry(entry: any, type: TaskTypeEnumerated): MasterTask {
+
+  if (typeof entry === 'undefined') {
+    return null;
+  } else {
+
+  const result: MasterTask = {
+      type,
+      attr: entry.attr,
+      incoming: entry.incoming,
+      outgoing: entry.outgoing
+    };
+
+  return result;
+  }
+}
+
+addInMasterTaskArray( master: MasterTask[], task: GenericTask[], type: TaskTypeEnumerated) {
+  let tasks: GenericTask[];
+  tasks = this.getElementAsArray(task);
+  if (tasks !== null) {
+    tasks.forEach(data => master.push(this.createMasterTypeEntry(data, type)));
+  }
 }
 
 isParticipantInProcess(participant: Participant, process: Process): boolean {
