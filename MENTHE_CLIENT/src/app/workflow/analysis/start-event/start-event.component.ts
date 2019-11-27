@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { StartEvent } from 'src/app/_models/bpmn';
+import { StartEvent, SequenceFlow, Process } from 'src/app/_models/bpmn';
+import { WorkflowService } from 'src/app/_services/workflow.service';
 
 @Component({
   selector: 'app-start-event',
@@ -9,11 +10,19 @@ import { StartEvent } from 'src/app/_models/bpmn';
 export class StartEventComponent implements OnInit {
 
   @Input()
-    startEvent: StartEvent;
+    process: Process;
+    linkedFlow : SequenceFlow;
 
-  constructor() { }
+  constructor(
+    private workflowService: WorkflowService,
+  ) { }
 
   ngOnInit() {
+
+//    const startFlow = this.startEvent.outgoing;
+
+    const flows = this.workflowService.getElementAsArray(this.process.sequenceFlow);
+    this.linkedFlow = this.workflowService.getLinkedFlow(this.process.startEvent.outgoing, flows);
   }
 
 }

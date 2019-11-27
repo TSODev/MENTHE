@@ -4,10 +4,7 @@
       Process :
     </mat-panel-title>
     <mat-panel-description>
-      name : {{ process.attr.name }}
-    </mat-panel-description>
-    <mat-panel-description>
-      id : {{ process.attr.id }}
+      name : {{ process.attr.id }}
     </mat-panel-description>
   </mat-expansion-panel-header>
   <div *ngIf='hasParticipant'>
@@ -15,7 +12,7 @@
       <app-participant [participant]='participant'></app-participant>
     </div>
   </div>
-  <app-start-event *ngIf="hasStartEvent" [startEvent]='process.startEvent'></app-start-event>
+  <app-start-event *ngIf="hasStartEvent" [process]='process'></app-start-event>
   <div *ngIf="hasTask">
   <div *ngFor="let task of masterTask">
   <app-task [task]='task'></app-task>

@@ -215,7 +215,7 @@ export class Process {
   public inclusiveGateway: InclusiveGateway[];
   public parallelGateway: ParallelGateway[];
   //public SequenceFlow: List<SequenceFlow>;
-  public SequenceFlow: SequenceFlow[];
+  public sequenceFlow: SequenceFlow[];
   public endEvent: EndEvent;
 
 }

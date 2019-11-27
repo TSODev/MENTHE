@@ -1,35 +1,16 @@
-<!-- <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        startEvent :
-      </mat-panel-title>
-      <mat-panel-description>
-        {{ startEvent.attr.name }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <app-outgoing [outgoing]='startEvent.outgoing'></app-outgoing>
-
-  </mat-expansion-panel> -->
-  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-    <div fxFlex="15%" fxLayoutAlign="center">
-    <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
+<div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+  <div fxFlex="15%" fxLayoutAlign="center">
     <img class="taskicon" src='assets/task_icons/StartEvent.png'>
-
   </div>
 
   <mat-divider></mat-divider>
   <mat-card fxFlex="85%">
 
     <mat-card-header>
-
-    <mat-card-title-group>
-      <mat-card-title class="tasktitle"> Start Event : {{ startEvent.attr.name | uppercase }}</mat-card-title>
-
-    <mat-card-subtitle></mat-card-subtitle>
-  </mat-card-title-group>
-  </mat-card-header>
+        <mat-card-title class="tasktitle"> Start Event : {{ process.startEvent.attr.name | uppercase }}</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-        <app-outgoing [outgoing]='startEvent.outgoing'></app-outgoing>
+      <app-outgoing [outgoing]='process.startEvent.outgoing' [linked]='linkedFlow'></app-outgoing>
     </mat-card-content>
   </mat-card>
 </div>

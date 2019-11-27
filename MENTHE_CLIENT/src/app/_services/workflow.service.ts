@@ -12,7 +12,8 @@ import { Participant,
           TypeFamily,
           TaskTypeEnumerated,
           MasterTask,
-          GenericTask } from '../_models/bpmn';
+          GenericTask,
+          SequenceFlow} from '../_models/bpmn';
 import * as parser from 'fast-xml-parser';
 
 
@@ -162,6 +163,16 @@ addInMasterTaskArray( master: MasterTask[], task: GenericTask[], type: TaskTypeE
   if (tasks !== null) {
     tasks.forEach(data => master.push(this.createMasterTypeEntry(data, type)));
   }
+}
+
+getLinkedFlowFromSequence(flow: string): SequenceFlow {
+
+  return null;
+}
+getLinkedFlow(searchedflow: string, flows: SequenceFlow[]): SequenceFlow {
+
+  let flowfound = flows.find(o => o.attr.id === searchedflow);
+  return flowfound as unknown as SequenceFlow;
 }
 
 isParticipantInProcess(participant: Participant, process: Process): boolean {

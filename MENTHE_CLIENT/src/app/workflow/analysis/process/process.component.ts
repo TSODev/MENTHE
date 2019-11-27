@@ -18,7 +18,8 @@ import { TypeFamily,
           EventBasedGateway,
           ExclusiveGateway,
           InclusiveGateway,
-          ParallelGateway} from 'src/app/_models/bpmn';
+          ParallelGateway,
+          SequenceFlow} from 'src/app/_models/bpmn';
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 
@@ -33,12 +34,14 @@ export class ProcessComponent implements OnInit, OnDestroy {
     process: Process;
   @Input()
     collaboration: Collaboration;
+
     participants: Participant[];
     complexGateways: ComplexGateway[];
     eventbasedGateways: EventBasedGateway[];
     exclusiveGateways: ExclusiveGateway[];
     inclusiveGateways: InclusiveGateway[];
     parallelGateways: ParallelGateway[];
+    sequenceFlows: SequenceFlow[];
 
     hasParticipant = false;
     hasStartEvent = false;
@@ -49,6 +52,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     hasInclusiveGateway = false;
     hasParallelGateway = false;
     hasTask = false;
+    hasSequenceFlow = false;
 
     masterTask: MasterTask[] = [];
 
@@ -67,6 +71,9 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.participants = this.workflowService.ListParticipantsInProcess(this.participants, this.process);
     this.participants.forEach(data => this.workflowService.announceNewParticipant(data));
     this.hasParticipant = (this.participants.length > 0);
+
+    this.sequenceFlows = this.workflowService.getElementAsArray(this.process.sequenceFlow);
+    this.hasSequenceFlow = (this.sequenceFlows != null);
 
     this.complexGateways = this.workflowService.getElementAsArray(this.process.complexGateway);
     this.eventbasedGateways = this.workflowService.getElementAsArray(this.process.eventbasedGateway);
