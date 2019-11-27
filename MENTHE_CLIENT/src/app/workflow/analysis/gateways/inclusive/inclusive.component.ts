@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { InclusiveGateway } from 'src/app/_models/bpmn';
 
 @Component({
   selector: 'app-inclusive',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inclusive.component.css']
 })
 export class InclusiveComponent implements OnInit {
+
+  @Input()
+  gateway: InclusiveGateway;
+  taskIcon = '';
 
   constructor() { }
 

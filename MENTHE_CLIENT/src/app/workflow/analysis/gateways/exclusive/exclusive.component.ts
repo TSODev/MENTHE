@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ExclusiveGateway } from 'src/app/_models/bpmn';
 
 @Component({
   selector: 'app-exclusive',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./exclusive.component.css']
 })
 export class ExclusiveComponent implements OnInit {
+
+  @Input()
+  gateway: ExclusiveGateway;
+  taskIcon = '';
 
   constructor() { }
 

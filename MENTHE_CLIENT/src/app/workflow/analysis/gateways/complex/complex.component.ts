@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ComplexGateway } from 'src/app/_models/bpmn';
 
 @Component({
   selector: 'app-complex',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./complex.component.css']
 })
 export class ComplexComponent implements OnInit {
+
+  @Input()
+  gateway: ComplexGateway;
+  taskIcon = '';
 
   constructor() { }
 

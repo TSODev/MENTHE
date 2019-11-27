@@ -209,6 +209,11 @@ export class Process {
   public serviceTask: ServiceTask[];
   public scriptTask: ScriptTask[];
   public callActivity: CallActivity[];
+  public complexGateway: ComplexGateway[];
+  public eventbasedGateway: EventBasedGateway[];
+  public exclusiveGateway: ExclusiveGateway[];
+  public inclusiveGateway: InclusiveGateway[];
+  public parallelGateway: ParallelGateway[];
   //public SequenceFlow: List<SequenceFlow>;
   public SequenceFlow: SequenceFlow[];
   public endEvent: EndEvent;
@@ -367,4 +372,39 @@ export class Waypoint {
 
 export class BpmnFile {
   public definitions: Definitions;
+}
+
+export class Attr_Gateway {
+  public id: string;
+  public name: string;
+}
+
+export class ComplexGateway {
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
+}
+
+export class EventBasedGateway {
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
+}
+
+export class ExclusiveGateway {
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
+}
+
+export class InclusiveGateway {
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
+}
+
+export class ParallelGateway {
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
 }

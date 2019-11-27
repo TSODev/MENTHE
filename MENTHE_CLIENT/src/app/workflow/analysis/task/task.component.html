@@ -1,13 +1,14 @@
 <!-- <div *ngFor='let task of tasks'> -->
-    <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+  <div class="matTask">
+    <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="left center">
       <div fxFlex="15%" fxLayoutAlign="center">
       <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
-      <img class="taskicon" src='{{ task_icon }}'>
+      <img class="taskicon" src='{{ taskIcon }}'>
 
     </div>
 
     <mat-divider></mat-divider>
-    <mat-card fxFlex="85%">
+    <mat-card class="taskInfo" [ngClass]="{'waiting': status === 1000}" fxFlex="35%">
 
       <mat-card-header>
 
@@ -22,5 +23,6 @@
           <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
       </mat-card-content>
     </mat-card>
+  </div>
   </div>
   <!-- </div> -->

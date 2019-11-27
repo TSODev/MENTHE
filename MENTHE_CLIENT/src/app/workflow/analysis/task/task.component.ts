@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Task, MasterTask, TaskTypeEnumerated } from 'src/app/_models/bpmn';
+import { statusType } from 'src/app/_models/workflow';
 
 @Component({
   selector: 'app-task',
@@ -12,6 +13,8 @@ export class TaskComponent implements OnInit {
     task: MasterTask;
 
     taskIcon = '';
+    statusClass = '';
+    status = statusType.WAITING;    //ToDo : Add status to task !
 
   constructor() { }
 

@@ -13,7 +13,12 @@ import { TypeFamily,
           ServiceTask,
           ScriptTask,
           CallActivity,
-          TaskTypeEnumerated} from 'src/app/_models/bpmn';
+          TaskTypeEnumerated,
+          ComplexGateway,
+          EventBasedGateway,
+          ExclusiveGateway,
+          InclusiveGateway,
+          ParallelGateway} from 'src/app/_models/bpmn';
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 
@@ -29,8 +34,22 @@ export class ProcessComponent implements OnInit, OnDestroy {
   @Input()
     collaboration: Collaboration;
     participants: Participant[];
+    complexGateways: ComplexGateway[];
+    eventbasedGateways: EventBasedGateway[];
+    exclusiveGateways: ExclusiveGateway[];
+    inclusiveGateways: InclusiveGateway[];
+    parallelGateways: ParallelGateway[];
+
     hasParticipant = false;
-    hasGateway = false;
+    hasStartEvent = false;
+    hasEndEvent = false;
+    hasComplexGateway = false;
+    hasEventBasedGateway = false;
+    hasExclusiveGateway = false;
+    hasInclusiveGateway = false;
+    hasParallelGateway = false;
+    hasTask = false;
+
     masterTask: MasterTask[] = [];
 
   subs = new SubSink();
@@ -42,10 +61,24 @@ export class ProcessComponent implements OnInit, OnDestroy {
   ngOnInit() {
 //    console.log('Init Process', this.hasParticipant, this.participants);
     this.workflowService.announceNewProcess(this.process);
+    this.hasStartEvent = (this.process.startEvent.attr.id != null);
+    this.hasEndEvent = (this.process.endEvent.attr.id != null);
     this.participants = this.workflowService.getElementAsArray(this.collaboration.participant);
     this.participants = this.workflowService.ListParticipantsInProcess(this.participants, this.process);
     this.participants.forEach(data => this.workflowService.announceNewParticipant(data));
     this.hasParticipant = (this.participants.length > 0);
+
+    this.complexGateways = this.workflowService.getElementAsArray(this.process.complexGateway);
+    this.eventbasedGateways = this.workflowService.getElementAsArray(this.process.eventbasedGateway);
+    this.exclusiveGateways = this.workflowService.getElementAsArray(this.process.exclusiveGateway);
+    this.inclusiveGateways = this.workflowService.getElementAsArray(this.process.inclusiveGateway);
+    this.parallelGateways = this.workflowService.getElementAsArray(this.process.parallelGateway);
+
+    this.hasComplexGateway = (this.complexGateways != null);
+    this.hasEventBasedGateway = (this.eventbasedGateways != null);
+    this.hasExclusiveGateway = (this.exclusiveGateways != null);
+    this.hasInclusiveGateway = (this.inclusiveGateways != null);
+    this.hasParallelGateway = (this.parallelGateways != null);
 
     // Collect Tasks List
 
@@ -69,7 +102,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.workflowService.addInMasterTaskArray(this.masterTask, this.process.manualTask, TaskTypeEnumerated.MANUAL);
     this.workflowService.addInMasterTaskArray(this.masterTask, this.process.businessruleTask, TaskTypeEnumerated.BUSINESSRULE);
     this.workflowService.addInMasterTaskArray(this.masterTask, this.process.callActivity, TaskTypeEnumerated.CALLACTIVITY);
-
+    this.hasTask = (this.masterTask.length > 0 );
   }
 
   ngOnDestroy() {

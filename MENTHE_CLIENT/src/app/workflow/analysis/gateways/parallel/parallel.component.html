@@ -1,10 +1,27 @@
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Parallel Gateway :
-    </mat-panel-title>
-    <mat-panel-description>
+<!-- <div *ngFor='let task of tasks'> -->
+    <div class="matGateway">
+        <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="left center">
+          <div fxFlex="15%" fxLayoutAlign="center">
+          <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
+          <img class="taskicon" src='assets/task_icons/Gateway_PARALLEL.png'>
 
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-</mat-expansion-panel>
+        </div>
+
+        <mat-divider></mat-divider>
+        <mat-card class="gatewayInfo" fxFlex="35%">
+
+          <mat-card-header>
+
+          <mat-card-title-group>
+            <mat-card-title class="tasktitle"> Gateway : {{ gateway.attr.name | uppercase }}   ({{ gateway.attr.id }})</mat-card-title>
+
+          <mat-card-subtitle>[ PARALLEL ]</mat-card-subtitle>
+        </mat-card-title-group>
+        </mat-card-header>
+          <mat-card-content>
+              <app-incoming [incoming]='gateway.incoming'></app-incoming>
+              <app-outgoing [outgoing]='gateway.outgoing'></app-outgoing>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      </div>
