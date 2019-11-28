@@ -6,6 +6,7 @@ import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 import { User } from 'src/app/_models';
 import { isNull } from 'util';
+import { AnalysisService } from 'src/app/_services/analysis.service';
 
 
 @Component({
@@ -23,15 +24,17 @@ export class WfcardComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
+
   constructor(
     private alertService: AlertService,
     private route: Router,
     private workflowService: WorkflowService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
     this.svg = this.workflow.image;
+
 //    console.log('WFCard : ', this.svg);
     this.subs.add(
     this.userService.getUserById(this.workflow.createdBy).subscribe(user => {

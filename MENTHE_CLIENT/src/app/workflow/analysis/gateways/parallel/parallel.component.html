@@ -8,7 +8,7 @@
         </div>
 
         <mat-divider></mat-divider>
-        <mat-card class="gatewayInfo" fxFlex="35%">
+        <mat-card class="gatewayInfo" fxFlex="85%">
 
           <mat-card-header>
 
@@ -19,8 +19,12 @@
         </mat-card-title-group>
         </mat-card-header>
           <mat-card-content>
-              <app-incoming [incoming]='gateway.incoming'></app-incoming>
-              <app-outgoing [outgoing]='gateway.outgoing'></app-outgoing>
+              <div *ngFor="let incoming of incomings">
+              <app-incoming [incoming]='incoming'></app-incoming>
+              </div>
+              <div *ngFor="let outgoing of outgoings">
+              <app-outgoing [outgoing]='outgoing'></app-outgoing>
+              </div>
           </mat-card-content>
         </mat-card>
       </div>

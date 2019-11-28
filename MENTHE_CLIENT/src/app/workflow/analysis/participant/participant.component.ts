@@ -16,7 +16,6 @@ export class ParticipantComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.workflowService.announceNewParticipant(this.participant);
   }
 
 }

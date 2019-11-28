@@ -1,12 +1,10 @@
-<div *ngFor='let outgoing of outgoingArray'>
-
-  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-  <mat-icon fxFlex="10%">arrow_forward</mat-icon>
-  <mat-card-content fxFlex="40%">{{ outgoing }}</mat-card-content>
-  <mat-icon fxFlex="10%" *ngIf="haslink">arrow_forward_ios</mat-icon>
-  <mat-card-content fxFlex="40%" *ngIf="haslink">{{ link.attr.targetRef }}</mat-card-content>
-  </div>  <!-- <input matInput> {{ outgoing }} -->
-
-    <span>  </span>
-
+<div *ngFor='let link of links'>
+  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start">
+    <div fxFlex="20%"></div>
+    <mat-card-content class="linkName" fxFlex="80%" *ngIf="haslink">[ output = {{ link.attr.name }} ]</mat-card-content>
+    <!-- <mat-icon fxFlex="10%">arrow_forward</mat-icon>
+    <mat-card-content fxFlex="20%">{{ outgoing }}</mat-card-content>
+    <mat-icon fxFlex="10%" *ngIf="haslink">arrow_forward_ios</mat-icon>
+    <mat-card-content fxFlex="20%" *ngIf="haslink">{{ link.attr.targetRef }}</mat-card-content> -->
+  </div> <!-- <input matInput> {{ outgoing }} -->
 </div>

@@ -19,9 +19,13 @@ import { TypeFamily,
           ExclusiveGateway,
           InclusiveGateway,
           ParallelGateway,
-          SequenceFlow} from 'src/app/_models/bpmn';
+          SequenceFlow,
+          GatewayTypeFamily,
+          StartEvent,
+          EndEvent} from 'src/app/_models/bpmn';
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
+import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-process',
@@ -34,6 +38,10 @@ export class ProcessComponent implements OnInit, OnDestroy {
     process: Process;
   @Input()
     collaboration: Collaboration;
+    startEvent: StartEvent;
+    endEvent: EndEvent;
+
+    datatoshow = false;
 
     participants: Participant[];
     complexGateways: ComplexGateway[];
@@ -54,32 +62,44 @@ export class ProcessComponent implements OnInit, OnDestroy {
     hasTask = false;
     hasSequenceFlow = false;
 
+
     masterTask: MasterTask[] = [];
 
   subs = new SubSink();
 
   constructor(
-    private workflowService: WorkflowService,
-  ) {}
+    private analysisService: AnalysisService,
+  ) {
+
+  }
 
   ngOnInit() {
-//    console.log('Init Process', this.hasParticipant, this.participants);
-    this.workflowService.announceNewProcess(this.process);
-    this.hasStartEvent = (this.process.startEvent.attr.id != null);
-    this.hasEndEvent = (this.process.endEvent.attr.id != null);
-    this.participants = this.workflowService.getElementAsArray(this.collaboration.participant);
-    this.participants = this.workflowService.ListParticipantsInProcess(this.participants, this.process);
-    this.participants.forEach(data => this.workflowService.announceNewParticipant(data));
+
+    // this.hasStartEvent = (this.process.startEvent.attr.id != null);
+    // this.hasEndEvent = (this.process.endEvent.attr.id != null);
+
+    if (this.analysisService.getStartEventList().length > 0) {
+      this.hasStartEvent = true;
+      this.startEvent = this.analysisService.getStartEventList()[0];
+    }
+
+    if (this.analysisService.getEndEventList().length > 0) {
+      this.hasEndEvent = true;
+      this.endEvent = this.analysisService.getEndEventList()[0];
+    }
+
+    this.participants = this.analysisService.getParticipantList() as unknown as Participant[];
+    this.participants = this.analysisService.ListParticipantsInProcess(this.participants, this.process);
     this.hasParticipant = (this.participants.length > 0);
 
-    this.sequenceFlows = this.workflowService.getElementAsArray(this.process.sequenceFlow);
+    this.sequenceFlows = this.analysisService.getFlowList();
     this.hasSequenceFlow = (this.sequenceFlows != null);
 
-    this.complexGateways = this.workflowService.getElementAsArray(this.process.complexGateway);
-    this.eventbasedGateways = this.workflowService.getElementAsArray(this.process.eventbasedGateway);
-    this.exclusiveGateways = this.workflowService.getElementAsArray(this.process.exclusiveGateway);
-    this.inclusiveGateways = this.workflowService.getElementAsArray(this.process.inclusiveGateway);
-    this.parallelGateways = this.workflowService.getElementAsArray(this.process.parallelGateway);
+    this.complexGateways = this.analysisService.getGatewayList(GatewayTypeFamily.COMPLEX) as unknown as ComplexGateway[];
+    this.eventbasedGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EVENTBASED) as unknown as EventBasedGateway[];
+    this.exclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EXCLUSIVE) as unknown as ExclusiveGateway[];
+    this.inclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.INCLUSIVE) as unknown as InclusiveGateway[];
+    this.parallelGateways = this.analysisService.getGatewayList(GatewayTypeFamily.PARALLEL) as unknown as ParallelGateway[];
 
     this.hasComplexGateway = (this.complexGateways != null);
     this.hasEventBasedGateway = (this.eventbasedGateways != null);
@@ -87,30 +107,17 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.hasInclusiveGateway = (this.inclusiveGateways != null);
     this.hasParallelGateway = (this.parallelGateways != null);
 
-    // Collect Tasks List
+    if (this.analysisService.getTaskList().length > 0) {
+      this.hasTask = true;
+      this.masterTask = this.analysisService.getTaskList();
+    }
 
-    const stdtasks: Task[] = [];
-    const sendtasks: SendTask[] = [];
-    const receivetasks: ReceiveTask[] = [];
-    const usertasks: UserTask[] = [];
-    const manualtasks: ManualTask[] = [];
-    const businessruletasks: BusinessRuleTask[] = [];
-    const servicetasks: ServiceTask[] = [];
-    const scripttasks: ScriptTask[] = [];
-    const calltasks: CallActivity[] = [];
-
-
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.task, TaskTypeEnumerated.STANDARD);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.sendTask, TaskTypeEnumerated.SEND);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.receiveTask, TaskTypeEnumerated.RECEIVE);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.userTask, TaskTypeEnumerated.USER);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.serviceTask, TaskTypeEnumerated.SERVICE);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.scriptTask, TaskTypeEnumerated.SCRIPT);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.manualTask, TaskTypeEnumerated.MANUAL);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.businessruleTask, TaskTypeEnumerated.BUSINESSRULE);
-    this.workflowService.addInMasterTaskArray(this.masterTask, this.process.callActivity, TaskTypeEnumerated.CALLACTIVITY);
-    this.hasTask = (this.masterTask.length > 0 );
+//    this.analysisService.announceNewElementArray(this.masterTask, 'Task');
+    this.analysisService.emit({step: 'process_end'});
+    this.datatoshow = true;
   }
+
+
 
   ngOnDestroy() {
     this.subs.unsubscribe();

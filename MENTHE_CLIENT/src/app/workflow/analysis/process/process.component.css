@@ -1,0 +1,13 @@
+.mat-expansion-panel {
+  background-color: #ddffdd;
+}
+
+.paneltitle {
+  font-weight: bold;
+  font-size: large;
+}
+
+.paneldescription {
+  font-weight: 300;
+  font-size:  large;
+}

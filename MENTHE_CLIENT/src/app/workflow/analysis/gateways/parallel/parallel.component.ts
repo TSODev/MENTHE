@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ParallelGateway } from 'src/app/_models/bpmn';
+import { ParallelGateway, SequenceFlow } from 'src/app/_models/bpmn';
+import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-parallel',
@@ -12,9 +13,16 @@ export class ParallelComponent implements OnInit {
   gateway: ParallelGateway;
   taskIcon = '';
 
-  constructor() { }
+  incomings: SequenceFlow[];
+  outgoings: SequenceFlow[];
+
+  constructor(
+      private analysisService: AnalysisService,
+  ) { }
 
   ngOnInit() {
+      this.incomings = this.analysisService.getElementAsArray(this.gateway.incoming);
+      this.outgoings = this.analysisService.getElementAsArray(this.gateway.outgoing);
   }
 
 }

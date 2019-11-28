@@ -1,37 +1,17 @@
-<!-- <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        endEvent :
-      </mat-panel-title>
-      <mat-panel-description>
-        {{ endEvent.attr.name }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
 
-    <div *ngFor=' let endEvent of endEvents'>
-    <app-incoming [incoming]='endEvent.incoming'></app-incoming>
-    </div>
-  </mat-expansion-panel> -->
-  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+<div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
     <div fxFlex="15%" fxLayoutAlign="center">
-    <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
-    <img class="taskicon" src='assets/task_icons/EndEvent.png'>
+      <img class="taskicon" src='assets/task_icons/EndEvent.png'>
+    </div>
 
+    <mat-divider></mat-divider>
+    <mat-card class="matCardInfo" fxFlex="85%">
+
+      <mat-card-header>
+          <mat-card-title class="tasktitle"> End Event : {{ endEvent.attr.name | uppercase }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngFor="let incoming of incomings">
+        <app-incoming [incoming]='incoming'></app-incoming>
+      </mat-card-content>
+    </mat-card>
   </div>
-
-  <mat-divider></mat-divider>
-  <mat-card fxFlex="85%">
-
-    <mat-card-header>
-
-    <mat-card-title-group>
-      <mat-card-title class="tasktitle"> End Event : {{ endEvent.attr.name | uppercase }}</mat-card-title>
-
-    <mat-card-subtitle></mat-card-subtitle>
-  </mat-card-title-group>
-  </mat-card-header>
-    <mat-card-content>
-        <app-incoming [incoming]='endEvent.incoming'></app-incoming>
-    </mat-card-content>
-  </mat-card>
-</div>

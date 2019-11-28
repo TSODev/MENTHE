@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowService } from 'src/app/_services/workflow.service';
+import { AnalysisService } from 'src/app/_services/analysis.service';
+import { SequenceFlow } from 'src/app/_models/bpmn';
 
 @Component({
   selector: 'app-incoming',
@@ -11,14 +12,24 @@ export class IncomingComponent implements OnInit {
   @Input()
     incoming: string;
 
-  incomingArray: string[];
+    linked: SequenceFlow[];
+
+    incomingArray: string[];
+    haslink = false;
+    links: SequenceFlow[];
 
   constructor(
-    private workflowService: WorkflowService,
+    private analysisService: AnalysisService,
   ) { }
 
   ngOnInit() {
-    this.incomingArray = this.workflowService.getElementAsArray(this.incoming);
+    this.linked = this.analysisService.getLinkedFlowFromElementList(this.incoming);
+    console.log(this.incoming , 'Linked To: ', this.linked);
+    if (typeof this.linked !== 'undefined') {
+      this.haslink = true;
+      this.links = this.linked;
+    }
+//    this.incomingArray = this.analysisService.getElementAsArray(this.incoming);
   }
 
 }

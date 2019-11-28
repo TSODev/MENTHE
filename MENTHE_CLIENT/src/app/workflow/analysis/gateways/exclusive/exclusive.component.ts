@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ExclusiveGateway } from 'src/app/_models/bpmn';
+import { ExclusiveGateway, SequenceFlow } from 'src/app/_models/bpmn';
+import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-exclusive',
@@ -12,9 +13,17 @@ export class ExclusiveComponent implements OnInit {
   gateway: ExclusiveGateway;
   taskIcon = '';
 
-  constructor() { }
+  incomings: SequenceFlow[];
+  outgoings: SequenceFlow[];
+
+
+  constructor(
+    private analysisService: AnalysisService,
+  ) { }
 
   ngOnInit() {
+    this.incomings = this.analysisService.getElementAsArray(this.gateway.incoming);
+    this.outgoings = this.analysisService.getElementAsArray(this.gateway.outgoing);
   }
 
 }

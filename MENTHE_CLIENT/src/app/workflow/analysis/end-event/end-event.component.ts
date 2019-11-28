@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EndEvent } from 'src/app/_models/bpmn';
-import { WorkflowService } from 'src/app/_services/workflow.service';
+import { EndEvent, Process, SequenceFlow } from 'src/app/_models/bpmn';
+import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-end-event',
@@ -10,16 +10,20 @@ import { WorkflowService } from 'src/app/_services/workflow.service';
 export class EndEventComponent implements OnInit {
 
   @Input()
+    process: Process;
+  @Input()
     endEvent: EndEvent;
 
-    endEvents: EndEvent[];
+    linkedFlow: SequenceFlow;
+    incomings: SequenceFlow[];
 
   constructor(
-    private workflowService: WorkflowService,
+    private analysisService: AnalysisService,
   ) { }
 
   ngOnInit() {
-    this.endEvents = this.workflowService.getElementAsArray(this.endEvent);
+    this.incomings = this.analysisService.getElementAsArray(this.endEvent.incoming);
+  //  this.linkedFlow = this.analysisService.getLinkedFlowFromProcess(this.process.endEvent.incoming, this.process);
 
   }
 

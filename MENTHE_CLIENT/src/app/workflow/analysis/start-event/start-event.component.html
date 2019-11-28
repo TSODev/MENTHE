@@ -4,13 +4,15 @@
   </div>
 
   <mat-divider></mat-divider>
-  <mat-card fxFlex="85%">
+  <mat-card class='matCardInfo' fxFlex="85%">
 
     <mat-card-header>
-        <mat-card-title class="tasktitle"> Start Event : {{ process.startEvent.attr.name | uppercase }}</mat-card-title>
+        <mat-card-title class="tasktitle"> Start Event : {{ startEvent.attr.name | uppercase }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <app-outgoing [outgoing]='process.startEvent.outgoing' [linked]='linkedFlow'></app-outgoing>
+    <mat-card-content *ngFor="let outgoing of outgoings">
+      <!-- <app-outgoing [outgoing]='startEvent.outgoing' [linked]='linkedFlow'></app-outgoing> -->
+      <app-outgoing [outgoing]='outgoing'></app-outgoing>
+
     </mat-card-content>
   </mat-card>
 </div>

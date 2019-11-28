@@ -21,11 +21,6 @@ export class CollaborationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.participant = this.collaboration.participant;
-    // this.participants = this.workflowService.getElementAsArray(this.participant);
-    // this.participants.forEach(data => {
-    //   this.workflowService.announceNewParticipant(data);
-    // });
 
     this.datatodisplay = true;
   }

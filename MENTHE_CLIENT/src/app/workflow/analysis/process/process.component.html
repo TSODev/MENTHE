@@ -1,54 +1,62 @@
+<div *ngIf="datatoshow">
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      Process :
+      <span class="paneltitle"> Process : </span>
     </mat-panel-title>
     <mat-panel-description>
-      name : {{ process.attr.id }}
+      <span class="paneldescription"> name : {{ process.attr.id }} </span>
     </mat-panel-description>
   </mat-expansion-panel-header>
+
+
   <div *ngIf='hasParticipant'>
     <div *ngFor='let participant of participants'>
       <app-participant [participant]='participant'></app-participant>
     </div>
   </div>
-  <app-start-event *ngIf="hasStartEvent" [process]='process'></app-start-event>
+  <!-- <app-start-event *ngIf="hasStartEvent" [process]='process'></app-start-event> -->
+  <app-start-event *ngIf="hasStartEvent" [process]='process' [startEvent]='startEvent'></app-start-event>
   <div *ngIf="hasTask">
-  <div *ngFor="let task of masterTask">
-  <app-task [task]='task'></app-task>
-  </div>
+    <div *ngFor="let task of masterTask">
+      <app-task [task]='task'></app-task>
+    </div>
   </div>
 
   <div *ngIf="hasComplexGateway">
-      <div *ngFor="let gateway of complexGateways">
+    <div *ngFor="let gateway of complexGateways">
       <app-complex [gateway]='gateway'></app-complex>
-      </div>
+    </div>
   </div>
 
   <div *ngIf="hasEventBasedGateway">
-      <div *ngFor="let gateway of eventbasedGateways">
+    <div *ngFor="let gateway of eventbasedGateways">
       <app-eventbased [gateway]='gateway'></app-eventbased>
-      </div>
+    </div>
   </div>
 
   <div *ngIf="hasExclusiveGateway">
-      <div *ngFor="let gateway of exclusiveGateways">
+    <div *ngFor="let gateway of exclusiveGateways">
       <app-exclusive [gateway]='gateway'></app-exclusive>
-      </div>
+    </div>
   </div>
 
   <div *ngIf="hasInclusiveGateway">
-      <div *ngFor="let gateway of inclusiveGateways">
+    <div *ngFor="let gateway of inclusiveGateways">
       <app-inclusive [gateway]='gateway'></app-inclusive>
-      </div>
+    </div>
   </div>
 
   <div *ngIf="hasParallelGateway">
-      <div *ngFor="let gateway of parallelGateways">
+    <div *ngFor="let gateway of parallelGateways">
       <app-parallel [gateway]='gateway'></app-parallel>
-      </div>
+    </div>
   </div>
 
 
-  <app-end-event *ngIf="hasEndEvent"[endEvent]='process.endEvent'></app-end-event>
+  <app-end-event *ngIf="hasEndEvent" [process]='process' [endEvent]='endEvent'></app-end-event>
 </mat-expansion-panel>
+</div>
+<div *ngIf="!datatoshow">
+  Loading...
+</div>

@@ -1,20 +1,21 @@
 <app-main-nav></app-main-nav>
 <div *ngIf=datatodisplay>
   <div class="example-container">
-    <mat-form-field>
-      <input matInput placeholder="WorkflowId"> {{ workflow.workflow_id }}
-    </mat-form-field>
-    <mat-form-field>
+    <!-- <mat-form-field>
       <textarea matInput placeholder="JSON Content"> {{ jsoncontent }}</textarea>
-    </mat-form-field>
+    </mat-form-field> -->
 
-      <app-collaboration [collaboration]='collaboration'></app-collaboration>
-      <mat-divider></mat-divider>
-        <div *ngFor='let process of processes'>
-          <!-- <app-process [process]='process' [participants]='partInProcess'></app-process> -->
-          <app-process [process]='process' [collaboration]='collaboration'></app-process>
+    <app-collaboration [collaboration]='collaboration'></app-collaboration>
 
-        </div>
-      <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <div *ngFor='let process of processes'>
+      <!-- <app-process [process]='process' [participants]='partInProcess'></app-process> -->
+      <app-process [process]='process' [collaboration]='collaboration'></app-process>
+
+    </div>
+    <mat-divider></mat-divider>
   </div>
+</div>
+<div *ngIf="!datatodisplay">
+  <p>Loading...</p>
 </div>

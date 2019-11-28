@@ -44,6 +44,7 @@ export class Attr_____ {
 export class Attr______ {
 
   public id: string;
+  public name: string;
   public sourceRef: string;
   public targetRef: string;
 
@@ -321,6 +322,7 @@ export enum TaskTypeEnumerated {
   SERVICE = 'SERVICE',
   SCRIPT= 'SCRIPT',
   CALLACTIVITY = 'CALLACTIVITY',
+  EVENTBASED = 'EVENTBASED',
 }
 
 export   enum TypeFamily {
@@ -379,31 +381,51 @@ export class Attr_Gateway {
   public name: string;
 }
 
+export   enum GatewayTypeFamily {
+  COMPLEX,
+  EXCLUSIVE,
+  INCLUSIVE,
+  EVENTBASED,
+  PARALLEL,
+}
+
+export class GenericGateway {
+  public type: GatewayTypeFamily;
+  public attr: Attr_Gateway;
+  public incoming: string;
+  public outgoing: string;
+}
+
 export class ComplexGateway {
+  public type: GatewayTypeFamily;
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
 }
 
 export class EventBasedGateway {
+  public type: GatewayTypeFamily;
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
 }
 
 export class ExclusiveGateway {
+  public type: GatewayTypeFamily;
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
 }
 
 export class InclusiveGateway {
+  public type: GatewayTypeFamily;
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
 }
 
 export class ParallelGateway {
+  public type: GatewayTypeFamily;
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
