@@ -24,12 +24,11 @@ export class IncomingComponent implements OnInit {
 
   ngOnInit() {
     this.linked = this.analysisService.getLinkedFlowFromElementList(this.incoming);
-    console.log(this.incoming , 'Linked To: ', this.linked);
+//    console.log(this.incoming , 'Linked To: ', this.linked);
     if (typeof this.linked !== 'undefined') {
       this.haslink = true;
       this.links = this.linked;
     }
-//    this.incomingArray = this.analysisService.getElementAsArray(this.incoming);
   }
 
 }

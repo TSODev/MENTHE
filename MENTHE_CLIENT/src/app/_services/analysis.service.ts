@@ -17,6 +17,8 @@ import {
 import { Observable } from 'rxjs/internal/Observable';
 import { SubSink } from 'subsink';
 import { ElementList, Message, EmitEvent } from '../_interfaces/analysis.interface';
+import * as _ from 'lodash';
+import * as he from 'he';
 
 
 @Injectable({
@@ -317,9 +319,14 @@ export class AnalysisService {
   addFlowInList(data: SequenceFlow) {
     if (typeof data.attr.name === 'undefined' || data.attr.name === '') {
       data.attr.name = 'from : '.concat(data.attr.sourceRef.concat(' to : ', data.attr.targetRef));
+    } else {
+      data.attr.name = he.decode(data.attr.name);
     }
     this.ElementList.flow.push(data as SequenceFlow);
   }
 
+  unescape(str: string) {
+    return he.decode(str);
+  }
 
 }
