@@ -24,8 +24,6 @@ export class StartEventComponent implements OnInit {
   ngOnInit() {
 
     this.outgoings = this.analysisService.getElementAsArray(this.startEvent.outgoing);
-    console.log('StartEvent : ', this.outgoings);
-//      this.linkedFlow = this.analysisService.getLinkedFlowFromProcess(this.process.startEvent.outgoing, this.process);
   }
 
 }

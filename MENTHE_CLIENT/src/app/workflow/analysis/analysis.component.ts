@@ -5,9 +5,6 @@ import { WorkflowService } from 'src/app/_services/workflow.service';
 import { AnalysisService } from 'src/app/_services/analysis.service';
 import { SubSink } from 'subsink';
 import * as bpmn from 'src/app/_models/bpmn';
-// import * as parser from 'fast-xml-parser';
-// import { Observable } from 'rxjs/internal/Observable';
-// import { ElementList } from 'src/app/_interfaces/analysis.interface';
 
 @Component({
   selector: 'app-analysis',

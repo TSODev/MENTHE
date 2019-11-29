@@ -24,7 +24,7 @@ export class OutgoingComponent implements OnInit {
 
   ngOnInit() {
     this.linked = this.analysisService.getLinkedFlowFromElementList(this.outgoing);
-    console.log(this.outgoing , 'Linked To: ', this.linked);
+//    console.log(this.outgoing , 'Linked To: ', this.linked);
     if (typeof this.linked !== 'undefined') {
       this.haslink = true;
       this.links = this.linked;

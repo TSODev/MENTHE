@@ -98,11 +98,16 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.hasSequenceFlow = (this.sequenceFlows != null);
 
     if (this.analysisService.getTaskList(this.process.attr.id).length > 0) {
-    this.complexGateways = this.analysisService.getGatewayList(GatewayTypeFamily.COMPLEX, this.process.attr.id ) as unknown as ComplexGateway[];
-    this.eventbasedGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EVENTBASED, this.process.attr.id ) as unknown as EventBasedGateway[];
-    this.exclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EXCLUSIVE, this.process.attr.id) as unknown as ExclusiveGateway[];
-    this.inclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.INCLUSIVE, this.process.attr.id) as unknown as InclusiveGateway[];
-    this.parallelGateways = this.analysisService.getGatewayList(GatewayTypeFamily.PARALLEL, this.process.attr.id) as unknown as ParallelGateway[];
+    this.complexGateways = this.analysisService.getGatewayList(
+                GatewayTypeFamily.COMPLEX, this.process.attr.id ) as unknown as ComplexGateway[];
+    this.eventbasedGateways = this.analysisService.getGatewayList(
+                GatewayTypeFamily.EVENTBASED, this.process.attr.id ) as unknown as EventBasedGateway[];
+    this.exclusiveGateways = this.analysisService.getGatewayList(
+                GatewayTypeFamily.EXCLUSIVE, this.process.attr.id) as unknown as ExclusiveGateway[];
+    this.inclusiveGateways = this.analysisService.getGatewayList(
+                GatewayTypeFamily.INCLUSIVE, this.process.attr.id) as unknown as InclusiveGateway[];
+    this.parallelGateways = this.analysisService.getGatewayList(
+                GatewayTypeFamily.PARALLEL, this.process.attr.id) as unknown as ParallelGateway[];
     }
 
     this.hasComplexGateway = (this.complexGateways != null);

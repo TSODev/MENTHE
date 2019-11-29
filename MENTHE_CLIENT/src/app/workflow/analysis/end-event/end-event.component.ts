@@ -23,8 +23,6 @@ export class EndEventComponent implements OnInit {
 
   ngOnInit() {
     this.incomings = this.analysisService.getElementAsArray(this.endEvent.incoming);
-  //  this.linkedFlow = this.analysisService.getLinkedFlowFromProcess(this.process.endEvent.incoming, this.process);
-
   }
 
 }
