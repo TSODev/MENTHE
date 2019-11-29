@@ -74,29 +74,43 @@ export class AnalysisComponent implements OnInit, OnDestroy {
           this.processes.forEach(
             p => {
               if (typeof p.startEvent !== 'undefined') {
-                this.analysisService.announceNewElement(p.startEvent, 'StartEvent');
+                this.analysisService.announceNewElement(p.startEvent, 'StartEvent', p.attr.id);
               }
               if (typeof p.endEvent !== 'undefined') {
-                this.analysisService.announceNewElement(p.endEvent, 'EndEvent');
+                this.analysisService.announceNewElement(p.endEvent, 'EndEvent', p.attr.id);
               }
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.task), 'Standard');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.sendTask), 'Send');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.receiveTask), 'Receive');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.manualTask), 'Manual');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.scriptTask), 'Script');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.serviceTask), 'Service');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.businessruleTask), 'Business');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.callActivity), 'CallActivity');
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.task), 'Standard', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.sendTask), 'Send', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.receiveTask), 'Receive', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.manualTask), 'Manual', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.scriptTask), 'Script', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.serviceTask), 'Service', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.businessruleTask), 'Business', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.callActivity), 'CallActivity', p.attr.id);
 
 
 
 
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.complexGateway), 'Complex');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.exclusiveGateway), 'Exclusive');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.inclusiveGateway), 'Inclusive');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.parallelGateway), 'Parallel');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.eventbasedGateway), 'EventBased');
-              this.analysisService.announceNewElementArray(this.analysisService.getElementAsArray(p.sequenceFlow), 'Flow');
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.complexGateway), 'Complex', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.exclusiveGateway), 'Exclusive', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.inclusiveGateway), 'Inclusive', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.parallelGateway), 'Parallel', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.eventbasedGateway), 'EventBased', p.attr.id);
+              this.analysisService.announceNewElementArray(
+                this.analysisService.getElementAsArray(p.sequenceFlow), 'Flow', p.attr.id);
             }
           );
 
@@ -109,15 +123,6 @@ export class AnalysisComponent implements OnInit, OnDestroy {
 
 ngOnDestroy() {
   this.subs.unsubscribe();
-}
-
-clearElementList() {
-  //  console.log('LIST has been cleared !')
-  // this.ProcessList = [];
-  // this.ParticipantList = [];
-  // this.TaskList = [];
-  // this.GatewayList = [];
-  // this.FlowList = [];
 }
 
 }

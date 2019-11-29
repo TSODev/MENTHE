@@ -237,6 +237,7 @@ export class GenericTask {
   public attr: Attr_____;
   public incoming: string;
   public outgoing: string;
+  public processId: string;
 
 }
 
@@ -361,6 +362,7 @@ export class MasterTask {
   public type: TaskTypeEnumerated;
   public incoming: string;
   public outgoing: string;
+  public processId: string;
 
 }
 
@@ -394,6 +396,7 @@ export class GenericGateway {
   public attr: Attr_Gateway;
   public incoming: string;
   public outgoing: string;
+  public processId: string;
 }
 
 export class ComplexGateway {

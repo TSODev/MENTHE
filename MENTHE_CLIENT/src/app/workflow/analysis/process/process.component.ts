@@ -78,6 +78,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
     // this.hasStartEvent = (this.process.startEvent.attr.id != null);
     // this.hasEndEvent = (this.process.endEvent.attr.id != null);
 
+    console.log('[PROCESS] ', this.process.attr.id );
+
     if (this.analysisService.getStartEventList().length > 0) {
       this.hasStartEvent = true;
       this.startEvent = this.analysisService.getStartEventList()[0];
@@ -95,11 +97,13 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.sequenceFlows = this.analysisService.getFlowList();
     this.hasSequenceFlow = (this.sequenceFlows != null);
 
-    this.complexGateways = this.analysisService.getGatewayList(GatewayTypeFamily.COMPLEX) as unknown as ComplexGateway[];
-    this.eventbasedGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EVENTBASED) as unknown as EventBasedGateway[];
-    this.exclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EXCLUSIVE) as unknown as ExclusiveGateway[];
-    this.inclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.INCLUSIVE) as unknown as InclusiveGateway[];
-    this.parallelGateways = this.analysisService.getGatewayList(GatewayTypeFamily.PARALLEL) as unknown as ParallelGateway[];
+    if (this.analysisService.getTaskList(this.process.attr.id).length > 0) {
+    this.complexGateways = this.analysisService.getGatewayList(GatewayTypeFamily.COMPLEX, this.process.attr.id ) as unknown as ComplexGateway[];
+    this.eventbasedGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EVENTBASED, this.process.attr.id ) as unknown as EventBasedGateway[];
+    this.exclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.EXCLUSIVE, this.process.attr.id) as unknown as ExclusiveGateway[];
+    this.inclusiveGateways = this.analysisService.getGatewayList(GatewayTypeFamily.INCLUSIVE, this.process.attr.id) as unknown as InclusiveGateway[];
+    this.parallelGateways = this.analysisService.getGatewayList(GatewayTypeFamily.PARALLEL, this.process.attr.id) as unknown as ParallelGateway[];
+    }
 
     this.hasComplexGateway = (this.complexGateways != null);
     this.hasEventBasedGateway = (this.eventbasedGateways != null);
@@ -107,9 +111,9 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.hasInclusiveGateway = (this.inclusiveGateways != null);
     this.hasParallelGateway = (this.parallelGateways != null);
 
-    if (this.analysisService.getTaskList().length > 0) {
+    if (this.analysisService.getTaskList(this.process.attr.id).length > 0) {
       this.hasTask = true;
-      this.masterTask = this.analysisService.getTaskList();
+      this.masterTask = this.analysisService.getTaskList(this.process.attr.id);
     }
 
 //    this.analysisService.announceNewElementArray(this.masterTask, 'Task');

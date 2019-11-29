@@ -17,6 +17,7 @@ export interface ElementList {
 export interface Message {
   object: object;
   type: string;
+  processId?: string;
 }
 
 export interface EmitEvent {
