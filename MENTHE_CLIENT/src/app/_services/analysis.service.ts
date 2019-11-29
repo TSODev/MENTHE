@@ -315,8 +315,8 @@ export class AnalysisService {
   }
 
   addFlowInList(data: SequenceFlow) {
-    if (typeof data.attr.name === 'undefined') {
-      data.attr.name = data.attr.sourceRef.concat(' - ', data.attr.targetRef);
+    if (typeof data.attr.name === 'undefined' || data.attr.name === '') {
+      data.attr.name = 'from : '.concat(data.attr.sourceRef.concat(' to : ', data.attr.targetRef));
     }
     this.ElementList.flow.push(data as SequenceFlow);
   }

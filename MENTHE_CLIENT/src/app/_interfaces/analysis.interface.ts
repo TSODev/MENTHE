@@ -1,4 +1,16 @@
-import { Collaboration, Process, Participant, Task, GenericGateway, SequenceFlow, ComplexGateway, ExclusiveGateway, InclusiveGateway, EventBasedGateway, ParallelGateway } from '../_models/bpmn';
+import {
+              Collaboration,
+              Process,
+              Participant,
+              Task,
+              GenericGateway,
+              SequenceFlow,
+              ComplexGateway,
+              ExclusiveGateway,
+              InclusiveGateway,
+              EventBasedGateway,
+              ParallelGateway
+          } from '../_models/bpmn';
 
 export interface ElementList {
   coll: Collaboration[];
