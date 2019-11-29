@@ -35,17 +35,17 @@ export class AnalysisComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    const options = {
-      attributeNamePrefix: '',
-      attrNodeName: 'attr',
-      textNodeName: '#text',
-      ignoreAttributes: false,
-      ignoreNameSpace: true,
-      allowBooleanAttributes: true,
-      parseNodeValue: true,
-      parseAttributeValue: true,
-      trimValues: true,
-    };
+    // const options = {
+    //   attributeNamePrefix: '',
+    //   attrNodeName: 'attr',
+    //   textNodeName: '#text',
+    //   ignoreAttributes: false,
+    //   ignoreNameSpace: true,
+    //   allowBooleanAttributes: true,
+    //   parseNodeValue: true,
+    //   parseAttributeValue: true,
+    //   trimValues: true,
+    // };
 
     // const wfid = this.route.snapshot.params.id;
 

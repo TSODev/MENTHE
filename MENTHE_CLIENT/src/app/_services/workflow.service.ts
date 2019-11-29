@@ -15,6 +15,7 @@ import { Participant,
           GenericTask,
           SequenceFlow} from '../_models/bpmn';
 import * as parser from 'fast-xml-parser';
+import * as he from 'he';
 
 
 @Injectable()
@@ -98,6 +99,8 @@ export class WorkflowService {
       parseNodeValue: true,
       parseAttributeValue: true,
       trimValues: true,
+      attrValueProcessor: (val, attrName) => he.decode(val, {isAttributeValue: true}),//default is a=>a
+      tagValueProcessor : (val, tagName) => he.decode(val), //default is a=>a
       stopNodes: ['BPMNDiagram'],
     };
 
@@ -105,6 +108,7 @@ export class WorkflowService {
 //    this.bpmnData$ = {};
     if (parser.validate(wf.xmlcontent) === true) {
       this.bpmnData = parser.parse(wf.xmlcontent, options);
+      console.log(this.bpmnData);
     } else {
       console.log('XML parsing failure...');
     }
