@@ -26,11 +26,6 @@ import * as he from 'he';
 })
 export class AnalysisService {
 
-  private newElementSource = new Subject<Message>();
-  public newElementAnnounced$ = this.newElementSource.asObservable();
-
-  private communicationSource = new Subject<EmitEvent>();
-  public communication$ = this.communicationSource.asObservable();
 
   public collaborationList: Collaboration[] = [];
   private processList: Process[] = [];
@@ -56,108 +51,10 @@ export class AnalysisService {
 
 
   constructor() {
-    this.subs.add(
-      this.newElementAnnounced$.subscribe(
-        data => {
-          console.log('[ANALYSIS] : ', data.type, ' > ', data.object, '/', data.processId);
-          let gate: GenericGateway;
-          switch (data.type) {
-            case 'Collaboration': this.addCollaborationInList(data.object);
-                                  break;
-            case 'Process': this.addProcessInList(data.object);
-                            break;
-            case 'Participant': this.addParticipantInList(data.object);
-                                break;
-            case 'StartEvent': this.addStartEventInList(data.object);
-                               break;
-            case 'EndEvent': this.addEndEventInList(data.object);
-                             break;
-            case 'Standard': this.addTaskInList(data.object, TaskTypeEnumerated.STANDARD, data.processId);
-                             break;
-            case 'Send': this.addTaskInList(data.object, TaskTypeEnumerated.SEND, data.processId);
-                         break;
-            case 'Receive': this.addTaskInList(data.object, TaskTypeEnumerated.RECEIVE, data.processId);
-                            break;
-            case 'User': this.addTaskInList(data.object, TaskTypeEnumerated.USER, data.processId);
-                         break;
-            case 'Service': this.addTaskInList(data.object, TaskTypeEnumerated.SERVICE, data.processId);
-                            break;
-            case 'Script': this.addTaskInList(data.object, TaskTypeEnumerated.SCRIPT, data.processId);
-                           break;
-            case 'Manual': this.addTaskInList(data.object, TaskTypeEnumerated.MANUAL, data.processId);
-                           break;
-            case 'CallActivity': this.addTaskInList(data.object, TaskTypeEnumerated.CALLACTIVITY, data.processId);
-                                 break;
-            case 'Business': this.addTaskInList(data.object, TaskTypeEnumerated.BUSINESSRULE, data.processId);
-                             break;
-            case 'EventBased': this.addTaskInList(data.object, TaskTypeEnumerated.EVENTBASED, data.processId);
-                               break;
-            case 'Complex': gate = data.object as GenericGateway;
-                            gate.type = GatewayTypeFamily.COMPLEX;
-                            this.addGatewayInList(gate, data.processId);
-                            break;
-            case 'Exclusive': gate = data.object as GenericGateway;
-                              gate.type = GatewayTypeFamily.EXCLUSIVE;
-                              this.addGatewayInList(gate, data.processId);
-                              break;
-            case 'Inclusive': gate = data.object as GenericGateway;
-                              gate.type = GatewayTypeFamily.INCLUSIVE;
-                              this.addGatewayInList(gate, data.processId);
-                              break;
-            case 'EventBased': gate = data.object as GenericGateway;
-                               gate.type = GatewayTypeFamily.EVENTBASED;
-                               this.addGatewayInList(gate, data.processId);
-                               break;
-            case 'Parallel': gate = data.object as GenericGateway;
-                             gate.type = GatewayTypeFamily.PARALLEL;
-                             this.addGatewayInList(gate, data.processId);
-                             break;
-            case 'Flow': this.addFlowInList(data.object as unknown as SequenceFlow);
-                         break;
-          }
-          console.log('[LIST] : ', this.ElementList);
-        })
-    );
-
-    this.subs.add(
-      this.communication$.subscribe(
-        data => {
-          console.log('[COMMUNICATION]', data);
-          switch (data.step) {
-            case 'start': this.clearElementList();
-                          break;
-            case 'done': console.log('End of Analysis');
-                         break;
-            case 'end': break;
-          }
-        }
-      )
-    );
-
   }
 
-  emit(event: EmitEvent) {
-    this.communicationSource.next(event);
-  }
-
-  closeAnalysisService() {
+  closeService() {
     this.subs.unsubscribe();
-  }
-
-  announceNewElement(element: any, elementType: string, processId?: string) {
-    console.log('[SERVICE] annouce a new', elementType, '  ', element);
-    const message: Message = { object: element, type: elementType, processId };
-    this.newElementSource.next(message);
-  }
-
-  announceNewElementArray(element: any[], elementType: string, processId?: string) {
-    if (element !== null) {
-      element.forEach(data => {
-        console.log('[SERVICE] Annouce a new', elementType, '  ', data);
-        const message: Message = { object: data, type: elementType, processId };
-        this.newElementSource.next(message);
-      });
-    }
   }
 
   // Utilities ...
@@ -300,12 +197,15 @@ export class AnalysisService {
   }
 
   addTaskInList(data, taskType: TaskTypeEnumerated, processId?: string) {
-    let master: MasterTask;
+//    let master: MasterTask = {attr: {id: '', name: ''}, type: TaskTypeEnumerated.STANDARD, incoming: '', outgoing: '', processId: ''};
+    let master: MasterTask ;
+
     master = data;
     master.type = taskType;
     if (typeof processId !== 'undefined') {
       master.processId = processId;
     }
+
     this.ElementList.task.push(master);
   }
 

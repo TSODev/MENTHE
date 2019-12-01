@@ -4,6 +4,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { AnalysisService } from './_services/analysis.service';
 //import { Process, Participant, Task, GenericGateway, SequenceFlow } from './_models/bpmn';
 import { SubSink } from 'subsink';
+import { CommunicationService } from './_services/communication.service';
 
 export let browserRefresh = false;
 
@@ -36,35 +37,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
       private router: Router,
-      private analysisService: AnalysisService
+      private analysisService: AnalysisService,
+      private communicationService: CommunicationService,
       ) {
+
     this.subs.add(
-        this.subscription = this.router.events.subscribe((event) => {
+      this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         browserRefresh = !router.navigated;
       }
     })
     );
-
-    // this.subs.add(
-    //   this.analysisService.newElementAnnounced$.subscribe(
-    //     data => {
-    //       console.log('[COMMUNICATION] : ', data.type , ' > ', data.object);
-    //       switch (data.type) {
-    //         case 'Process': this.ProcessList.push(data.object as unknown as Process);
-    //                         break;
-    //         case 'Participant': this.ParticipantList.push(data.object as unknown as Participant);
-    //                             break;
-    //         case 'Task': this.TaskList.push(data.object as unknown as Task);
-    //                      break;
-    //         case 'Gateway': this.GatewayList.push(data.object as unknown as GenericGateway);
-    //                         break;
-    //         case 'SequenceFlow': this.FlowList.push(data.object as unknown as SequenceFlow);
-    //                              break;
-    //       }
-    //       console.log('[LIST] : ', this.ElementList);
-    //     })
-    //   );
   }
 
   ngOnInit() {
@@ -72,6 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subs.unsubscribe();
+    this.analysisService.closeService();
+    this.communicationService.closeService();
   }
 }

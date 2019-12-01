@@ -9,9 +9,7 @@
 
     <mat-divider></mat-divider>
     <div *ngFor='let process of processes'>
-      <!-- <app-process [process]='process' [participants]='partInProcess'></app-process> -->
       <app-process [process]='process' [collaboration]='collaboration'></app-process>
-
     </div>
     <mat-divider></mat-divider>
   </div>

@@ -34,6 +34,7 @@ import { MatInputModule,
           MatSnackBarModule, MatTableModule, MatPaginatorModule, MatSortModule, MatGridListModule,
           MatBadgeModule,
           MatExpansionModule,
+          MatSelectModule,
         } from '@angular/material';
 import { MainNavComponent } from './mainpage/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -132,6 +133,7 @@ import { EventbasedComponent } from './workflow/analysis/gateways/eventbased/eve
     MatSortModule,
     MatGridListModule,
     MatExpansionModule,
+    MatSelectModule
   ],
   providers: [
     AuthGuard,

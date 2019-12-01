@@ -26,6 +26,7 @@ import { TypeFamily,
 import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 import { AnalysisService } from 'src/app/_services/analysis.service';
+import { CommunicationService } from 'src/app/_services/communication.service';
 
 @Component({
   selector: 'app-process',
@@ -69,16 +70,12 @@ export class ProcessComponent implements OnInit, OnDestroy {
 
   constructor(
     private analysisService: AnalysisService,
+    private communicationService: CommunicationService,
   ) {
 
   }
 
   ngOnInit() {
-
-    // this.hasStartEvent = (this.process.startEvent.attr.id != null);
-    // this.hasEndEvent = (this.process.endEvent.attr.id != null);
-
-    console.log('[PROCESS] ', this.process.attr.id );
 
     if (this.analysisService.getStartEventList().length > 0) {
       this.hasStartEvent = true;
@@ -121,8 +118,6 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.masterTask = this.analysisService.getTaskList(this.process.attr.id);
     }
 
-//    this.analysisService.announceNewElementArray(this.masterTask, 'Task');
-    this.analysisService.emit({step: 'process_end'});
     this.datatoshow = true;
   }
 

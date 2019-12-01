@@ -4,7 +4,8 @@
     <span fxFlex="80%" (click)='manageWorkflow()'>{{ workflow.title }}</span>
     <!-- <mat-icon *ngIf="workflow.mode === 'ro'" fxFlex="7%" (click)='locked()'>lock</mat-icon>
     <mat-icon *ngIf="workflow.mode != 'ro'" fxFlex="7%" (click)='deleteWorkflow()'>delete</mat-icon> -->
-    <mat-icon (click)='analysis()'>search</mat-icon>
+    <mat-icon (click)='manageWorkflow()'>search</mat-icon>
+    <mat-icon (click)='analysis()'>publish</mat-icon>
     <mat-icon *ngIf="workflow.readonly" fxFlex="7%" (click)='locked()'>lock</mat-icon>
     <mat-icon *ngIf="!workflow.readonly" fxFlex="7%" (click)='deleteWorkflow()'>delete</mat-icon>
   </mat-card-title>

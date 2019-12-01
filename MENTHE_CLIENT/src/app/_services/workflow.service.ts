@@ -108,7 +108,6 @@ export class WorkflowService {
 //    this.bpmnData$ = {};
     if (parser.validate(wf.xmlcontent) === true) {
       this.bpmnData = parser.parse(wf.xmlcontent, options);
-      console.log(this.bpmnData);
     } else {
       console.log('XML parsing failure...');
     }

@@ -1,5 +1,5 @@
-  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-    <div fxFlex="15%" fxLayoutAlign="center">
+<div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+  <div fxFlex="15%" fxLayoutAlign="center">
     <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
     <img class="taskicon" src='assets/task_icons/Participant.png'>
   </div>
@@ -7,16 +7,36 @@
   <mat-divider></mat-divider>
   <mat-card class="matCardInfo" fxFlex="85%">
 
-    <mat-card-header>
+    <div class="divcard" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start center">
+      <div class="participant" fxFlex="45%">
+        <span>Participant : {{ participant.attr.name | uppercase }}</span>
+      </div>
+      <div class="second" fxFlex="30%">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Should be mapped to : </mat-label>
+          <mat-select  placeholder="User" formControlName='selectedUser' id='user' (selectionChange)="changeUser($event)">
+            <mat-option *ngFor="let user of users" [value]="user.user_id">
+              {{user.firstname}} {{user.lastname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div fxFlex="15%"></div>
+        <div fxFlex="5%">
+            <button mat-fab color="primary" *ngIf="!publishedOK"
+                                            [disabled]="!validationOK"
+                                            [ngClass]="isPublishValid()"
+                                            >Publish</button>
+        </div>
+        <div fxFlex="5%">
+            <button mat-fab color="secondary" *ngIf="publishedOK"
+                                              [disabled]="publishedOK"
+                                              class="status">DONE</button>
+        </div>
+        </form>
+      </div>
 
-    <mat-card-title-group>
-      <mat-card-title class="tasktitle"> Participant : {{ participant.attr.name | uppercase }}</mat-card-title>
 
-    <mat-card-subtitle></mat-card-subtitle>
-  </mat-card-title-group>
-  </mat-card-header>
-    <mat-card-content>
-
-    </mat-card-content>
+    </div>
   </mat-card>
 </div>
