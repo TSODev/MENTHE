@@ -21,4 +21,4 @@ Workflow Create / Edit with BPMN Diagrams.
  * fast-xml-parser to parse the bpmn diagram  
  * Still work on additional features...
 
- 
+ ![Dashboard]((https://github.com/TSODev/MENTHE/screenshots/dashboard.png))
