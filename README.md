@@ -2,7 +2,7 @@
 
 ---  
 
-##### _Run Server Side : cd MENTHE_SERVER/server ; npm run dev:secure_  
+##### _Run Server Side : cd MENTHE_SERVER/server ; npm run dev:secure_  (or4Dockerized server - see Dockerfile)
 ##### _Run Client Side : cd MENTHE_CLIENT ; ng serve_  
 
 ---
@@ -25,7 +25,7 @@ Workflow Create / Edit with BPMN Diagrams.
   
 | screenshots   |
 |---------------|
-| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/login.png  width="250">   |
-| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/dashboard.png  width="250">   |
-| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/bpmnDiagram.png  width="250">   |
-| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/analysis.png  width="250">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/login.png  width="450">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/dashboard.png  width="450">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/bpmnDiagram.png  width="450">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/analysis.png  width="450">   |
