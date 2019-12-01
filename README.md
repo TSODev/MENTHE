@@ -25,4 +25,7 @@ Workflow Create / Edit with BPMN Diagrams.
   
 | screenshots   |
 |---------------|
-| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/loading.png  width="250">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/login.png  width="250">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/dashboard.png  width="250">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/bpmnDiagram.png  width="250">   |
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/analysis.png  width="250">   |
