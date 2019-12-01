@@ -19,9 +19,12 @@ Workflow Create / Edit with BPMN Diagrams.
  * rbac control  
  * bpmn.io modeler and viewer  
  * fast-xml-parser to parse the bpmn diagram  
+ * Analyze bpmnDiagram entities
+ * Instantiate Workflow and Publish
  * Still work on additional features...  
  
-   
+  
+--- 
   
 | screenshots   |
 |---------------|
