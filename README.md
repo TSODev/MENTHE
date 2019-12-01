@@ -19,6 +19,10 @@ Workflow Create / Edit with BPMN Diagrams.
  * rbac control  
  * bpmn.io modeler and viewer  
  * fast-xml-parser to parse the bpmn diagram  
- * Still work on additional features...
-
- ![Dashboard]((https://github.com/TSODev/MENTHE/blob/master/screenshots/dashboard.png))
+ * Still work on additional features...  
+ 
+   
+  
+| screenshots   |
+|---------------|
+| <img src=https://github.com/TSODev/MENTHE/blob/master/screenshots/loading.png  width="250">   |
