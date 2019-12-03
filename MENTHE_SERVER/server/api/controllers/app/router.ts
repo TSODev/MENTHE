@@ -5,6 +5,7 @@ import usercontroller from './user.controller';
 import articlecontroller from './article.controller';
 import workflowcontroller from './workflow.controller';
 import variablecontroller from './variable.controler'
+import processcontroller from './process.controller';
 import { checkIfAuthenticated } from '../../../authentication/auth.middleware';
 import { checkCsrfToken } from '../../../common/csrf.middleware';
 import { checkIfAuthorized } from '../../../autorization/autorization.middleware';
@@ -41,7 +42,7 @@ export default express.Router()
 .patch('/workflow/:id', workflowcontroller.updateWorkflow)                      
 //    .get('/:id', controller.byId)
 
-// Workflow 
+// Variable
 .post('/variable', variablecontroller.createVariable)
 .get('/variables', variablecontroller.allVariables)
 .get('/variable', variablecontroller.getVariable)
@@ -52,4 +53,15 @@ variablecontroller.deleteVariable)
 .put('/variable/:id', variablecontroller.updateVariable)  
 .patch('/variable/:id', variablecontroller.updateVariable)  
 .get('/variable/byworkflow/:id', variablecontroller.getVariableByWorkFlowId)
+
+
+.post('/process', processcontroller.createProcess)
+.get('/processes', processcontroller.allProcesses)
+.get('/process', processcontroller.getProcess)
+.get('/process/:id',processcontroller.getProcessById)
+.delete('/process/:id', _.partial(checkIfAuthorized,(['ADMIN','LOCAL_ADMIN'])),
+processcontroller.deleteProcess)
+.post('/process/:id', processcontroller.createProcess)
+.put('/process/:id', processcontroller.updateProcess)  
+.patch('/process/:id', processcontroller.updateProcess) 
     ;
