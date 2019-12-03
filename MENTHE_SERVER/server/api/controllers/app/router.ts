@@ -4,6 +4,7 @@ import * as _ from 'underscore';
 import usercontroller from './user.controller';
 import articlecontroller from './article.controller';
 import workflowcontroller from './workflow.controller';
+import variablecontroller from './variable.controler'
 import { checkIfAuthenticated } from '../../../authentication/auth.middleware';
 import { checkCsrfToken } from '../../../common/csrf.middleware';
 import { checkIfAuthorized } from '../../../autorization/autorization.middleware';
@@ -39,4 +40,16 @@ export default express.Router()
 .put('/workflow/:id', workflowcontroller.updateWorkflow)  
 .patch('/workflow/:id', workflowcontroller.updateWorkflow)                      
 //    .get('/:id', controller.byId)
+
+// Workflow 
+.post('/variable', variablecontroller.createVariable)
+.get('/variables', variablecontroller.allVariables)
+.get('/variable', variablecontroller.getVariable)
+.get('/variable/:id', variablecontroller.getVariableById)
+.delete('/variable/:id', _.partial(checkIfAuthorized,(['ADMIN','LOCAL_ADMIN'])),
+variablecontroller.deleteVariable)
+.post('/variable/:id', variablecontroller.createVariable)
+.put('/variable/:id', variablecontroller.updateVariable)  
+.patch('/variable/:id', variablecontroller.updateVariable)  
+.get('/variable/byworkflow/:id', variablecontroller.getVariableByWorkFlowId)
     ;
