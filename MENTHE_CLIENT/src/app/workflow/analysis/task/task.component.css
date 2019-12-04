@@ -10,17 +10,14 @@
 }
 
 .matTask {
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin: 10px;
+  padding-bottom: 8px;
 }
 
 .statusInfo {
   background-color: red;
 }
 
-.taskInfo {
-  background-color: #eff5ef;
-}
 .waiting {
   border: 20px solid;
   border-color: transparent transparent transparent blue;

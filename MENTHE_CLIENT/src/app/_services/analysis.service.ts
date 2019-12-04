@@ -35,6 +35,7 @@ export class AnalysisService {
   private taskList: MasterTask[] = [];
   private gatewayList: GenericGateway[] = [];
   private flowList: SequenceFlow[] = [];
+  private WorkFlow: Workflow = new Workflow();
 
   public ElementList = {
     coll: this.collaborationList,
@@ -45,6 +46,7 @@ export class AnalysisService {
     task: this.taskList,
     gate: this.gatewayList,
     flow: this.flowList,
+    wf: this.WorkFlow,
   };
 
   private subs = new SubSink();
@@ -172,7 +174,7 @@ export class AnalysisService {
   }
 
   clearElementList() {
-    this.ElementList = { coll: [], proc: [], part: [], task: [], gate: [], flow: [], start: [], end: [] };
+    this.ElementList = { coll: [], proc: [], part: [], task: [], gate: [], flow: [], start: [], end: [], wf: new Workflow() };
   }
 
 
@@ -180,8 +182,9 @@ export class AnalysisService {
     this.ElementList.coll.push(data as Collaboration);
   }
 
-  addProcessInList(data) {
-    this.ElementList.proc.push(data as Process);
+  addProcessInList(data: Process, name: string) {
+//    data.attr.id = name.concat('_').concat(data.attr.id);
+    this.ElementList.proc.push(data);
   }
 
   addStartEventInList(data) {
@@ -221,6 +224,10 @@ export class AnalysisService {
       data.attr.name = 'from : '.concat(data.attr.sourceRef.concat(' to : ', data.attr.targetRef));
     }
     this.ElementList.flow.push(data as SequenceFlow);
+  }
+
+  addWorkFlowInList(data: Workflow) {
+    this.ElementList.wf = data;
   }
 
 }

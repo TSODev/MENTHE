@@ -27,6 +27,7 @@ import { WorkflowService } from 'src/app/_services/workflow.service';
 import { SubSink } from 'subsink';
 import { AnalysisService } from 'src/app/_services/analysis.service';
 import { CommunicationService } from 'src/app/_services/communication.service';
+import { Workflow } from 'src/app/_models/workflow';
 
 @Component({
   selector: 'app-process',
@@ -35,10 +36,12 @@ import { CommunicationService } from 'src/app/_services/communication.service';
 })
 export class ProcessComponent implements OnInit, OnDestroy {
 
-  @Input()
+  // @Input()
     process: Process;
   @Input()
     collaboration: Collaboration;
+  @Input()
+    workflow: Workflow;
     startEvent: StartEvent;
     endEvent: EndEvent;
 
@@ -52,6 +55,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     parallelGateways: ParallelGateway[];
     sequenceFlows: SequenceFlow[];
 
+    hasProcess = false;
     hasParticipant = false;
     hasStartEvent = false;
     hasEndEvent = false;
@@ -76,6 +80,11 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    if (this.analysisService.getProcessList().length > 0) {
+      this.hasProcess = true;
+      this.process = this.analysisService.getProcessList()[0];
+    }
 
     if (this.analysisService.getStartEventList().length > 0) {
       this.hasStartEvent = true;

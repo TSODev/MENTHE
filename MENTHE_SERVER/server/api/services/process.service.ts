@@ -2,23 +2,25 @@
 
 import l from '../../common/logger';
 import mongoose from 'mongoose';
-import { Process, ProcessSchema, IProcess } from '../models/process.model';
+import { Process, ProcessSchema, IProcess, ProcessState } from '../models/process.model';
 import { IUser } from '../models/users.model';
 
 
 class ProcessInMongoDatabase {
 
     async createProcess(data: IProcess, by: IUser) {
-        const processPerId = await db.findProcessById(data.process_id)
+        const processPerId = await db.findProcessById(data.processId)
            if (processPerId) {
                const message = "This Process id already exist in database";
                 l.error(message);
                 throw new Error(message);
            } 
-        const id = this.uuidv4();
+//        const id = this.uuidv4();
 
         let process = new Process({
-            process_id: id,
+            workflowId: data.workflowId,
+            processId: data.processId,
+            state: ProcessState.LOADING,
             name: data.name,
         });
         l.debug('Create : ',process);
@@ -27,7 +29,7 @@ class ProcessInMongoDatabase {
     }
 
    async findProcessById(processId:string){
-        return await Process.findOne({process_id: processId});
+        return await Process.findOne({processId: processId});
     }
 
     async findAllProcesss() {
@@ -36,12 +38,12 @@ class ProcessInMongoDatabase {
 
     async deleteProcess(id: string) {
         l.debug('Deleting Process Id : ', id);
-        return await Process.findOneAndDelete({process_id: id});
+        return await Process.findOneAndDelete({processId: id});
     }
 
     async updateProcess(id: string, newProcess: IProcess) {
         l.debug('Updating Process Id : ', id);
-        return await Process.findOneAndUpdate({process_id: id},newProcess);
+        return await Process.findOneAndUpdate({processId: id},newProcess);
     }
 
     uuidv4() {

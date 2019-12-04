@@ -1,10 +1,19 @@
 <div *ngFor='let link of links'>
   <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start">
-    <div fxFlex="20%"></div>
-    <mat-card-content class="linkName" fxFlex="80%" *ngIf="haslink">[ output = {{ link.attr.name }} ]</mat-card-content>
-    <!-- <mat-icon fxFlex="10%">arrow_forward</mat-icon>
-    <mat-card-content fxFlex="20%">{{ outgoing }}</mat-card-content>
-    <mat-icon fxFlex="10%" *ngIf="haslink">arrow_forward_ios</mat-icon>
-    <mat-card-content fxFlex="20%" *ngIf="haslink">{{ link.attr.targetRef }}</mat-card-content> -->
+    <div fxFlex="60%">
+      <mat-card-content class="linkName" *ngIf="haslink">[ output = {{ link.attr.name }} ]</mat-card-content>
+    </div>
+    <div class="second" fxFlex="40%">
+      <form [formGroup]="variableForm">
+        <mat-form-field>
+          <mat-label>Should be mapped to : </mat-label>
+          <mat-select placeholder="Variable" formControlName='name' id='name'>
+            <mat-option *ngFor="let variable of variables" [value]="variable.name">
+              ({{variable.direction}}) : {{variable.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
   </div> <!-- <input matInput> {{ outgoing }} -->
 </div>

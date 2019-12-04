@@ -11,6 +11,7 @@ import {
               EventBasedGateway,
               ParallelGateway
           } from '../_models/bpmn';
+import { Workflow } from '../_models/workflow';
 
 export interface ElementList {
   coll: Collaboration[];
@@ -19,6 +20,7 @@ export interface ElementList {
   task: Task[];
   gate: GenericGateway[];
   flow: SequenceFlow[];
+  wf: Workflow;
   // compgate: ComplexGateway[];
   // exclgate: ExclusiveGateway[];
   // inclgate: InclusiveGateway[];
@@ -28,6 +30,7 @@ export interface ElementList {
 
 export enum AnalysisMessagesHeaders {
   STARTANALYSIS = 'STARTANALYSIS',
+  WORKFLOW = 'WORKFLOW',
   COLLABORATION = 'COLLABORATION',
   PROCESS = 'PROCESS',
   PARTICIPANT = 'PARTICIPANT',
@@ -65,6 +68,8 @@ export enum MenthePhase {
 
 export enum MentheStep {
   START,
+  PARTICIPANT,
+  STARTEVENT,
   END,
 }
 

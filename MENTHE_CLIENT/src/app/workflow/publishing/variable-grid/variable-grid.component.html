@@ -1,0 +1,60 @@
+<div class="Grid" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+  <div fxFlex="15%" fxLayoutAlign="center">
+    <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
+    <div>
+    <mat-label>Add Variable :
+        <mat-icon (click)=addVariable()>add_circle</mat-icon>
+      </mat-label>
+
+      <div>
+        <app-variable *ngIf="mustAddVariable" [workflow]= 'workflow' [process]='process' (sentEvent)="receiveEvent($event)"></app-variable>
+      </div>
+      <div>
+        <button mat-fab color="primary" *ngIf="(!publishedOK && variableMgmtDone)" [disabled]="!validationOK"
+          [ngClass]="isPublishValid()">Publish</button>
+      </div>
+      <div>
+        <button mat-fab color="secondary" *ngIf="publishedOK" [disabled]="publishedOK" class="status">DONE</button>
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
+  <div fxFlex="85%">
+    <div>
+      <mat-toolbar color="secondary">
+        <span>Variables</span>
+      </mat-toolbar>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+
+      <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="direction">
+        <th mat-header-cell *matHeaderCellDef> Direction </th>
+        <td mat-cell *matCellDef="let element"> {{element.direction}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="defaultValue">
+        <th mat-header-cell *matHeaderCellDef> Default </th>
+        <td mat-cell *matCellDef="let element"> {{element.defaultValue}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

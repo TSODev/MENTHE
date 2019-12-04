@@ -1,3 +1,10 @@
-.matCardInfo {
-  background-color: #eff5ef;
+.Card {
+  margin: 5px;
+  padding-bottom: 8px;
 }
+.startevent {
+  margin: 5px;
+  font-size: large;
+  font-weight: 500;
+}
+

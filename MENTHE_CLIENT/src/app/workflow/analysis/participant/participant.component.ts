@@ -46,7 +46,7 @@ export class ParticipantComponent implements OnInit {
       {
         header: CommunicationMessageHeader.COMMUNICATION,
         module: Module.COMMUNICATION,
-        commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.START } }
+        commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.PARTICIPANT } }
       });
   }
 

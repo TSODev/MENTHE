@@ -8,7 +8,8 @@
 ---
 
 
- Menthe is a ***personal*** project implementing Angular / Angular Security / Node Server with Express and REST APIs / connected to a MongoDB database (cloud ou local with docker).
+ Menthe is a ***personal*** project implementing Angular / Angular Security / Node Server with Express and REST APIs.
+ It must be __connected to a MongoDB database__ (cloud ou local with docker).
  
 User registration and login	(JWT authentication).  
 Workflow Create / Edit with BPMN Diagrams. 
@@ -19,12 +20,9 @@ Workflow Create / Edit with BPMN Diagrams.
  * rbac control  
  * bpmn.io modeler and viewer  
  * fast-xml-parser to parse the bpmn diagram  
- * Analyze bpmnDiagram entities
- * Instantiate Workflow and Publish
  * Still work on additional features...  
  
-  
---- 
+   
   
 | screenshots   |
 |---------------|

@@ -1,6 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StartEvent, SequenceFlow, Process } from 'src/app/_models/bpmn';
 import { AnalysisService } from 'src/app/_services/analysis.service';
+import { CommunicationService } from 'src/app/_services/communication.service';
+import { CommunicationMessageHeader, Module } from 'src/app/_interfaces/communication.interface';
+import { MenthePhase, MentheStep } from 'src/app/_interfaces/analysis.interface';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { PublishingService } from 'src/app/_services/publishing.service';
+import { Variable } from 'src/app/_interfaces/publish.interface';
 
 @Component({
   selector: 'app-start-event',
@@ -14,16 +20,74 @@ export class StartEventComponent implements OnInit {
   @Input()
     startEvent: StartEvent;
 
+    hasVariables = false;
+    variables: Variable[] = [];
+
+    inputVariableForm: FormGroup;
+    validationOK = false;
+    publishedOK = false;
+    variableMgmtDone = false;
+    mustAddVariable = false;
+    inputType = 'Input';
+
     outgoings: SequenceFlow[];
-//    linkedFlow: SequenceFlow;
+
+    vtypes = [
+      'integer',
+      'decimal',
+      'string',
+      'boolean'
+    ];
+
 
   constructor(
+    private formBuilder: FormBuilder,
     private analysisService: AnalysisService,
-  ) { }
+    private communicationService: CommunicationService,
+    private publishingService: PublishingService,
+  ) {
+    this.inputVariableForm = this.formBuilder.group({
+      variableType: ['', Validators.required],
+      input: ['', Validators.required],
+    });
+
+    // this.publishingService.variables$.subscribe(
+    //   data => {
+    //     console.log('Publishing Service Variable : ', data);
+    //     this.variables.push(data);
+    //     this.hasVariables = this.variables.length > 0;
+    //   }
+    // );
+  }
+
 
   ngOnInit() {
 
+    this.communicationService.announce(
+      {
+        header: CommunicationMessageHeader.COMMUNICATION,
+        module: Module.COMMUNICATION,
+        commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.STARTEVENT } }
+      });
+
+    // this.variables = this.publishingService.getVariableList();
+    // this.hasVariables = (this.variables.length > 0);
+
     this.outgoings = this.analysisService.getElementAsArray(this.startEvent.outgoing);
   }
+
+  onSubmit() {
+
+  }
+
+  isPublishValid() {
+
+  }
+
+  addVariable() {
+    this.mustAddVariable = true;
+
+  }
+
 
 }

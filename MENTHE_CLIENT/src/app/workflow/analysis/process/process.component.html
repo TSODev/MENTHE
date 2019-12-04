@@ -5,11 +5,12 @@
       <span class="paneltitle"> Process : </span>
     </mat-panel-title>
     <mat-panel-description>
-      <span class="paneldescription"> name : {{ process.attr.id }} </span>
+      <span class="paneldescription"> name : {{ process.attr.id }} in {{ workflow.title }} </span>
     </mat-panel-description>
   </mat-expansion-panel-header>
 
 
+  <app-variable-grid [workflow]= 'workflow' [process]='process'></app-variable-grid>
   <div *ngIf='hasParticipant'>
     <div *ngFor='let participant of participants'>
       <app-participant [participant]='participant'></app-participant>

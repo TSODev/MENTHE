@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import 'rxjs/add/observable/of';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { CommunicationService } from 'src/app/_services/communication.service';
+import { CommunicationMessageHeader, Module } from 'src/app/_interfaces/communication.interface';
+import { AnalysisService } from 'src/app/_services/analysis.service';
+import { AnalysisMessagesHeaders } from 'src/app/_interfaces/analysis.interface';
 
 
 @Component({
@@ -25,16 +29,36 @@ export class MainDashComponent implements OnInit, OnDestroy {
 
   constructor(
     private workflowService: WorkflowService,
+    private communicationService: CommunicationService,
+    private analysisService: AnalysisService,
     private formBuilder: FormBuilder,
     private route: Router,
     private alert: AlertService
-  ) { }
+  ) {
+    this.subs.add(
+      this.workflowService.getAllWorkflow().subscribe(
+        workflows => {
+          this.workflows = workflows;
+          // this.communicationService.announce(
+          //   {
+          //     header: AnalysisMessagesHeaders.WORKFLOW,
+          //     module: Module.ANALYSIS,
+          //     commObject: {
+          //       object: workflows,
+          //     }
+          //   }
+          // );
+        }
+      )
+    );
+  }
 
   ngOnInit() {
     console.log('Dashboard Component');
     this.dashForm = this.formBuilder.group({
       filter: ['']
     });
+
     this.dashForm.controls['filter'].valueChanges.pipe(
       debounceTime(250))
       .subscribe(data => {
@@ -48,13 +72,13 @@ export class MainDashComponent implements OnInit, OnDestroy {
   }
 
   loadWorkflows() {
-    this.subs.add(
-      this.workflowService.getAllWorkflow().subscribe(
-        workflows => {
-          this.workflows = workflows;
-        }
-      )
-    );
+    // this.subs.add(
+    //   this.workflowService.getAllWorkflow().subscribe(
+    //     workflows => {
+    //       this.workflows = workflows;
+    //     }
+    //   )
+    // );
   }
 
   onDelete($event) {

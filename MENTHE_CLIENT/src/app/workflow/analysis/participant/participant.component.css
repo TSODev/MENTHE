@@ -1,3 +1,8 @@
+.Card {
+  margin: 10px;
+  padding-bottom: 8px;
+}
+
 .taskicon {
   /* background: center / contain no-repeat url('src/assets/task_icons/Task_STANDARD.png'); */
   height: 75px;
@@ -5,28 +10,7 @@
   border: none;
 }
 
-.matCardInfo {
-  background-color: #eff5ef;
-}
-
 .participant {
   margin: 5px;
-
-  border: solid;
-  border-right: 1px;
-  border-right-color: darkgreen;
-  border-right-style: solid;
-  border-left-style: none;
-  border-top-style: none;
-  border-bottom-style: none;
-  font-size: large;
-  font-weight: 500;
-}
-
-.unvalid {
-
-}
-
-.valid {
-
+  font-size: 14px;
 }

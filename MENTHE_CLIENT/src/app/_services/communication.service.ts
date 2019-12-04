@@ -3,12 +3,17 @@ import { Subject } from 'rxjs';
 import { CommunicationMessage, CommunicationMessageHeader, Module } from '../_interfaces/communication.interface';
 import { SubSink } from 'subsink';
 import { AnalysisService } from './analysis.service';
-import { MenthePhase, Message, AnalysisMessagesHeaders } from '../_interfaces/analysis.interface';
-import { GenericGateway, TaskTypeEnumerated, GatewayTypeFamily, SequenceFlow } from '../_models/bpmn';
+import { MenthePhase, Message, AnalysisMessagesHeaders, MentheStep } from '../_interfaces/analysis.interface';
+import { GenericGateway, TaskTypeEnumerated, GatewayTypeFamily, SequenceFlow, Process } from '../_models/bpmn';
 import { UserService } from './user.service';
 import { PublishingService } from './publishing.service';
 import * as _ from 'lodash';
 import { PublishMessageHeader } from '../_interfaces/publish.interface';
+import { DBVariableService } from './variable.service';
+import { DBProcessService } from './process.service';
+import { ProcessState } from '../_models/process';
+import { WfcardComponent } from '../mainpage/wfcard/wfcard.component';
+import { Workflow } from '../_models/workflow';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +32,8 @@ export class CommunicationService {
     private analysisService: AnalysisService,
     private userService: UserService,
     private publishingService: PublishingService,
+    private dbVariableService: DBVariableService,
+    private dbProcessService: DBProcessService,
   ) {
 
     this.subs.add(
@@ -60,17 +67,40 @@ export class CommunicationService {
           const processId = message.commObject.relatedToId;
           let gate: GenericGateway;
           switch (message.module) {
-            case Module.COMMUNICATION: break;
+            case Module.COMMUNICATION:
+              switch (message.header) {
+                case CommunicationMessageHeader.COMMUNICATION:
+                  switch (message.commObject.object.phase) {
+                    case (MenthePhase.PUBLISH):
+//                        if (message.commObject.object.step === MentheStep.START) {
+                          console.log('[COMMUNICATION] ElementList : ', this.analysisService.ElementList);
+//                        }
+                        break;
+                  }
+                  break;
+              }
+              break;
             case Module.ANALYSIS: {
               switch (message.header) {
                 case AnalysisMessagesHeaders.STARTANALYSIS: this.analysisService.clearElementList();
                                                             break;
+                case AnalysisMessagesHeaders.WORKFLOW:
+                  this.analysisService.addWorkFlowInList(message.commObject.object);
+                  break;
                 case AnalysisMessagesHeaders.COLLABORATION:
                   this.analysisService.addCollaborationInList(message.commObject.object);
                   break;
                 case AnalysisMessagesHeaders.PROCESS:
-                  message.commObject.object.forEach(element =>
-                    this.analysisService.addProcessInList(element));
+                  const workflow: Workflow = this.analysisService.getElementList().wf;
+                  message.commObject.object.forEach(element => {
+                                    this.analysisService.addProcessInList(element, workflow.title);
+                                    this.dbProcessService.create({
+                                                                    workflowId: message.commObject.relatedToId,
+                                                                    processId:  workflow.title.concat('_').concat(element.attr.id),
+                                                                    name: element.attr.id,
+                                                                    status: ProcessState.LOADING,
+                                                                }).subscribe();
+                                    });
                   break;
                 case AnalysisMessagesHeaders.PARTICIPANT:
                   message.commObject.object.forEach(element =>
@@ -199,6 +229,15 @@ export class CommunicationService {
                   break;
                 case PublishMessageHeader.REMOVEPARTICIPANT:
                   console.log(PublishMessageHeader.REMOVEPARTICIPANT, ' ', message.commObject);
+                  break;
+                case PublishMessageHeader.ADDVARIABLE:
+//                  message.commObject.object.workflowId = this.analysisService.getElementList().wf.workflow_id;
+                  this.dbVariableService.create(message.commObject.object).subscribe(
+                    response => {
+                      this.publishingService.addVariableInPublishList(message.commObject.object);
+                    }
+                  );
+
                   break;
               }
             }

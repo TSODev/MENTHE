@@ -69,6 +69,10 @@ import { ExclusiveComponent } from './workflow/analysis/gateways/exclusive/exclu
 import { InclusiveComponent } from './workflow/analysis/gateways/inclusive/inclusive.component';
 import { ComplexComponent } from './workflow/analysis/gateways/complex/complex.component';
 import { EventbasedComponent } from './workflow/analysis/gateways/eventbased/eventbased.component';
+import { VariableComponent } from './workflow/publishing/variable/variable.component';
+import { VariableGridComponent } from './workflow/publishing/variable-grid/variable-grid.component';
+import { DBVariableService } from './_services/variable.service';
+import { DBProcessService } from './_services/process.service';
 
 @NgModule({
   declarations: [
@@ -104,6 +108,8 @@ import { EventbasedComponent } from './workflow/analysis/gateways/eventbased/eve
     InclusiveComponent,
     ComplexComponent,
     EventbasedComponent,
+    VariableComponent,
+    VariableGridComponent,
 
   ],
   imports: [
@@ -143,6 +149,8 @@ import { EventbasedComponent } from './workflow/analysis/gateways/eventbased/eve
     ArticleService,
     CookieService,
     WorkflowService,
+    DBVariableService,
+    DBProcessService,
     { provide: HTTP_INTERCEPTORS, useClass: ApiRequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

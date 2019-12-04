@@ -1,0 +1,35 @@
+<div class="Grid">
+  <form [formGroup]="inputVariableForm">
+    <mat-form-field>
+      <mat-select placeholder="Direction" formControlName='direction'
+        (selectionChange)="changeVariableDirection($event)">
+        <mat-option *ngFor="let direction of directions" [value]="direction">
+          {{ direction | uppercase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Type" formControlName='variableType' (selectionChange)="changeVariableType($event)">
+        <mat-option *ngFor="let vtype of vtypes" [value]="vtype">
+          {{ vtype | uppercase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Default value" formControlName="defaultValue">
+    </mat-form-field>
+    <!-- <mat-form-field>
+      <input matInput placeholder="Mapped To" formControlName="mappedTo">
+      <mat-select placeholder="Mapped To" formControlName='mappedTo' (selectionChange)="changeMapped($event)">
+          <mat-option *ngFor="let flow of flows" [value]="flow">
+            {{ flow.attr.name | uppercase }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <button class="button" mat-fab color="primary" [disabled]="!inputVariableForm.valid" (click)="Submit()">OK</button>
+    <button class="button" mat-fab color="secondary" (click)="cancel()">Cancel</button>
+  </form>
+</div>

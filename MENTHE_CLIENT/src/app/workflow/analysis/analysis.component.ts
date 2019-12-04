@@ -5,7 +5,6 @@ import { WorkflowService } from 'src/app/_services/workflow.service';
 import { AnalysisService } from 'src/app/_services/analysis.service';
 import { SubSink } from 'subsink';
 import * as bpmn from 'src/app/_models/bpmn';
-import { MenthePhase, MentheStep } from 'src/app/_interfaces/analysis.interface';
 import { CommunicationService } from 'src/app/_services/communication.service';
 import { CommunicationMessage, CommunicationMessageHeader, Module } from 'src/app/_interfaces/communication.interface';
 import { AnalysisMessagesHeaders } from 'src/app/_interfaces/analysis.interface';
@@ -24,6 +23,7 @@ export class AnalysisComponent implements OnInit, OnDestroy {
   subs = new SubSink();
 
   bpmnData: bpmn.BpmnFile;
+  workflow: Workflow;
   collaboration: bpmn.Collaboration;
   process: bpmn.Process;
   processes: bpmn.Process[] = [];
@@ -42,14 +42,6 @@ export class AnalysisComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
-    //    this.communicationService.emit({phase: MenthePhase.ANALYSIS, step: MentheStep.START});
-    this.communicationService.announce(
-      {
-        header: CommunicationMessageHeader.COMMUNICATION,
-        module: Module.COMMUNICATION,
-        commObject: { object: { phase: MenthePhase.ANALYSIS, step: MentheStep.START } }
-      }
-    );
 
     this.communicationService.announce(
       {
@@ -62,11 +54,27 @@ export class AnalysisComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.workflowService.getWorkflowById(this.route.snapshot.params.id).subscribe(
         wf => {
+
+          this.workflow = wf;
+
+          this.communicationService.announce(
+            {
+              header: AnalysisMessagesHeaders.WORKFLOW,
+              module: Module.ANALYSIS,
+              commObject: { object: {
+                workflow_id: wf.workflow_id,
+                title: wf.title,
+                description: wf.description,
+                state: wf.state,
+                status: wf.status,
+               }}
+            }
+          );
+
           this.bpmnData = this.workflowService.getBPMNData(wf);
           this.jsoncontent = JSON.stringify(this.bpmnData, null, '\t');
 
           this.collaboration = this.bpmnData.definitions.collaboration;
-          //          this.communicationService.announceNewElement(this.collaboration, 'Collaboration');
           this.communicationService.announce(
             {
               header: AnalysisMessagesHeaders.COLLABORATION,
@@ -76,15 +84,17 @@ export class AnalysisComponent implements OnInit, OnDestroy {
 
           this.process = this.bpmnData.definitions.process;
           this.processes = this.analysisService.getElementAsArray(this.process);
-          //          this.communicationService.announceNewElementArray(this.processes, 'Process');
+
           this.communicationService.announce({
             header: AnalysisMessagesHeaders.PROCESS,
             module: Module.ANALYSIS,
-            commObject: { object: this.processes }
+            commObject: { object: this.processes,
+                          relatedToId: this.analysisService.getElementList().wf.workflow_id
+             },
+
           });
 
-          // this.communicationService.announceNewElementArray(
-          //     this.analysisService.getElementAsArray(this.collaboration.participant), 'Participant');
+
           this.communicationService.announce(
             {
               header: AnalysisMessagesHeaders.PARTICIPANT,
@@ -95,7 +105,7 @@ export class AnalysisComponent implements OnInit, OnDestroy {
           this.processes.forEach(
             p => {
               if (typeof p.startEvent !== 'undefined') {
-                //                this.communicationService.announceNewElement(p.startEvent, 'StartEvent', p.attr.id);
+
                 this.communicationService.announce(
                   {
                     header: AnalysisMessagesHeaders.STARTEVENT,
