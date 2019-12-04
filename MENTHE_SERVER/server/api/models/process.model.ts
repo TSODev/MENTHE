@@ -1,13 +1,24 @@
 import { Model, Schema, Document, model } from 'mongoose';
 
+export  enum ProcessState {
+    RUNNING,
+    WAITING,
+    STOPPED,
+    LOADING,
+}
+
 export interface IProcess {
-    process_id: string;
+    processId: string;
+    workflowId: string;
+    state: ProcessState;
     name: string;
 }
 export interface IProcessModel extends IProcess, Document {}
 
 export const ProcessSchema: Schema = new Schema({
-    process_id: String,
+    processId: String,
+    workflowId: String,
+    state: Number,
     name: String,
 })
 

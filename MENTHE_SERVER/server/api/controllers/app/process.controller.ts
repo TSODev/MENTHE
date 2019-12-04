@@ -18,14 +18,14 @@ export class processControler {
         const process_data = req.body;
         const userId = req['userId'];
         l.debug('Create Process by : ', userId);
-//        l.debug('Create Process : ', process_data);
+        l.debug('Create Process : ', process_data);
         try {
           const user: IUser = await dbUser.findUserById(userId.sub);
           try {
               const process = await db.createProcess(process_data, user);
               res.status(200).json({process: process});
           } catch (error) {
-              res.status(500).json({error: "Process already exist in database"});
+              res.status(204).json({error: "Process already exist in database"});
           }
         } catch (err) {
             res.status(500).json({ error: "Error when creating process"})
@@ -65,7 +65,7 @@ export class processControler {
         const userId = req['userId'];
         const user: IUser = await dbUser.findUserById(userId.sub);
         l.debug('Request for update processId:', req.params.id);
-        const process = await db.updateProcess(req.params.id, req.body, user)
+        const process = await db.updateProcess(req.params.id, req.body)
           .catch(err => res.sendStatus(500));
         res.sendStatus(204);
       }

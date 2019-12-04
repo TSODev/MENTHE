@@ -52,7 +52,7 @@ variablecontroller.deleteVariable)
 .post('/variable/:id', variablecontroller.createVariable)
 .put('/variable/:id', variablecontroller.updateVariable)  
 .patch('/variable/:id', variablecontroller.updateVariable)  
-.get('/variable/byworkflow/:id', variablecontroller.getVariableByWorkFlowId)
+.get('/variable/process/:id', variablecontroller.getVariableByProcessId)
 
 
 .post('/process', processcontroller.createProcess)

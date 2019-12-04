@@ -8,7 +8,7 @@ import { IUser } from '../models/users.model';
 
 class VariableInMongoDatabase {
 
-    async createVariable(data: IVariable, by: IUser) {
+    async createVariable(data: IVariable) {
         const variablePerId = await db.findVariableById(data.variable_id)
            if (variablePerId) {
                const message = "This Variable id already exist in database";
@@ -19,7 +19,8 @@ class VariableInMongoDatabase {
 
         let variable = new Variable({
             variable_id: id,
-            workflow_id: data.workflow_id,
+            workflowId: data.workflowId,
+            processId: data.processId,
             name: data.name,
             defaultValue: data.defaultValue,
             type: data.type,
@@ -48,8 +49,8 @@ class VariableInMongoDatabase {
         return await Variable.findOneAndUpdate({variable_id: id},newVariable);
     }
 
-    async findVariableByWorkFlowId(id: string) {
-        return await Variable.find({workflow_id: id});
+    async findVariableByProcessId(id: string) {
+        return await Variable.find({process_id: id});
     }
 
     uuidv4() {

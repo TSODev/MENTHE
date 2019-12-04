@@ -18,11 +18,11 @@ export class variableControler {
         const variable_data = req.body;
         const userId = req['userId'];
         l.debug('Create Variable by : ', userId);
-//        l.debug('Create Variable : ', variable_data);
+        l.debug('Create Variable : ', variable_data);
         try {
           const user: IUser = await dbUser.findUserById(userId.sub);
           try {
-              const variable = await db.createVariable(variable_data, user);
+              const variable = await db.createVariable(variable_data);
               res.status(200).json({variable: variable});
           } catch (error) {
               res.status(500).json({error: "Variable already exist in database"});
@@ -54,10 +54,10 @@ export class variableControler {
         }
       }
 
-      async getVariableByWorkFlowId(req: Request, res: Response){
+      async getVariableByProcessId(req: Request, res: Response){
           const id = req.params['id'];
           l.debug("looking for All Variable in Workflow Id: ", id);
-          const variables: IVariable[] = await db.findVariableByWorkFlowId(id);
+          const variables: IVariable[] = await db.findVariableByProcessId(id);
           if (variables) {
               res.status(200).json({variables: variables});
           } else {
