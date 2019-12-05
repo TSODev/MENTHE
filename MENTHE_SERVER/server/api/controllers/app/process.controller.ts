@@ -69,6 +69,13 @@ export class processControler {
           .catch(err => res.sendStatus(500));
         res.sendStatus(204);
       }
+
+      async insertOwnerInProcess(req: Request, res: Response) {
+        l.debug('Request for insert in processId:', req.params.id);
+        const process = await db.insertOwner(req.params.id, req.body)
+          .catch(err => res.sendStatus(500))
+        res.sendStatus(204);
+      }
 }
 
 export default new processControler();

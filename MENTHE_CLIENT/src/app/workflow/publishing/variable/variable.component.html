@@ -1,13 +1,13 @@
 <div class="Grid">
   <form [formGroup]="inputVariableForm">
-    <mat-form-field>
+    <!-- <mat-form-field>
       <mat-select placeholder="Direction" formControlName='direction'
         (selectionChange)="changeVariableDirection($event)">
         <mat-option *ngFor="let direction of directions" [value]="direction">
           {{ direction | uppercase }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field>
       <mat-select placeholder="Type" formControlName='variableType' (selectionChange)="changeVariableType($event)">
         <mat-option *ngFor="let vtype of vtypes" [value]="vtype">

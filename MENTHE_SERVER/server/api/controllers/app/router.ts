@@ -64,4 +64,5 @@ processcontroller.deleteProcess)
 .post('/process/:id', processcontroller.createProcess)
 .put('/process/:id', processcontroller.updateProcess)  
 .patch('/process/:id', processcontroller.updateProcess) 
+.put('/process/owner/:id', processcontroller.insertOwnerInProcess)
     ;

@@ -7,6 +7,7 @@ export enum VariableType {
 }
 
 export enum VariableDirection {
+  NONE = '',
   INPUT = 'INPUT',
   OUTPUT = 'OUTPUT',
 }
@@ -31,4 +32,6 @@ export enum PublishMessageHeader {
   REMOVEPARTICIPANT = 'REMOVEPARTICIPANT',
   CHANGEPARTICIPANT = 'CHANGEPARTICIPANT',
   ADDVARIABLE = 'ADDVARIABLE',
+  ADDMAPPING = 'ADDMAPPING',
+  CHANGEMAPPING = 'CHANGEMAPPING',
 }

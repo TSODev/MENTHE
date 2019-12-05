@@ -1,4 +1,5 @@
 import { Model, Schema, Document, model } from 'mongoose';
+import { IUser } from './users.model';
 
 export  enum ProcessState {
     RUNNING,
@@ -12,6 +13,7 @@ export interface IProcess {
     workflowId: string;
     state: ProcessState;
     name: string;
+    owner: IUser;
 }
 export interface IProcessModel extends IProcess, Document {}
 

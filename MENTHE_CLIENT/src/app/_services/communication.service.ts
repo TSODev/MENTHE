@@ -103,8 +103,9 @@ export class CommunicationService {
                                     });
                   break;
                 case AnalysisMessagesHeaders.PARTICIPANT:
-                  message.commObject.object.forEach(element =>
-                    this.analysisService.addParticipantInList(element));
+                  message.commObject.object.forEach(element => {
+                    this.analysisService.addParticipantInList(element);
+                  });
                   break;
                 case AnalysisMessagesHeaders.STARTEVENT:
                   this.analysisService.addStartEventInList(message.commObject.object);

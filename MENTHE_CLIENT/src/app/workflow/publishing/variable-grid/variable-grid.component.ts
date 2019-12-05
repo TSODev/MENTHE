@@ -23,7 +23,7 @@ export class VariableGridComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-  displayedColumns: string[] = ['name', 'direction', 'type', 'defaultValue'];
+  displayedColumns: string[] = ['name', 'type', 'defaultValue'];
   dataSource: Variable[] = [];
 
   variableForm: FormGroup;
@@ -45,13 +45,15 @@ export class VariableGridComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.publishingService.variables$.subscribe(
         variable => {
-          if ((variable.processId === this.process.attr.id) && (variable.workflowId === this.workflow.workflow_id)) {
-            console.log('[GRID] Receive new row ', variable);
-            this.variables.push(variable);
-            this.mustAddVariable = false;
-            const cloned = [...this.dataSource];
-            this.dataSource = cloned;
-          }
+          if (variable.workflowId === this.workflow.workflow_id) {
+              if (variable.processId === this.process.attr.id) {
+                console.log('[GRID] Receive new row ', variable);
+                this.variables.push(variable);
+                this.mustAddVariable = false;
+                const cloned = [...this.variables];
+                this.dataSource = cloned;
+              }
+            }
         }
       )
     );

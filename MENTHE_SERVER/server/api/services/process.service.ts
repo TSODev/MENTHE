@@ -2,7 +2,7 @@
 
 import l from '../../common/logger';
 import mongoose from 'mongoose';
-import { Process, ProcessSchema, IProcess, ProcessState } from '../models/process.model';
+import { Process, ProcessSchema, IProcess, ProcessState, IProcessModel } from '../models/process.model';
 import { IUser } from '../models/users.model';
 
 
@@ -44,6 +44,20 @@ class ProcessInMongoDatabase {
     async updateProcess(id: string, newProcess: IProcess) {
         l.debug('Updating Process Id : ', id);
         return await Process.findOneAndUpdate({processId: id},newProcess);
+    }
+
+    async insertOwner(id: string, owner: IUser) {
+        let result: Promise<IProcessModel>
+        l.debug('Add Owner in Process : ', id, '-', owner);
+        this.findProcessById(id).then(
+            p => {
+                p.owner = owner;
+                result = this.updateProcess(id, p);
+            }
+        ).catch (
+            e => l.debug(e)
+        );
+        return result;
     }
 
     uuidv4() {

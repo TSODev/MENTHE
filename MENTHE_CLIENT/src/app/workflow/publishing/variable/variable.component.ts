@@ -84,7 +84,7 @@ export class VariableComponent implements OnInit, OnDestroy {
         module: Module.PUBLISH,
         commObject: {
           object: {
-            direction: this.inputVariableForm.controls.direction.value,
+            direction: VariableDirection.NONE,
             type: this.inputVariableForm.controls.variableType.value,
             name: this.inputVariableForm.controls.name.value,
             defaultValue: this.inputVariableForm.controls.defaultValue.value,

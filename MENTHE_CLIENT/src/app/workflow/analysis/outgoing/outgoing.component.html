@@ -7,9 +7,9 @@
       <form [formGroup]="variableForm">
         <mat-form-field>
           <mat-label>Should be mapped to : </mat-label>
-          <mat-select placeholder="Variable" formControlName='name' id='name'>
+          <mat-select placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
             <mat-option *ngFor="let variable of variables" [value]="variable.name">
-              ({{variable.direction}}) : {{variable.name}}
+              <span>{{variable.name}}</span>
             </mat-option>
           </mat-select>
         </mat-form-field>

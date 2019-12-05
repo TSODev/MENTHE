@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AnalysisService } from 'src/app/_services/analysis.service';
 import { SequenceFlow } from 'src/app/_models/bpmn';
-import { Variable } from 'src/app/_interfaces/publish.interface';
+import { Variable, PublishMessageHeader, VariableDirection, VariableType } from 'src/app/_interfaces/publish.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PublishingService } from 'src/app/_services/publishing.service';
 import { SubSink } from 'subsink';
 import { Observable } from 'rxjs';
+import { CommunicationService } from 'src/app/_services/communication.service';
+import { Module } from 'src/app/_interfaces/communication.interface';
 
 @Component({
   selector: 'app-outgoing',
@@ -26,6 +28,8 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     variableForm: FormGroup;
     variables: Variable[] = [];
     variables$: Observable<Variable>;
+    varValue = 'Not Mapped';
+    oldvarValue = this.varValue;
 
     subs = new SubSink();
 
@@ -33,6 +37,7 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private analysisService: AnalysisService,
     private publishingService: PublishingService,
+    private communicationService: CommunicationService,
   ) {
     this.variableForm = this.formBuilder.group({
       variableType: ['', Validators.required],
@@ -57,8 +62,44 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     }
     const workflowId = this.analysisService.getElementList().wf.workflow_id;
     const processes = this.analysisService.getElementList().proc;
-    this.variables = this.variables.filter(w => w.workflowId === workflowId);
+    // this.variables.push({
+    //   variableId: '',
+    //   processId: '',
+    //   workflowId,
+    //   direction: VariableDirection.NONE,
+    //   type: VariableType.STRING,
+    //   name: null,
+    //   defaultValue: '',
+    // });
+    this.variables = this.variables.filter(w => w.workflowId === workflowId).sort();
   }
+
+  onChange() {
+//    console.log('[Outgoing Mapped Value] :', this.varValue);
+    if (this.varValue === '') {}
+    if (this.oldvarValue === 'Not Mapped') {
+        this.oldvarValue = this.varValue;
+        this.communicationService.announce(
+          {
+            header: PublishMessageHeader.ADDMAPPING,
+            module: Module.PUBLISH,
+            commObject: { object: this.varValue ,
+                          relatedToId: this.outgoing}
+          }
+        );
+    } else {
+      this.communicationService.announce(
+        {
+          header: PublishMessageHeader.CHANGEMAPPING,
+          module: Module.PUBLISH,
+          commObject: { object: { old: this.oldvarValue, new: this.varValue },
+                        relatedToId: this.outgoing}
+        }
+      );
+      this.oldvarValue = this.varValue;
+    }
+  }
+
 
   ngOnDestroy() {
     this.subs.unsubscribe();

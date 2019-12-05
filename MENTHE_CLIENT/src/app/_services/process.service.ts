@@ -6,6 +6,7 @@ import { DBProcess } from '../_models/process';
 import { map, partition } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { UserService } from './user.service';
+import { User } from '../_models/user';
 
 
 @Injectable()
@@ -60,5 +61,15 @@ export class DBProcessService {
       }));
   }
 
+  insertOwner(id: string, owner: User) {
+    return this.http.put(environment.APIEndpoint + '/api/v1/process/owner' + id, owner, {
+      observe: 'response',
+      responseType: 'text'
+    })
+      .pipe(map(response => {
+        console.log(response);
+        return response;
+      }));
+  }
 
 }
