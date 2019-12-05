@@ -73,6 +73,7 @@ import { VariableComponent } from './workflow/publishing/variable/variable.compo
 import { VariableGridComponent } from './workflow/publishing/variable-grid/variable-grid.component';
 import { DBVariableService } from './_services/variable.service';
 import { DBProcessService } from './_services/process.service';
+import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { DBProcessService } from './_services/process.service';
     EventbasedComponent,
     VariableComponent,
     VariableGridComponent,
+    BasicviewerComponent,
 
   ],
   imports: [

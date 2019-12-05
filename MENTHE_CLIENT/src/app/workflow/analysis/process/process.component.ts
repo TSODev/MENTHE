@@ -28,6 +28,7 @@ import { SubSink } from 'subsink';
 import { AnalysisService } from 'src/app/_services/analysis.service';
 import { CommunicationService } from 'src/app/_services/communication.service';
 import { Workflow } from 'src/app/_models/workflow';
+import * as Viewer from 'bpmn-js/dist/bpmn-viewer.development.js';
 
 @Component({
   selector: 'app-process',
@@ -66,7 +67,9 @@ export class ProcessComponent implements OnInit, OnDestroy {
     hasParallelGateway = false;
     hasTask = false;
     hasSequenceFlow = false;
+    hasToDisplayWorkflow = false;
 
+    viewer: Viewer;
 
     masterTask: MasterTask[] = [];
 
@@ -130,9 +133,21 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.datatoshow = true;
   }
 
+  displayWorkflow() {
+    console.log('Please display workflow !');
+    if (this.hasToDisplayWorkflow) {
+      this.viewworkflow(this.workflow);
+    }
+    this.hasToDisplayWorkflow = !this.hasToDisplayWorkflow;
+  }
 
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  viewworkflow(wf: Workflow) {
+
+
   }
 }

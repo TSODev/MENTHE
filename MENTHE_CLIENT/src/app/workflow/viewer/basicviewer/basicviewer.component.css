@@ -1,0 +1,10 @@
+
+.diagram-container {
+  height: 100%;
+  width: 100%;
+}
+
+.viewer {
+  height: 350px;
+  width: 100%;
+}

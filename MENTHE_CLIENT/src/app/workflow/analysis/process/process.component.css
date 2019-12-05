@@ -11,3 +11,14 @@
   font-weight: 300;
   font-size:  large;
 }
+
+
+.diagram-container {
+  height: 100%;
+  width: 100%;
+}
+
+.viewer {
+  background-color: whitesmoke;
+}
+

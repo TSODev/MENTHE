@@ -28,8 +28,15 @@
           <mat-card-content>
             <app-incoming [incoming]='task.incoming'></app-incoming>
             <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
+            <mat-divider></mat-divider>
+            <div>
+              <span> Description : </span>
+              <span> Instructions : </span>
+              <span> Assigned To : </span>
+            </div>
           </mat-card-content>
         </mat-card>
+
       </div>
     </div>
   </mat-card>

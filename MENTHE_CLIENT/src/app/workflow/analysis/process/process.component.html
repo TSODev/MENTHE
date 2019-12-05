@@ -9,6 +9,21 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
+  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+      <mat-toolbar color="secondary">
+        <span fxFlex="95%">Workflow : {{ workflow.title }}</span>
+        <span fxFlex="5%">
+          <mat-icon (click)='displayWorkflow()'>search</mat-icon>
+        </span>
+      </mat-toolbar>
+  </div>
+  <div class='viewer' *ngIf="hasToDisplayWorkflow">
+    <app-basicviewer [workflow]='workflow'></app-basicviewer>
+<!-- <div class=viewer fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around stretch">
+  <div fxFlex="80%" fxFlexAlign="stretch" id='canvas' class=diagram-container></div>
+  <div fxFlex="20%" fxFlexAlign="stretch" id="properties-panel-parent" class=properties-panel-container></div>
+</div> -->
+  </div>
 
   <app-variable-grid [workflow]= 'workflow' [process]='process'></app-variable-grid>
   <div *ngIf='hasParticipant'>
