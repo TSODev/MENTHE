@@ -212,10 +212,11 @@ export class AnalysisService {
     this.ElementList.task.push(master);
   }
 
-  addGatewayInList(data: GenericGateway, processId?: string) {
+  addGatewayInList(type: GatewayTypeFamily, data: GenericGateway, processId?: string) {
     if (typeof processId !== 'undefined') {
       data.processId = processId;
     }
+    data.type = type;
     this.ElementList.gate.push(data);
   }
 

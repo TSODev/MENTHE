@@ -11,7 +11,8 @@ export class ParallelComponent implements OnInit {
 
   @Input()
   gateway: ParallelGateway;
-  taskIcon = 'assets/task_icons/Gateway_EXCLUSIVE.png';
+  taskIcon = 'assets/task_icons/Gateway_PARALLEL.png';
+  type = '';
 
   incomings: SequenceFlow[];
   outgoings: SequenceFlow[];
@@ -21,6 +22,7 @@ export class ParallelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+      this.type = 'PARALLEL';
       this.incomings = this.analysisService.getElementAsArray(this.gateway.incoming);
       this.outgoings = this.analysisService.getElementAsArray(this.gateway.outgoing);
   }

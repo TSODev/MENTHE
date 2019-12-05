@@ -12,6 +12,7 @@ export class InclusiveComponent implements OnInit {
   @Input()
   gateway: InclusiveGateway;
   taskIcon = 'assets/task_icons/Gateway_INCLUSIVE.png';
+  type = '';
 
   incomings: SequenceFlow[];
   outgoings: SequenceFlow[];
@@ -21,6 +22,7 @@ export class InclusiveComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.type = 'INCLUSIVE';
     this.incomings = this.analysisService.getElementAsArray(this.gateway.incoming);
     this.outgoings = this.analysisService.getElementAsArray(this.gateway.outgoing);
   }

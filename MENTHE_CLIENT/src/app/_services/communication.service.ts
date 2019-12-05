@@ -176,35 +176,35 @@ export class CommunicationService {
                   message.commObject.object.forEach(element => {
                     gate = element;
                     gate.type = GatewayTypeFamily.COMPLEX;
-                    this.analysisService.addGatewayInList(gate, message.commObject.relatedToId);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.COMPLEX, gate, message.commObject.relatedToId);
                   });
                   break;
                 case AnalysisMessagesHeaders.EXCLUSIVE:
                   message.commObject.object.forEach(element => {
                     gate = element;
                     gate.type = GatewayTypeFamily.EXCLUSIVE;
-                    this.analysisService.addGatewayInList(gate, message.commObject.relatedToId);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.EXCLUSIVE, gate, message.commObject.relatedToId);
                   });
                   break;
                 case AnalysisMessagesHeaders.INCLUSIVE:
                   message.commObject.object.forEach(element => {
                     gate = element;
                     gate.type = GatewayTypeFamily.INCLUSIVE;
-                    this.analysisService.addGatewayInList(gate, message.commObject.relatedToId);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.INCLUSIVE, gate, message.commObject.relatedToId);
                   });
                   break;
                 case AnalysisMessagesHeaders.EVENTBASED:
                   message.commObject.object.forEach(element => {
                     gate = element;
                     gate.type = GatewayTypeFamily.EVENTBASED;
-                    this.analysisService.addGatewayInList(gate, message.commObject.relatedToId);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.EVENTBASED, gate, message.commObject.relatedToId);
                   });
                   break;
                 case AnalysisMessagesHeaders.PARALLEL:
                   message.commObject.object.forEach(element => {
                     gate = element;
                     gate.type = GatewayTypeFamily.PARALLEL;
-                    this.analysisService.addGatewayInList(gate, message.commObject.relatedToId);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.PARALLEL, gate, message.commObject.relatedToId);
                   });
                   break;
                 case AnalysisMessagesHeaders.FLOW:
