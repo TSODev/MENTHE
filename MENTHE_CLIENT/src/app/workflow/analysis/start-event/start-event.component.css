@@ -8,3 +8,11 @@
   font-weight: 500;
 }
 
+
+.taskicon {
+  /* background: center / contain no-repeat url('src/assets/task_icons/Task_STANDARD.png'); */
+  height: 40px;
+  width: 55px;
+  border: none;
+}
+

@@ -1,13 +1,15 @@
-<div class="Card" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-  <div fxFlex="15%" fxLayoutAlign="center">
-    <img class="taskicon" src='assets/task_icons/StartEvent.png'>
-  </div>
+<div class="Card">
 
   <mat-divider></mat-divider>
-  <div fxFlex="85%">
+  <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
       <mat-toolbar color="secondary">
-          <span>Start Event</span>
-        </mat-toolbar>
+        <span fxFlex="95%">Start Event</span>
+        <span fxFlex="5%">
+          <img class="taskicon" src='assets/task_icons/StartEvent.png'>
+        </span>
+      </mat-toolbar>
+    </div>
+    <div>
     <mat-card class=" matCardInfo">
       <div class="divcard" >
           <mat-card-subtitle class="startevent">{{ startEvent.attr.name | uppercase }}</mat-card-subtitle>

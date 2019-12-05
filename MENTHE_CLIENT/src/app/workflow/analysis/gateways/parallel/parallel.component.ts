@@ -4,14 +4,14 @@ import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-parallel',
-  templateUrl: './parallel.component.html',
-  styleUrls: ['./parallel.component.css']
+  templateUrl: '../gateway.component.html',
+  styleUrls: ['../gateway.component.css']
 })
 export class ParallelComponent implements OnInit {
 
   @Input()
   gateway: ParallelGateway;
-  taskIcon = '';
+  taskIcon = 'assets/task_icons/Gateway_EXCLUSIVE.png';
 
   incomings: SequenceFlow[];
   outgoings: SequenceFlow[];

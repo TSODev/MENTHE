@@ -4,14 +4,14 @@ import { AnalysisService } from 'src/app/_services/analysis.service';
 
 @Component({
   selector: 'app-inclusive',
-  templateUrl: './inclusive.component.html',
-  styleUrls: ['./inclusive.component.css']
+  templateUrl: '../gateway.component.html',
+  styleUrls: ['../gateway.component.css']
 })
 export class InclusiveComponent implements OnInit {
 
   @Input()
   gateway: InclusiveGateway;
-  taskIcon = '';
+  taskIcon = 'assets/task_icons/Gateway_INCLUSIVE.png';
 
   incomings: SequenceFlow[];
   outgoings: SequenceFlow[];

@@ -1,38 +1,36 @@
-<div class="Card" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-  <div fxFlex="15%" fxLayoutAlign="center">
-    <!-- <img class="taskicon" src='assets/task_icons/Task_STANDARD.png'> -->
-    <img class="taskicon" src='{{ taskIcon }}'>
-  </div>
+<div class="Card">
 
   <mat-divider></mat-divider>
-  <div fxFlex="85%">
-      <mat-toolbar color="secondary">
-        <span>Task</span>
-      </mat-toolbar>
+  <div fxLayout=" row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+  <mat-toolbar color="secondary">
+    <span fxFlex="95%">Task</span>
+    <span fxFlex="5%">
+      <img class="taskicon" src='{{ taskIcon }}'>
+    </span>
+  </mat-toolbar>
+  </div>
+  <div>
+  <mat-card class="matCardInfo">
+    <div class="divcard" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start center">
+      <div class="participant" fxFlex="100%">
+        <!-- <mat-card class="taskInfo" [ngClass]="{'waiting': status === 1000}"> -->
+        <mat-card class="taskInfo">
 
+          <mat-card-header>
 
-      <mat-card class="matCardInfo">
-        <div class="divcard" fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start center">
-          <div class="participant" fxFlex="100%">
-            <!-- <mat-card class="taskInfo" [ngClass]="{'waiting': status === 1000}"> -->
-            <mat-card class="taskInfo">
-
-              <mat-card-header>
-
-              <mat-card-title-group>
-                <mat-card-title class="tasktitle"> Task : {{ task.attr.name | uppercase }}   ({{ task.attr.id }})</mat-card-title>
+            <mat-card-title-group>
+              <mat-card-title class="tasktitle"> Task : {{ task.attr.name | uppercase }} ({{ task.attr.id }})
+              </mat-card-title>
 
               <mat-card-subtitle>[ {{ task.type }} ]</mat-card-subtitle>
             </mat-card-title-group>
-            </mat-card-header>
-              <mat-card-content>
-                  <app-incoming [incoming]='task.incoming'></app-incoming>
-                  <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </div>
-      </mat-card>
+          </mat-card-header>
+          <mat-card-content>
+            <app-incoming [incoming]='task.incoming'></app-incoming>
+            <app-outgoing [outgoing]='task.outgoing'></app-outgoing>
+          </mat-card-content>
+        </mat-card>
       </div>
-  </div>
-
+    </div>
+  </mat-card>
+</div>

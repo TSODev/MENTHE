@@ -1,7 +1,3 @@
-.Card {
-  margin: 10px;
-  padding-bottom: 8px;
-}
 
 .taskicon {
   /* background: center / contain no-repeat url('src/assets/task_icons/Task_STANDARD.png'); */
@@ -10,10 +6,16 @@
   border: none;
 }
 
-.participant {
-  margin: 5px;
-  font-size: 14px;
+.matGateway {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
+
+.Card {
+  margin: 10px;
+  padding-bottom: 8px;
+}
+
 fill-remaining-space {
   /* This fills the remaining space, by using flexbox.
      Every toolbar row uses a flexbox row layout. */
