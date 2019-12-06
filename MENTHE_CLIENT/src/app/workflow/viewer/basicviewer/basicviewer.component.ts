@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as Viewer from 'bpmn-js/dist/bpmn-viewer.development.js';
 import { Workflow } from 'src/app/_models/workflow';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-basicviewer',
@@ -13,7 +14,9 @@ export class BasicviewerComponent implements OnInit {
   workflow: Workflow;
 
   viewer = new Viewer();
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.viewer = new Viewer({
@@ -29,6 +32,13 @@ export class BasicviewerComponent implements OnInit {
       canvas.zoom('fit-viewport');
 
     });
+  }
+
+  canvasClick() {                       // ToDo : Add a dialog to confirm user want to edit the diagram
+    if (this.workflow.readonly === false) {
+      this.router.navigate([('/workflow/edit/').concat(this.workflow.workflow_id)]);
+    }
+
   }
 
 }
