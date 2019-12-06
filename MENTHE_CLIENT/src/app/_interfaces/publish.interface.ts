@@ -22,12 +22,18 @@ export class Variable {
   defaultValue: any;
 }
 
+export class Mapping {
+  flowId: string;
+  mappedTo: Variable;
+}
+
 export interface PublishList {
   object: any;
   role: string;
 }
 
 export enum PublishMessageHeader {
+  STARTPUBLISHING = 'STARTPUBLISHING',
   ADDPARTICIPANT = 'ADDPARTICIPANT',
   REMOVEPARTICIPANT = 'REMOVEPARTICIPANT',
   CHANGEPARTICIPANT = 'CHANGEPARTICIPANT',
@@ -35,4 +41,5 @@ export enum PublishMessageHeader {
   ADDMAPPING = 'ADDMAPPING',
   CHANGEMAPPING = 'CHANGEMAPPING',
   ALIAS = 'ALIAS',
+  ENDPUBLISHING = 'ENDPUBLISHING',
 }

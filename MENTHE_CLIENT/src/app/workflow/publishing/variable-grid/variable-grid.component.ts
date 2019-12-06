@@ -47,7 +47,7 @@ export class VariableGridComponent implements OnInit, OnDestroy {
         variable => {
           if (variable.workflowId === this.workflow.workflow_id) {
               if (variable.processId === this.process.attr.id) {
-                console.log('[GRID] Receive new row ', variable);
+//                console.log('[GRID] Receive new row ', variable);
                 this.variables.push(variable);
                 this.mustAddVariable = false;
                 const cloned = [...this.variables];

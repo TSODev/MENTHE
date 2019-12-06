@@ -17,7 +17,7 @@
         <span>{{ participant.attr.name | uppercase }}</span>
       </div>
       <div class="second" fxFlex="50%">
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="userForm">
         <mat-form-field>
           <mat-label>Should be mapped to : </mat-label>
           <mat-select  placeholder="User" formControlName='selectedUser' id='user' (selectionChange)="changeUser($event)">

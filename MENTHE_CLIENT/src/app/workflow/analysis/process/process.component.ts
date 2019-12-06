@@ -29,6 +29,10 @@ import { AnalysisService } from 'src/app/_services/analysis.service';
 import { CommunicationService } from 'src/app/_services/communication.service';
 import { Workflow } from 'src/app/_models/workflow';
 import * as Viewer from 'bpmn-js/dist/bpmn-viewer.development.js';
+import { AlertService } from 'src/app/_services';
+import { Router } from '@angular/router';
+import { Module } from 'src/app/_interfaces/communication.interface';
+import { PublishMessageHeader } from 'src/app/_interfaces/publish.interface';
 
 @Component({
   selector: 'app-process',
@@ -76,6 +80,8 @@ export class ProcessComponent implements OnInit, OnDestroy {
   subs = new SubSink();
 
   constructor(
+    private router: Router,
+    private alertService: AlertService,
     private analysisService: AnalysisService,
     private communicationService: CommunicationService,
   ) {
@@ -83,6 +89,14 @@ export class ProcessComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.communicationService.announce(
+      {
+        module: Module.PUBLISH,
+        header: PublishMessageHeader.STARTPUBLISHING,
+        commObject: {object: {}}
+      }
+    );
 
     if (this.analysisService.getProcessList().length > 0) {
       this.hasProcess = true;
@@ -92,11 +106,15 @@ export class ProcessComponent implements OnInit, OnDestroy {
     if (this.analysisService.getStartEventList().length > 0) {
       this.hasStartEvent = true;
       this.startEvent = this.analysisService.getStartEventList()[0];
+    } else {
+      this.alertService.error('It is mandatory to have a Start Event in a workflow !', true);
     }
 
     if (this.analysisService.getEndEventList().length > 0) {
       this.hasEndEvent = true;
       this.endEvent = this.analysisService.getEndEventList()[0];
+    } else {
+      this.alertService.error('It is mandatory to have a End Event in a workflow !', true);
     }
 
     this.participants = this.analysisService.getParticipantList() as unknown as Participant[];
@@ -130,11 +148,18 @@ export class ProcessComponent implements OnInit, OnDestroy {
       this.masterTask = this.analysisService.getTaskList(this.process.attr.id);
     }
 
+    this.communicationService.announce(
+      {
+        module: Module.PUBLISH,
+        header: PublishMessageHeader.ENDPUBLISHING,
+        commObject: {object: {}}
+      }
+    );
+
     this.datatoshow = true;
   }
 
   displayWorkflow() {
-    console.log('Please display workflow !');
     if (this.hasToDisplayWorkflow) {
       this.viewworkflow(this.workflow);
     }

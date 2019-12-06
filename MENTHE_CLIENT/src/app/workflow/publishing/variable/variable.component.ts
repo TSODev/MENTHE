@@ -39,7 +39,7 @@ export class VariableComponent implements OnInit, OnDestroy {
   directions = [
     'INPUT',
     'OUTPUT',
-  ]
+  ];
   isFormValid = false;
 
   subs = new SubSink();
@@ -51,7 +51,7 @@ export class VariableComponent implements OnInit, OnDestroy {
     private publishingService: PublishingService
   ) {
     this.inputVariableForm = this.formBuilder.group({
-      direction: ['', Validators.required],
+      direction: [''],
       variableType: ['', Validators.required],
       name: ['', Validators.required],
       defaultValue: [''],

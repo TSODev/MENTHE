@@ -68,17 +68,17 @@ export class CommunicationService {
           let gate: GenericGateway;
           switch (message.module) {
             case Module.COMMUNICATION:
-              switch (message.header) {
-                case CommunicationMessageHeader.COMMUNICATION:
-                  switch (message.commObject.object.phase) {
-                    case (MenthePhase.PUBLISH):
-//                        if (message.commObject.object.step === MentheStep.START) {
-                          console.log('[COMMUNICATION] ElementList : ', this.analysisService.ElementList);
-//                        }
-                        break;
-                  }
-                  break;
-              }
+//               switch (message.header) {
+//                 case CommunicationMessageHeader.COMMUNICATION:
+//                   switch (message.commObject.object.phase) {
+//                     case (MenthePhase.PUBLISH):
+// //                        if (message.commObject.object.step === MentheStep.START) {
+//                           console.log('[COMMUNICATION] ElementList : ', this.analysisService.ElementList);
+// //                        }
+//                           break;
+//                   }
+//                   break;
+//               }
               break;
             case Module.ANALYSIS: {
               switch (message.header) {
@@ -216,17 +216,25 @@ export class CommunicationService {
               }
             }
                                   break;
+
+
+
+
             case Module.PUBLISH: {
               switch (message.header) {
+                case PublishMessageHeader.STARTPUBLISHING:
+                    console.log('[PUBLISHING] ElementList : ', this.analysisService.ElementList);
+                    break;
                 case PublishMessageHeader.ADDPARTICIPANT:
                   //                    console.log(PublishMessageHeader.ADDPARTICIPANT, ' ', message.commObject);
                   this.publishingService.addToPublishList(message.commObject.object, 'Owner');
-                  console.log(this.publishingService.getPublishList());
+//                  console.log(this.publishingService.getPublishList());
                   break;
                 case PublishMessageHeader.CHANGEPARTICIPANT:
                   //                    console.log(PublishMessageHeader.CHANGEPARTICIPANT, ' ', message.commObject);
-                  this.publishingService.removeFromPublishList(message.commObject.object, 'Owner');
-                  console.log(this.publishingService.getPublishList());
+                  this.publishingService.removeFromPublishList(message.commObject.object.old, 'Owner');
+                  this.publishingService.addToPublishList(message.commObject.object.new, 'Owner');
+//                  console.log(this.publishingService.getPublishList());
                   break;
                 case PublishMessageHeader.REMOVEPARTICIPANT:
                   console.log(PublishMessageHeader.REMOVEPARTICIPANT, ' ', message.commObject);
@@ -238,11 +246,21 @@ export class CommunicationService {
                       this.publishingService.addVariableInPublishList(message.commObject.object);
                     }
                   );
-
                   break;
+                case PublishMessageHeader.ADDMAPPING:
+                  this.publishingService.addToPublishList(message.commObject.object, 'Mapping');
+                  break;
+                case PublishMessageHeader.CHANGEMAPPING:
+                  this.publishingService.removeFromPublishList(message.commObject.object.old, 'Mapping');
+                  this.publishingService.addToPublishList(message.commObject.object.new, 'Mapping');
+                  break;
+                case PublishMessageHeader.ALIAS:
+                  this.publishingService.addToPublishList(message.commObject, 'Alias');
+                  break;
+
               }
             }
-                                 break;
+break;
           }
 
         }
@@ -252,16 +270,16 @@ export class CommunicationService {
   }
 
 
-  closeService() {
+closeService() {
     this.subs.unsubscribe();
   }
 
-  announce(message: CommunicationMessage) {
+announce(message: CommunicationMessage) {
     //    console.log('[MESSAGE] Announce new object ', message);
     this.commMessageSource.next(message);
   }
 
-  announceNewPublishInfo(element: any, elementType) {
+announceNewPublishInfo(element: any, elementType) {
     console.log('[COMMUNICATION] Publish annouce a new', elementType, '  ', element);
     const message: Message = { object: element, type: elementType };
     this.newPublishInfoSource.next(message);

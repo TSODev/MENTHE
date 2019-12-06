@@ -281,10 +281,18 @@ export class AnalysisComponent implements OnInit, OnDestroy {
             }
           );
 
+          this.communicationService.announce(
+            {
+              header: AnalysisMessagesHeaders.ENDANALYSIS,
+              module: Module.ANALYSIS,
+              commObject: { object: this.workflow }
+            }
+          );
 
           this.datatodisplay = true;
         }
       ));
+
   }
 
 

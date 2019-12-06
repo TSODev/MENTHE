@@ -5,6 +5,8 @@ import { AnalysisService } from './_services/analysis.service';
 //import { Process, Participant, Task, GenericGateway, SequenceFlow } from './_models/bpmn';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './_services/communication.service';
+import { PublishingService } from './_services/publishing.service';
+import { PublishList } from './_interfaces/publish.interface';
 
 export let browserRefresh = false;
 
@@ -15,6 +17,7 @@ export let browserRefresh = false;
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'menthe';
+  publication: PublishList[] = [];
 
   subs = new SubSink();
 
@@ -39,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
       private router: Router,
       private analysisService: AnalysisService,
       private communicationService: CommunicationService,
+      private publishingService: PublishingService,
       ) {
 
     this.subs.add(
@@ -48,6 +52,17 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     })
     );
+
+    this.subs.add(
+      this.publishingService.toBePublished$.subscribe(
+        data => {
+          this.publication.push(data);
+          console.log('[PUBLISH]', this.publication);
+        }
+      )
+
+    );
+
   }
 
   ngOnInit() {
@@ -58,5 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
     this.analysisService.closeService();
     this.communicationService.closeService();
+    this.publishingService.closeService();
   }
 }

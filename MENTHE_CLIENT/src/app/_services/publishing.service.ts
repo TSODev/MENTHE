@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Variable, PublishList, VariableType, VariableDirection } from '../_interfaces/publish.interface';
+import { Variable, PublishList, VariableType, VariableDirection, Mapping } from '../_interfaces/publish.interface';
 import { Observable, Subject, from, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './communication.service';
@@ -15,9 +15,14 @@ export class PublishingService {
 
   private toBePublished: PublishList[] = [];
 //  private variables: Variable[] = [];
-  public toBePublished$ = from(this.toBePublished);
+//  private publishListSource = new ReplaySubject<PublishList>();
+  private publishListSource = new Subject<PublishList>();
+
+  public toBePublished$ = this.publishListSource.asObservable();
 
   private variablesSource = new ReplaySubject<Variable>();
+
+
   public variables$ = this.variablesSource.asObservable();
 
   subs = new SubSink();
@@ -32,9 +37,8 @@ export class PublishingService {
                   data.forEach
                     (o => {
                               this.variablesSource.next(o);
-//                              this.variables.push(o);
                           });
-                  console.log('[PUBLISHING] Added in Variables List : ', data );
+//                  console.log('[PUBLISHING] Added in Variables List : ', data );
         }
       )
     );
@@ -42,6 +46,7 @@ export class PublishingService {
 
   addToPublishList(object: any, role: string) {
     this.toBePublished.push({object, role});
+    this.publishListSource.next({object, role});
   }
 
   removeFromPublishList(object: any, role: string) {
@@ -55,9 +60,16 @@ export class PublishingService {
   // }
 
   addVariableInPublishList(v: Variable) {
-    console.log('Push new variable in List : ', v);
+//    console.log('Push new variable in List : ', v);
     this.variablesSource.next(v);
-//    this.variables.push(v);
+    this.addToPublishList(v, 'Variable');
+  }
+
+  addMappingInPublidhList(m: Mapping) {
+    this.toBePublished.push( {
+      object: m,
+      role: 'Mapping'
+    });
   }
 
   // getVariableList(): Variable[] {
@@ -66,5 +78,9 @@ export class PublishingService {
 
   getPublishList(): PublishList[] {
     return this.toBePublished;
+  }
+
+  closeService() {
+    this.subs.unsubscribe();
   }
 }

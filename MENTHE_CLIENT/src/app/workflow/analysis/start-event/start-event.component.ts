@@ -6,7 +6,7 @@ import { CommunicationMessageHeader, Module } from 'src/app/_interfaces/communic
 import { MenthePhase, MentheStep } from 'src/app/_interfaces/analysis.interface';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { PublishingService } from 'src/app/_services/publishing.service';
-import { Variable } from 'src/app/_interfaces/publish.interface';
+import { Variable, PublishMessageHeader } from 'src/app/_interfaces/publish.interface';
 
 @Component({
   selector: 'app-start-event',
@@ -62,17 +62,6 @@ export class StartEventComponent implements OnInit {
 
 
   ngOnInit() {
-
-    this.communicationService.announce(
-      {
-        header: CommunicationMessageHeader.COMMUNICATION,
-        module: Module.COMMUNICATION,
-        commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.STARTEVENT } }
-      });
-
-    // this.variables = this.publishingService.getVariableList();
-    // this.hasVariables = (this.variables.length > 0);
-
     this.outgoings = this.analysisService.getElementAsArray(this.startEvent.outgoing);
   }
 

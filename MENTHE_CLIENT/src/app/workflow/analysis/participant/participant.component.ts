@@ -25,6 +25,7 @@ export class ParticipantComponent implements OnInit {
   validationOK = false;
   publishedOK = false;
   hasParticipant = false;
+  currentParticipant = '';
   selectedUser: FormControl;
 
   constructor(
@@ -42,26 +43,26 @@ export class ParticipantComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.communicationService.announce(
-      {
-        header: CommunicationMessageHeader.COMMUNICATION,
-        module: Module.COMMUNICATION,
-        commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.PARTICIPANT } }
-      });
+    // this.communicationService.announce(
+    //   {
+    //     header: CommunicationMessageHeader.COMMUNICATION,
+    //     module: Module.COMMUNICATION,
+    //     commObject: { object: { phase: MenthePhase.PUBLISH, step: MentheStep.PARTICIPANT } }
+    //   });
   }
 
-  onSubmit() {
-    this.communicationService.announce(
-      {
-        header: PublishMessageHeader.ADDPARTICIPANT,
-        module: Module.PUBLISH,
-        commObject: { object: this.userForm.value }
-      }
-    );
-    this.hasParticipant = true;
-    this.publishedOK = true;
+  // onSubmit() {
+  //   this.communicationService.announce(
+  //     {
+  //       header: PublishMessageHeader.ADDPARTICIPANT,
+  //       module: Module.PUBLISH,
+  //       commObject: { object: this.userForm.value }
+  //     }
+  //   );
+  //   this.hasParticipant = true;
+  //   this.publishedOK = true;
 
-  }
+  // }
 
   changeUser(e) {
     if (this.hasParticipant) {
@@ -69,10 +70,26 @@ export class ParticipantComponent implements OnInit {
         {
           header: PublishMessageHeader.CHANGEPARTICIPANT,
           module: Module.PUBLISH,
+          commObject: { object:
+                          {
+                            old: this.currentParticipant,
+                            new: this.userForm.controls.selectedUser.value
+                          }
+                        }
+        }
+      );
+    } else {
+      this.communicationService.announce(
+        {
+          header: PublishMessageHeader.ADDPARTICIPANT,
+          module: Module.PUBLISH,
           commObject: { object: this.userForm.controls.selectedUser.value }
         }
       );
+      this.hasParticipant = true;
+      this.publishedOK = true;
     }
+    this.currentParticipant = this.userForm.controls.selectedUser.value;
     this.validationOK = true;
     this.publishedOK = false;
 

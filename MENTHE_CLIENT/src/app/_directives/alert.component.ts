@@ -22,7 +22,7 @@ export class AlertComponent implements OnInit, OnDestroy {
             this.message = message;
             if (message != null) {
                 this.snackBar.open(message.text, 'Close' , {
-                    duration: 2000
+                    duration: 5000
                     }
                 );
             }

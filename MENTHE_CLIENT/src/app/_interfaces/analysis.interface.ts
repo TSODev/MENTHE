@@ -52,6 +52,7 @@ export enum AnalysisMessagesHeaders {
   EVENTBASED = 'EVENTBASE',
   PARALLEL = 'PARALLEL',
   FLOW = 'FLOW',
+  ENDANALYSIS = 'ENDANALYSIS',
 }
 
 

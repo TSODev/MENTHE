@@ -34,6 +34,7 @@
     "mini-svg-data-uri": "^1.1.3",
     "ng-inline-svg": "^9.1.0",
     "ngx-cookie-service": "^2.2.0",
+    "ramda": "^0.26.1",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.3",
     "subsink": "^1.0.0",
