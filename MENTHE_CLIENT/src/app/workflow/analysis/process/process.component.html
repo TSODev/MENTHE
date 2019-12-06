@@ -10,10 +10,11 @@
   </mat-expansion-panel-header>
 
   <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
-      <mat-toolbar color="secondary">
+      <mat-toolbar color="secondary" (click)='displayWorkflow()'>
         <span fxFlex="95%">Workflow : {{ workflow.title }}</span>
         <span fxFlex="5%">
-          <mat-icon (click)='displayWorkflow()'>search</mat-icon>
+          <mat-icon *ngIf="!hasToDisplayWorkflow">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="hasToDisplayWorkflow">keyboard_arrow_up</mat-icon>
         </span>
       </mat-toolbar>
   </div>

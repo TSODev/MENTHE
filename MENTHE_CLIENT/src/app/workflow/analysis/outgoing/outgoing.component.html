@@ -1,10 +1,26 @@
 <div *ngFor='let link of links'>
+    <form [formGroup]="variableForm">
   <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start">
     <div fxFlex="60%">
-      <mat-card-content class="linkName" *ngIf="haslink">[ output = {{ link.attr.name }} ]</mat-card-content>
+      <mat-card-content class="linkName" *ngIf="haslink">
+        <div *ngIf="!hasAlias">
+         [ output = {{ link.attr.name }} ]
+        <mat-icon (click)='addAlias()'>edit</mat-icon>
+        </div>
+        <div *ngIf="hasAlias">
+          <div>
+         <input Autofocus matInput placeholder="Alias"
+                formControlName="alias"
+                [(value)]='aliasValue'
+                (keyup.enter)='onAliasChange(link)'
+                (blur)= 'onAliasChange(link)'>
+          </div>
+          <mat-icon (click)='addAlias()'>clear</mat-icon>
+        </div>
+      </mat-card-content>
     </div>
     <div class="second" fxFlex="40%">
-      <form [formGroup]="variableForm">
+
         <mat-form-field>
           <mat-label>Should be mapped to : </mat-label>
           <mat-select placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
@@ -13,7 +29,8 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
+
     </div>
   </div> <!-- <input matInput> {{ outgoing }} -->
+</form>
 </div>

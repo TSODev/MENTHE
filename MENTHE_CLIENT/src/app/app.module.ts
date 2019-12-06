@@ -74,6 +74,7 @@ import { VariableGridComponent } from './workflow/publishing/variable-grid/varia
 import { DBVariableService } from './_services/variable.service';
 import { DBProcessService } from './_services/process.service';
 import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.component';
+import { AutofocusDirective } from './_directives/autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.
     VariableComponent,
     VariableGridComponent,
     BasicviewerComponent,
+    AutofocusDirective,
 
   ],
   imports: [

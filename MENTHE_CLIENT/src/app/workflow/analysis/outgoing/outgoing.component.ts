@@ -7,7 +7,7 @@ import { PublishingService } from 'src/app/_services/publishing.service';
 import { SubSink } from 'subsink';
 import { Observable } from 'rxjs';
 import { CommunicationService } from 'src/app/_services/communication.service';
-import { Module } from 'src/app/_interfaces/communication.interface';
+import { Module, CommunicationMessageHeader } from 'src/app/_interfaces/communication.interface';
 
 @Component({
   selector: 'app-outgoing',
@@ -24,10 +24,12 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     outgoingArray: string[];
     links: SequenceFlow[];
     haslink = false;
+    hasAlias = false;
 
     variableForm: FormGroup;
     variables: Variable[] = [];
     variables$: Observable<Variable>;
+    aliasValue = '';
     varValue = 'Not Mapped';
     oldvarValue = this.varValue;
 
@@ -43,6 +45,7 @@ export class OutgoingComponent implements OnInit, OnDestroy {
       variableType: ['', Validators.required],
       name: ['', Validators.required],
       defaultValue: [''],
+      alias: [''],
     });
 
     this.variables$ = this.publishingService.variables$;
@@ -62,15 +65,6 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     }
     const workflowId = this.analysisService.getElementList().wf.workflow_id;
     const processes = this.analysisService.getElementList().proc;
-    // this.variables.push({
-    //   variableId: '',
-    //   processId: '',
-    //   workflowId,
-    //   direction: VariableDirection.NONE,
-    //   type: VariableType.STRING,
-    //   name: null,
-    //   defaultValue: '',
-    // });
     this.variables = this.variables.filter(w => w.workflowId === workflowId).sort();
   }
 
@@ -98,6 +92,24 @@ export class OutgoingComponent implements OnInit, OnDestroy {
       );
       this.oldvarValue = this.varValue;
     }
+  }
+
+  addAlias() {
+    this.hasAlias = !this.hasAlias;
+  }
+
+  onAliasChange(link: SequenceFlow) {
+//    console.log('Alias :', this.variableForm.controls.alias.value);
+    this.aliasValue = this.variableForm.controls.alias.value;
+    this.communicationService.announce(
+      {
+        module: Module.PUBLISH,
+        header: PublishMessageHeader.ALIAS,
+        commObject: { object: { aliasValue: this.aliasValue},
+                      relatedToId: link.attr.id
+        }
+      }
+    );
   }
 
 

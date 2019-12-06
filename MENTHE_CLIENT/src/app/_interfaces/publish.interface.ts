@@ -34,4 +34,5 @@ export enum PublishMessageHeader {
   ADDVARIABLE = 'ADDVARIABLE',
   ADDMAPPING = 'ADDMAPPING',
   CHANGEMAPPING = 'CHANGEMAPPING',
+  ALIAS = 'ALIAS',
 }

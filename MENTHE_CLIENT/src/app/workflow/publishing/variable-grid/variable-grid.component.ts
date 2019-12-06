@@ -23,7 +23,7 @@ export class VariableGridComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-  displayedColumns: string[] = ['name', 'type', 'defaultValue'];
+  displayedColumns: string[] = ['name', 'type'];
   dataSource: Variable[] = [];
 
   variableForm: FormGroup;
