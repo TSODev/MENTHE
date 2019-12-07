@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Variable, PublishList, VariableType, VariableDirection, Mapping } from '../_interfaces/publish.interface';
+import { Variable, PublishList, VariableType, VariableDirection, Mapping, Publication, PublishingAction } from '../_interfaces/publish.interface';
 import { Observable, Subject, from, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './communication.service';
@@ -16,7 +16,7 @@ export class PublishingService {
   private toBePublished: PublishList[] = [];
 //  private variables: Variable[] = [];
 //  private publishListSource = new ReplaySubject<PublishList>();
-  private publishListSource = new Subject<PublishList>();
+  private publishListSource = new Subject<Publication>();
 
   public toBePublished$ = this.publishListSource.asObservable();
 
@@ -46,13 +46,14 @@ export class PublishingService {
 
   addToPublishList(object: any, role: string) {
     this.toBePublished.push({object, role});
-    this.publishListSource.next({object, role});
+    this.publishListSource.next({action: PublishingAction.INSERT, post: {object, role}});
   }
 
   removeFromPublishList(object: any, role: string) {
     this.toBePublished.splice(
       this.toBePublished.indexOf(
         this.toBePublished.find(o => (( o.object === object ) && (o.role === role)))), 1);
+    this.publishListSource.next({action: PublishingAction.REMOVE, post: {object, role}});
   }
 
   // addVariableInList(direction: VariableDirection, type: VariableType, name: string, defaultValue?: any) {

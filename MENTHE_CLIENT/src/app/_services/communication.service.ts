@@ -1,32 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { CommunicationMessage, CommunicationMessageHeader, Module } from '../_interfaces/communication.interface';
+import { CommunicationMessage} from '../_interfaces/communication.interface';
 import { SubSink } from 'subsink';
 import { AnalysisService } from './analysis.service';
-import { MenthePhase, Message, AnalysisMessagesHeaders, MentheStep } from '../_interfaces/analysis.interface';
-import { GenericGateway, TaskTypeEnumerated, GatewayTypeFamily, SequenceFlow, Process } from '../_models/bpmn';
+import { AnalysisMessagesHeaders} from '../_interfaces/analysis.interface';
+import { TaskTypeEnumerated, GatewayTypeFamily, SequenceFlow} from '../_models/bpmn';
 import { UserService } from './user.service';
 import { PublishingService } from './publishing.service';
 import * as _ from 'lodash';
+import * as R from 'ramda';
 import { PublishMessageHeader } from '../_interfaces/publish.interface';
 import { DBVariableService } from './variable.service';
 import { DBProcessService } from './process.service';
 import { ProcessState } from '../_models/process';
-import { WfcardComponent } from '../mainpage/wfcard/wfcard.component';
 import { Workflow } from '../_models/workflow';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommunicationService {
 
-  private newPublishInfoSource = new Subject<Message>();
-  public newPublishInfoAnnounced$ = this.newPublishInfoSource.asObservable();
+
+export class CommunicationService {
 
   private commMessageSource = new Subject<CommunicationMessage>();
   public commMessage$ = this.commMessageSource.asObservable();
 
   subs = new SubSink();
+
 
   constructor(
     private analysisService: AnalysisService,
@@ -37,253 +37,301 @@ export class CommunicationService {
   ) {
 
     this.subs.add(
-      this.newPublishInfoAnnounced$.subscribe(
-        data => {
-          console.log('[COMMUNICATION]', data);
-          switch (data.type) {
-            case 'AddOwner': this.userService.getUserById(data.object['selectedUser']).subscribe(
-              found => {
-                console.log('Need to publish user participant : ', found);
-                this.publishingService.addToPublishList(found, 'Owner');
-              }
-            );
-                             break;
-            case 'RemoveOwner': this.userService.getUserById(data.object['selectedUser']).subscribe(
-              found => {
-                console.log('Need to remove published user participant : ', found);
-                this.publishingService.removeFromPublishList(found, 'Owner');
-              }
-            );
-                                break;
-          }
+      this.commMessage$.subscribe(
+        message => {
+          console.log('[MESSAGE] receive :', message);
+          this.checkModuleAndHeader(message);
         }
       )
     );
 
-    this.subs.add(
-      this.commMessage$.subscribe(
-        message => {
-          console.log('[MESSAGE] receive :', message);
-          const processId = message.commObject.relatedToId;
-          let gate: GenericGateway;
-          switch (message.module) {
-            case Module.COMMUNICATION:
-//               switch (message.header) {
-//                 case CommunicationMessageHeader.COMMUNICATION:
-//                   switch (message.commObject.object.phase) {
-//                     case (MenthePhase.PUBLISH):
-// //                        if (message.commObject.object.step === MentheStep.START) {
-//                           console.log('[COMMUNICATION] ElementList : ', this.analysisService.ElementList);
-// //                        }
-//                           break;
-//                   }
-//                   break;
-//               }
-              break;
-            case Module.ANALYSIS: {
-              switch (message.header) {
-                case AnalysisMessagesHeaders.STARTANALYSIS: this.analysisService.clearElementList();
-                                                            break;
-                case AnalysisMessagesHeaders.WORKFLOW:
-                  this.analysisService.addWorkFlowInList(message.commObject.object);
-                  break;
-                case AnalysisMessagesHeaders.COLLABORATION:
-                  this.analysisService.addCollaborationInList(message.commObject.object);
-                  break;
-                case AnalysisMessagesHeaders.PROCESS:
+  }
+
+  private checkModuleAndHeader = R.cond([
+     [R.pipe(R.prop('module'), R.equals('ANALYSIS')),
+              R.cond([
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.STARTANALYSIS)),
+                      (data) =>  this.analysisService.clearElementList()
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.WORKFLOW)),
+                      (data) =>  {
+                        this.analysisService.addWorkFlowInList(data.commObject.object);
+                        this.publishingService.addToPublishList(data.commObject.object, 'Workflow');
+                      }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.COLLABORATION)),
+                      (data) =>  {
+                                  this.analysisService.addCollaborationInList(data.commObject.object);
+                                  this.publishingService.addToPublishList(data.commObject.object, 'Collaboration');
+                      }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.PROCESS)),
+                (data) =>  {
                   const workflow: Workflow = this.analysisService.getElementList().wf;
-                  message.commObject.object.forEach(element => {
+                  data.commObject.object.forEach(element => {
                                     this.analysisService.addProcessInList(element, workflow.title);
                                     this.dbProcessService.create({
-                                                                    workflowId: message.commObject.relatedToId,
+                                                                    workflowId: data.commObject.relatedToId,
                                                                     processId:  workflow.title.concat('_').concat(element.attr.id),
                                                                     name: element.attr.id,
                                                                     status: ProcessState.LOADING,
                                                                 }).subscribe();
                                     });
-                  break;
-                case AnalysisMessagesHeaders.PARTICIPANT:
-                  message.commObject.object.forEach(element => {
+                  this.publishingService.addToPublishList(data.commObject.object, 'Process');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.PARTICIPANT)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
                     this.analysisService.addParticipantInList(element);
                   });
-                  break;
-                case AnalysisMessagesHeaders.STARTEVENT:
-                  this.analysisService.addStartEventInList(message.commObject.object);
-                  break;
-                case AnalysisMessagesHeaders.ENDEVENT:
-                  this.analysisService.addEndEventInList(message.commObject.object);
-                  break;
-                case AnalysisMessagesHeaders.STANDARD:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.STANDARD, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.SEND:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.SEND, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.RECEIVE:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.RECEIVE, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.USER:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.USER, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.SERVICE:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.SERVICE, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.SCRIPT:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.SCRIPT, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.MANUAL:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.MANUAL, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.CALLACTIVITY:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.CALLACTIVITY, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.BUSINESS:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.BUSINESSRULE, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.EVENTBASED:
-                  message.commObject.object.forEach(element => {
-                    this.analysisService.addTaskInList(
-                      element, TaskTypeEnumerated.EVENTBASED, processId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.COMPLEX:
-                  message.commObject.object.forEach(element => {
-                    gate = element;
-                    gate.type = GatewayTypeFamily.COMPLEX;
-                    this.analysisService.addGatewayInList(GatewayTypeFamily.COMPLEX, gate, message.commObject.relatedToId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.EXCLUSIVE:
-                  message.commObject.object.forEach(element => {
-                    gate = element;
-                    gate.type = GatewayTypeFamily.EXCLUSIVE;
-                    this.analysisService.addGatewayInList(GatewayTypeFamily.EXCLUSIVE, gate, message.commObject.relatedToId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.INCLUSIVE:
-                  message.commObject.object.forEach(element => {
-                    gate = element;
-                    gate.type = GatewayTypeFamily.INCLUSIVE;
-                    this.analysisService.addGatewayInList(GatewayTypeFamily.INCLUSIVE, gate, message.commObject.relatedToId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.EVENTBASED:
-                  message.commObject.object.forEach(element => {
-                    gate = element;
-                    gate.type = GatewayTypeFamily.EVENTBASED;
-                    this.analysisService.addGatewayInList(GatewayTypeFamily.EVENTBASED, gate, message.commObject.relatedToId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.PARALLEL:
-                  message.commObject.object.forEach(element => {
-                    gate = element;
-                    gate.type = GatewayTypeFamily.PARALLEL;
-                    this.analysisService.addGatewayInList(GatewayTypeFamily.PARALLEL, gate, message.commObject.relatedToId);
-                  });
-                  break;
-                case AnalysisMessagesHeaders.FLOW:
-                  message.commObject.object.forEach(element =>
-                    this.analysisService.addFlowInList(element as unknown as SequenceFlow));
-                  break;
+                  this.publishingService.addToPublishList(data.commObject.object, 'Participant');
+                }
+                ],
 
-              }
-            }
-                                  break;
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.STARTEVENT)),
+                (data) =>  {
+                  this.analysisService.addStartEventInList(data.commObject.object);
+                  this.publishingService.addToPublishList(data.commObject.object, 'StartEvent');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.ENDEVENT)),
+                (data) =>  {
+                  this.analysisService.addEndEventInList(data.commObject.object);
+                  this.publishingService.addToPublishList(data.commObject.object, 'EndEvent');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.STANDARD)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.STANDARD, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SEND)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.SEND, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.RECEIVE)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.RECEIVE, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.USER)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.USER, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SERVICE)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.SERVICE, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SCRIPT)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.SCRIPT, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.MANUAL)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.MANUAL, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.CALLACTIVITY)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.CALLACTIVITY, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.BUSINESS)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.BUSINESSRULE, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASED)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    this.analysisService.addTaskInList(
+                      element, TaskTypeEnumerated.EVENTBASED, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.COMPLEX)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    R.assoc('type', GatewayTypeFamily.COMPLEX, element);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.COMPLEX, element, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Gateway');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EXCLUSIVE)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    R.assoc('type', GatewayTypeFamily.EXCLUSIVE, element);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.EXCLUSIVE, element, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Gateway');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.PARALLEL)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    R.assoc('type', GatewayTypeFamily.PARALLEL, element);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.PARALLEL, element, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Gateway');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.INCLUSIVE)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    R.assoc('type', GatewayTypeFamily.INCLUSIVE, element);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.INCLUSIVE, element, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Gateway');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASED)),
+                (data) =>  {
+                  data.commObject.object.forEach(element => {
+                    R.assoc('type', GatewayTypeFamily.EVENTBASED, element);
+                    this.analysisService.addGatewayInList(GatewayTypeFamily.EVENTBASED, element, data.commObject.relatedToId);
+                  });
+                  this.publishingService.addToPublishList(data.commObject.object, 'Gateway');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.FLOW)),
+                (data) =>    data.commObject.object.forEach(
+                  element => {
+                    this.analysisService.addFlowInList(element as unknown as SequenceFlow);
+                    this.publishingService.addToPublishList(data.commObject.object, 'Flow');
+                  })
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.ENDANALYSIS)),
+                (data) =>  console.log(AnalysisMessagesHeaders.ENDANALYSIS)
+                ],
+
+                [R.T, (data) => console.log('this header is not supported : ', data.header)]
+              ])],
 
 
+      [R.pipe(R.prop('module'), R.equals('PUBLISH')),
+          R.cond([
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.STARTPUBLISHING)),
+                  (data) =>  console.log(PublishMessageHeader.STARTPUBLISHING)
+                ],
 
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDPARTICIPANT)),
+                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Owner')
+                ],
 
-            case Module.PUBLISH: {
-              switch (message.header) {
-                case PublishMessageHeader.STARTPUBLISHING:
-                    console.log('[PUBLISHING] ElementList : ', this.analysisService.ElementList);
-                    break;
-                case PublishMessageHeader.ADDPARTICIPANT:
-                  //                    console.log(PublishMessageHeader.ADDPARTICIPANT, ' ', message.commObject);
-                  this.publishingService.addToPublishList(message.commObject.object, 'Owner');
-//                  console.log(this.publishingService.getPublishList());
-                  break;
-                case PublishMessageHeader.CHANGEPARTICIPANT:
-                  //                    console.log(PublishMessageHeader.CHANGEPARTICIPANT, ' ', message.commObject);
-                  this.publishingService.removeFromPublishList(message.commObject.object.old, 'Owner');
-                  this.publishingService.addToPublishList(message.commObject.object.new, 'Owner');
-//                  console.log(this.publishingService.getPublishList());
-                  break;
-                case PublishMessageHeader.REMOVEPARTICIPANT:
-                  console.log(PublishMessageHeader.REMOVEPARTICIPANT, ' ', message.commObject);
-                  break;
-                case PublishMessageHeader.ADDVARIABLE:
-//                  message.commObject.object.workflowId = this.analysisService.getElementList().wf.workflow_id;
-                  this.dbVariableService.create(message.commObject.object).subscribe(
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.CHANGEPARTICIPANT)),
+                (data) =>  {
+                  this.publishingService.removeFromPublishList(data.commObject.object.old, 'Owner');
+                  this.publishingService.addToPublishList(data.commObject.object.new, 'Owner');
+                }
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.REMOVEPARTICIPANT)),
+                (data) =>  console.log(PublishMessageHeader.REMOVEPARTICIPANT, ' ', data.commObject)
+                ],
+
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDVARIABLE)),
+                (data) =>  {
+                  this.dbVariableService.create(data.commObject.object).subscribe(
                     response => {
-                      this.publishingService.addVariableInPublishList(message.commObject.object);
+                      this.publishingService.addVariableInPublishList(data.commObject.object);
                     }
                   );
-                  break;
-                case PublishMessageHeader.ADDMAPPING:
-                  this.publishingService.addToPublishList(message.commObject.object, 'Mapping');
-                  break;
-                case PublishMessageHeader.CHANGEMAPPING:
-                  this.publishingService.removeFromPublishList(message.commObject.object.old, 'Mapping');
-                  this.publishingService.addToPublishList(message.commObject.object.new, 'Mapping');
-                  break;
-                case PublishMessageHeader.ALIAS:
-                  this.publishingService.addToPublishList(message.commObject, 'Alias');
-                  break;
+                }
+                ],
 
-              }
-            }
-break;
-          }
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDMAPPING)),
+                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Mapping')
+                ],
 
-        }
-      )
-    );
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.CHANGEMAPPING)),
+                (data) =>  {
+                  this.publishingService.removeFromPublishList(data.commObject.object.old, 'Mapping');
+                  this.publishingService.addToPublishList(data.commObject.object.new, 'Mapping');
+                }
+                ],
 
-  }
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ALIAS)),
+                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Alias')
+                ],
 
+                [R.T, (data) => console.log('this header is not supported : ', data.header)]
+              ])],
 
-closeService() {
+      [R.T, R.always('This module does not exist !')]
+   ]);
+
+  public closeService() {
     this.subs.unsubscribe();
   }
 
-announce(message: CommunicationMessage) {
+  public announce(message: CommunicationMessage) {
     //    console.log('[MESSAGE] Announce new object ', message);
     this.commMessageSource.next(message);
   }
-
-announceNewPublishInfo(element: any, elementType) {
-    console.log('[COMMUNICATION] Publish annouce a new', elementType, '  ', element);
-    const message: Message = { object: element, type: elementType };
-    this.newPublishInfoSource.next(message);
-  }
-
 
 }

@@ -6,7 +6,7 @@ import { AnalysisService } from './_services/analysis.service';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './_services/communication.service';
 import { PublishingService } from './_services/publishing.service';
-import { PublishList } from './_interfaces/publish.interface';
+import { PublishList, Publication } from './_interfaces/publish.interface';
 
 export let browserRefresh = false;
 
@@ -17,7 +17,7 @@ export let browserRefresh = false;
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'menthe';
-  publication: PublishList[] = [];
+  publication: Publication[] = [];
 
   subs = new SubSink();
 
