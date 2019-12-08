@@ -304,6 +304,11 @@ export class CommunicationService {
                 }
                 ],
 
+                [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.REMOVEVARIABLE)),
+                (data) =>  this.dbVariableService.delete(data.commObject.object.variable_id).subscribe()
+                ],
+
+
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDMAPPING)),
                 (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Mapping')
                 ],

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Variable, PublishList } from 'src/app/_interfaces/publish.interface';
+import { Variable, PublishList, PublishMessageHeader } from 'src/app/_interfaces/publish.interface';
 import { PublishingService } from 'src/app/_services/publishing.service';
 import { SubSink } from 'subsink';
 import { Observable } from 'rxjs/internal/Observable';
@@ -8,6 +8,8 @@ import { DBVariableService } from 'src/app/_services/variable.service';
 import { DBVariable } from 'src/app/_models/variable';
 import { Process } from 'src/app/_models/bpmn';
 import { Workflow } from 'src/app/_models/workflow';
+import { CommunicationService } from 'src/app/_services/communication.service';
+import { Module } from 'src/app/_interfaces/communication.interface';
 
 @Component({
   selector: 'app-variable-grid',
@@ -23,7 +25,7 @@ export class VariableGridComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-  displayedColumns: string[] = ['name', 'type'];
+  displayedColumns: string[] = ['name', 'type', 'action'];
   dataSource: Variable[] = [];
 
   variableForm: FormGroup;
@@ -36,6 +38,7 @@ export class VariableGridComponent implements OnInit, OnDestroy {
 
   constructor(
     private publishingService: PublishingService,
+    private communicationService: CommunicationService,
   ) {
 
     this.dataSource = this.variables;
@@ -47,7 +50,6 @@ export class VariableGridComponent implements OnInit, OnDestroy {
         variable => {
           if (variable.workflowId === this.workflow.workflow_id) {
               if (variable.processId === this.process.attr.id) {
-//                console.log('[GRID] Receive new row ', variable);
                 this.variables.push(variable);
                 this.mustAddVariable = false;
                 const cloned = [...this.variables];
@@ -69,6 +71,19 @@ export class VariableGridComponent implements OnInit, OnDestroy {
 
   addVariable() {
     this.mustAddVariable = true;
+  }
+
+  deleteVariable(variable: Variable) {
+    this.communicationService.announce(
+      {
+        module: Module.PUBLISH,
+        header: PublishMessageHeader.REMOVEVARIABLE,
+        commObject: { object: variable}
+      }
+    );
+    this.variables.splice(this.variables.indexOf(this.variables.find(o => o === variable)), 1);
+    const cloned = [...this.variables];
+    this.dataSource = cloned;
   }
 
   receiveEvent(event: {header, data}) {

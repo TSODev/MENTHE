@@ -58,13 +58,13 @@ export class VariableComponent implements OnInit, OnDestroy {
       mappedTo: [''],
     });
 
-    this.subs.add(
-      this.publishingService.variables$.subscribe(
-        data => {
-          console.log('[PUBLISH] - Variable List', data);
-        }
-      )
-    );
+    // this.subs.add(
+    //   this.publishingService.variables$.subscribe(
+    //     data => {
+    //       console.log('[PUBLISH] - Variable List', data);
+    //     }
+    //   )
+    // );
 
     this.flows = this.analysisService.ElementList.flow;
   }
@@ -94,14 +94,6 @@ export class VariableComponent implements OnInit, OnDestroy {
         }
       }
     );
-    // this.variableAdded.emit(
-    //   {
-    //     direction: VariableDirection.INPUT,
-    //     type: this.inputVariableForm.controls.variableType.value,
-    //     name: this.inputVariableForm.controls.name.value,
-    //     defaultValue: this.inputVariableForm.controls.defaultValue.value,
-    //   }
-    // );
   }
 
   changeVariableType() {

@@ -74,6 +74,9 @@
   <app-end-event *ngIf="hasEndEvent" [process]='process' [endEvent]='endEvent'></app-end-event>
 </mat-expansion-panel>
 </div>
-<div *ngIf="!datatoshow">
-  Loading...
+<div class="progress-loader" *ngIf="!datatoshow" [hidden]="datatoshow">
+
+    <mat-progress-spinner [mode]="'indeterminate'">
+    </mat-progress-spinner>
+
 </div>

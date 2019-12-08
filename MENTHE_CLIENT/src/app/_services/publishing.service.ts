@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Variable, PublishList, VariableType, VariableDirection, Mapping, Publication, PublishingAction } from '../_interfaces/publish.interface';
+import { Variable, PublishList, Mapping, Publication, PublishingAction, PublishMessageHeader } from '../_interfaces/publish.interface';
 import { Observable, Subject, from, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './communication.service';
 import { DBVariableService } from './variable.service';
+import { Module } from '../_interfaces/communication.interface';
 
 
 
@@ -17,18 +18,16 @@ export class PublishingService {
 //  private variables: Variable[] = [];
 //  private publishListSource = new ReplaySubject<PublishList>();
   private publishListSource = new Subject<Publication>();
-
   public toBePublished$ = this.publishListSource.asObservable();
 
   private variablesSource = new ReplaySubject<Variable>();
-
-
   public variables$ = this.variablesSource.asObservable();
 
   subs = new SubSink();
 
   constructor(
     private dbVariableService: DBVariableService,
+//    private communicationService: CommunicationService,
   ) {
 
     this.subs.add(
@@ -37,6 +36,7 @@ export class PublishingService {
                   data.forEach
                     (o => {
                               this.variablesSource.next(o);
+                              console.log('PUSH ', o);
                           });
 //                  console.log('[PUBLISHING] Added in Variables List : ', data );
         }
@@ -64,6 +64,10 @@ export class PublishingService {
 //    console.log('Push new variable in List : ', v);
     this.variablesSource.next(v);
     this.addToPublishList(v, 'Variable');
+  }
+
+  removeVariableFromPublishList(v: Variable) {
+    this.removeFromPublishList(v, 'Variable');
   }
 
   addMappingInPublidhList(m: Mapping) {
