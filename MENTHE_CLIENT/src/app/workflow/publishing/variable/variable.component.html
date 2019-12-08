@@ -9,7 +9,7 @@
       </mat-select>
     </mat-form-field> -->
     <mat-form-field>
-      <mat-select placeholder="Type" formControlName='variableType' (selectionChange)="changeVariableType($event)">
+      <mat-select Autofocus placeholder="Type" formControlName='variableType' (selectionChange)="changeVariableType($event)">
         <mat-option *ngFor="let vtype of vtypes" [value]="vtype">
           {{ vtype | uppercase }}
         </mat-option>
