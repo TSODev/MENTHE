@@ -6,6 +6,7 @@ import articlecontroller from './article.controller';
 import workflowcontroller from './workflow.controller';
 import variablecontroller from './variable.controler'
 import processcontroller from './process.controller';
+import groupcontroller from './group.controller';
 import { checkIfAuthenticated } from '../../../authentication/auth.middleware';
 import { checkCsrfToken } from '../../../common/csrf.middleware';
 import { checkIfAuthorized } from '../../../autorization/autorization.middleware';
@@ -22,6 +23,17 @@ export default express.Router()
     .delete('/user/:id', checkIfAuthenticated,
                     _.partial(checkIfAuthorized,(['ADMIN']))
                     , usercontroller.deleteUser)
+
+// Groups
+    .post('/group', groupcontroller.createGroup)
+    .get('/group', checkIfAuthenticated, groupcontroller.getGroup)
+    .get('/group/:id', checkIfAuthenticated, groupcontroller.getGroupById)
+    .get('/group/email/:email', checkIfAuthenticated,groupcontroller.getGroupByEmail)
+    .get('/groups', checkIfAuthenticated, groupcontroller.allGroups)
+    .delete('/group/:id', checkIfAuthenticated,
+                    _.partial(checkIfAuthorized,(['ADMIN']))
+                    , groupcontroller.deleteGroup)
+
 // Articles 
     .post('/article', articlecontroller.createArticle)
     .get('/articles', articlecontroller.allArticles)

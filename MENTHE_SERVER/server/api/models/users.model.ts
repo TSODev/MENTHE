@@ -1,7 +1,9 @@
 import { Model, Schema, Document, model } from 'mongoose';
+import { Group, IGroup } from './groups.model';
 
 export interface IUser {
     user_id: string,
+    groups: string[],
     email: string,
     domain: string,
     company: string,
@@ -19,6 +21,7 @@ export interface IUserModel extends IUser, Document{
 
 export const UserSchema: Schema = new Schema({
     user_id: String,
+    groups: [String],
     email: String,
     domain: String,
     company: String,

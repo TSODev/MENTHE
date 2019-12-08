@@ -3,6 +3,7 @@
 import l from '../../common/logger';
 import mongoose from 'mongoose';
 import { User, UserSchema } from '../models/users.model';
+import { Group, GroupSchema } from '../models/groups.model';
 
 
 class InMongoDatabase {
@@ -73,6 +74,7 @@ class InMongoDatabase {
             lastname: credentials.lastName,
             firstname: credentials.firstName,
             roles: credentials.roles,
+            groups: credentials.groups,
         });
         user.domain = UserSchema.methods.GetDomainName(user.email);
         user.roles.push('VIEWER');                                      //default role is VIEWVER
@@ -96,6 +98,15 @@ class InMongoDatabase {
     async deleteUser(id: string) {
         l.debug('Deleting userId : ', id);
         return await User.findOneAndDelete({user_id: id});
+    }
+
+    async addUserInGroup(userId: string, groupId: string){
+        l.debug('Adding userId : ', userId, ' in groupId : ', groupId );
+        await User.findOne({user_id: userId}, (update) => {
+            update.groups.push(groupId);
+            return User.findOneAndUpdate({user_id: userId}, update);
+        })
+
     }
 
     uuidv4() {
