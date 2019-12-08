@@ -73,6 +73,7 @@ class InMongoDatabase {
             passwordDigest: passwordDigest,
             lastname: credentials.lastName,
             firstname: credentials.firstName,
+            company: credentials.company,
             roles: credentials.roles,
             groups: credentials.groups,
         });
