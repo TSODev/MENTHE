@@ -36,9 +36,8 @@ export class PublishingService {
                   data.forEach
                     (o => {
                               this.variablesSource.next(o);
-                              console.log('PUSH ', o);
+ //                             console.log('PUSH ', o);
                           });
-//                  console.log('[PUBLISHING] Added in Variables List : ', data );
         }
       )
     );

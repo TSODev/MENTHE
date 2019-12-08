@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { UserService, AlertService } from '../../_services';
 import { User } from '../../_models';
 import { map } from 'rxjs/operators';
@@ -12,9 +12,15 @@ import { SubSink } from 'subsink';
 })
 export class AccountadminComponent implements OnInit, OnDestroy {
 
+  @Input()
+  user: User;
 
-  users: User[];
+  @Output()
+  userDeleted = new EventEmitter();
+
+//  users: User[];
   subs = new SubSink();
+  Admin = false;
 
   constructor(
     private userService: UserService,
@@ -22,7 +28,8 @@ export class AccountadminComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.loadUsers();
+//    this.loadUsers();
+    this.Admin = this.isAdmin(this.user);
   }
 
   ngOnDestroy(): void {
@@ -32,17 +39,14 @@ export class AccountadminComponent implements OnInit, OnDestroy {
     return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
   }
 
-  OnUserDelete(email: string) {
-    console.log('Deleting : ', email);
+  OnUserDelete(user: User) {
     this.subs.add(
-      this.userService.getUserByEmail(email).subscribe(
-      user => {
- //       console.log(user);
-        this.userService.delete(user.user_id).subscribe(
+      this.userService.getUserByEmail(user.email).subscribe(
+      me => {
+        this.userService.delete(me.user_id).subscribe(
           result => {
             this.alert.success('User deleted !');
-            this.loadUsers();
-//             this.router.navigate(['/Accountadmin']);
+            this.userDeleted.emit(me);
           },
           error => this.alert.error(error)
         );
@@ -52,14 +56,11 @@ export class AccountadminComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadUsers() {
-    this.subs.add(
-      this.userService.getAllUsers()
-      .subscribe(
-        users => {
-          this.users = users;
-        }
-    )
-    );
+  editUser() {
+
+  }
+
+  doNothing() {
+
   }
 }

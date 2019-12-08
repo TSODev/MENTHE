@@ -1,19 +1,22 @@
-<app-main-nav></app-main-nav>
-<mat-list>
-  <h3 mat-subheader>Users</h3>
-  <mat-divider></mat-divider>
-  <mat-list-item *ngFor="let user of users; index as i">
-    <span *ngIf="!isAdmin(user)">
-      <button mat-icon-button (click)='OnUserDelete(user.email)'>
-        <mat-icon>delete</mat-icon>
-      </button>
-    </span>
-    <span *ngIf="isAdmin(user)">
-      <mat-icon>lock</mat-icon>
-    </span>
-    <h2 matLine>{{ user.email }}</h2>
-    <p matLine> {{ user.firstname }} {{user.lastname}}</p>
-    <p matLine>{{ user.roles }}</p>
+<br>
+<mat-card class="background primary" class="card-article">
+  <mat-card-title fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+    <span fxFlex="80%" (click)='doNothing()'>{{ user.firstname }} {{ user.lastname }}</span>
+    <mat-icon (click)='editUser()'>edit</mat-icon>
+    <mat-icon *ngIf="Admin" fxFlex="7%" (click)='doNothing()'>lock</mat-icon>
+    <mat-icon *ngIf="!Admin" fxFlex="7%" (click)='OnUserDelete(user)'>delete</mat-icon>
+  </mat-card-title>
+  <mat-card-header fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne=" space-between center">
+    <div fxFlex="50%" class="header"> company : {{ user.company }} </div>
+    <div fxFlex="50%" class="header"> domain : {{ user.domain }} </div>
+  </mat-card-header>
+  <mat-card-content class="dashboard-card-content" (click)='doNothing()'>
     <mat-divider></mat-divider>
-  </mat-list-item>
-</mat-list>
+    <p class="description">{{ user.email}}</p>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-footer fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne="center">
+    <div fxFlex="100%" class="lastmodified" *ngFor="let role of user.roles"> {{ role | uppercase }}</div>
+  </mat-card-footer>
+</mat-card>
+<br>

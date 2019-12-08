@@ -14,6 +14,7 @@ import { MainDashComponent } from './mainpage/main-dash/main-dash.component';
 import { ModelerComponent } from './workflow/modeler/modeler.component';
 import { ViewerComponent } from './workflow/viewer/viewer.component';
 import { AnalysisComponent } from './workflow/analysis/analysis.component';
+import { UserBoardComponent } from './admin/userboard/userboard.component';
 
 const appRoutes: Routes = [
 
@@ -22,7 +23,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
-    { path: 'Accountadmin', component: AccountadminComponent, canActivate: [AuthGuard]},
+    { path: 'Accountadmin', component: UserBoardComponent, canActivate: [AuthGuard]},
     { path: 'Groupadmin', component: GroupadminComponent, canActivate: [AuthGuard]},
     { path: 'disconnect', component: DisconnectComponent},
     { path: 'dashboard', component: MainDashComponent},

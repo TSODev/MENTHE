@@ -11,8 +11,11 @@ import { browserRefresh } from '../app.component';
 export const ANONYMOUS_USER: User = {
     user_id: undefined,
     email: '',
+    company: '',
+    domain: '',
     firstname: 'anonymous',
     lastname: 'anonymous',
+    groups: [],
     roles: ['VIEWER'],
 };
 

@@ -75,6 +75,7 @@ import { DBVariableService } from './_services/variable.service';
 import { DBProcessService } from './_services/process.service';
 import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.component';
 import { AutofocusDirective } from './_directives/autofocus.directive';
+import { UserBoardComponent } from './admin/userboard/userboard.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { AutofocusDirective } from './_directives/autofocus.directive';
     VariableGridComponent,
     BasicviewerComponent,
     AutofocusDirective,
+    UserBoardComponent,
 
   ],
   imports: [
