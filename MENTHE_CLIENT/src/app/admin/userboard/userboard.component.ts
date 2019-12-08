@@ -3,6 +3,7 @@ import { SubSink } from 'subsink';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from 'src/app/_services';
 import { User } from 'src/app/_models/user';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Component({
   selector: 'app-userboard',
@@ -13,6 +14,7 @@ export class UserBoardComponent implements OnInit {
 
   subs = new SubSink();
   boardForm: FormGroup;
+  filter = '';
   users: User[] = [];
 
 
@@ -27,6 +29,12 @@ export class UserBoardComponent implements OnInit {
     this.boardForm = this.formBuilder.group({
       filter: ['']
     });
+
+    this.boardForm.controls.filter.valueChanges.pipe(
+      debounceTime(250))
+      .subscribe(data => {
+          this.filter = data;
+          });
   }
 
   onDelete(event) {

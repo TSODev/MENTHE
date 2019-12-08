@@ -54,7 +54,8 @@ import { WfcardComponent } from './mainpage/wfcard/wfcard.component';
 import { SvgimageComponent } from './mainpage/svgimage/svgimage.component';
 import { ViewerComponent } from './workflow/viewer/viewer.component';
 import { CallbackPipe } from './_pipes/callback.pipe';
-import { DashfilterPipe } from './_pipes/dashfilter.pipe';
+import { WorkflowfilterPipe } from './_pipes/workflowfilter.pipe';
+import { UserfilterPipe } from './_pipes/userfilter.pipe';
 import { AnalysisComponent } from './workflow/analysis/analysis.component';
 import { TaskComponent } from './workflow/analysis/task/task.component';
 import { OutgoingComponent } from './workflow/analysis/outgoing/outgoing.component';
@@ -96,7 +97,8 @@ import { UserBoardComponent } from './admin/userboard/userboard.component';
     SvgimageComponent,
     ViewerComponent,
     CallbackPipe,
-    DashfilterPipe,
+    WorkflowfilterPipe,
+    UserfilterPipe,
     AnalysisComponent,
     TaskComponent,
     OutgoingComponent,

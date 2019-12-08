@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'dashfilter'
+  name: 'workflowfilter'
 })
-export class DashfilterPipe implements PipeTransform {
+export class WorkflowfilterPipe implements PipeTransform {
 
   transform(items: any[], searchText: string): any[] {
     if (!items) { return []; }
