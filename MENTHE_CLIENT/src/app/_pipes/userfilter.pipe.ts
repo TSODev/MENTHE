@@ -12,7 +12,7 @@ export class UserfilterPipe implements PipeTransform {
     return items.filter( it => {
       return it.lastname.toLowerCase().includes(searchText) ||
               it.firstname.toLowerCase().includes(searchText) ||
-//              it.company.toLowerCase().includes(searchText) ||
+              it.company.toLowerCase().includes(searchText) ||
               it.domain.toLowerCase().includes(searchText);
     });
    }
