@@ -25,6 +25,7 @@ export class AccountadminComponent implements OnInit, OnDestroy {
   modeedit = true;
   subs = new SubSink();
   Admin = false;
+  CanIEdit = false;
   edited: User;
 
   constructor(
@@ -33,8 +34,9 @@ export class AccountadminComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.Admin = this.isAdmin(this.user);
+    this.CanIEdit = _.intersection(JSON.parse(localStorage.getItem('currentUser')).roles, ['ADMIN', 'LOCALADMIN']).length > 0;
   }
 
   ngOnDestroy(): void {
@@ -42,10 +44,6 @@ export class AccountadminComponent implements OnInit, OnDestroy {
   }
   isAdmin(user: User) {
     return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
-  }
-
-  amIAdmin() {
-    return this.userService.
   }
 
   OnUserDelete(user: User) {
