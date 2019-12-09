@@ -106,10 +106,10 @@ export class AnalysisService {
     }
   }
 
-  getLinkedFlow(searchedflow: string, flows: SequenceFlow[]): SequenceFlow {
+  getLinkedFlow(searchedflow: string, flows: SequenceFlow[]): SequenceFlow[] {
 
     const flowfound = flows.filter(o => o.attr.id === searchedflow);
-    return flowfound as unknown as SequenceFlow;
+    return flowfound as unknown as SequenceFlow[];
   }
 
   getLinkedFlowFromElementList(searchflow: string) {
@@ -224,6 +224,8 @@ export class AnalysisService {
     if (typeof data.attr.name === 'undefined' || data.attr.name === '') {
       data.attr.name = 'from : '.concat(data.attr.sourceRef.concat(' to : ', data.attr.targetRef));
     }
+    data.attr.alias = data.attr.name;
+    data.attr.mappedTo = null;
     this.ElementList.flow.push(data as SequenceFlow);
   }
 

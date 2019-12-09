@@ -21,7 +21,7 @@
     </div>
     <div class="second" fxFlex="40%">
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!hasMapping">
           <mat-label>Should be mapped to : </mat-label>
           <mat-select placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
             <mat-option *ngFor="let variable of variables" [value]="variable.name">
@@ -29,6 +29,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field *ngIf="hasMapping">
+            <mat-label>Mapped to : </mat-label>
+            <input matInput placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
+          </mat-form-field>
 
     </div>
   </div> <!-- <input matInput> {{ outgoing }} -->

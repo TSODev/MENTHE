@@ -1,3 +1,5 @@
+import { Variable } from '@angular/compiler/src/render3/r3_ast';
+
 export class Attr {
 
   public id: string;
@@ -47,6 +49,8 @@ export class Attr______ {
   public name: string;
   public sourceRef: string;
   public targetRef: string;
+  public mappedTo: Variable;
+  public alias: string;
 
 }
 export class Attr_______ {

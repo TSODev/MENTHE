@@ -55,6 +55,11 @@
         <td mat-cell *matCellDef="let element"> {{element.defaultValue}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="mapped">
+          <th mat-header-cell *matHeaderCellDef> Mapped </th>
+          <td mat-cell *matCellDef="let element"> {{element.mapped}} </td>
+        </ng-container>
+
           <!-- Action Column -->
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>

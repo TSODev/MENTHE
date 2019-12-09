@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
 import { Variable, PublishMessageHeader } from 'src/app/_interfaces/publish.interface';
 import { CommunicationService } from 'src/app/_services/communication.service';
-import { Module } from 'src/app/_interfaces/communication.interface';
+import { Module, CommunicationMessageHeader } from 'src/app/_interfaces/communication.interface';
+import { map } from 'rxjs/operators';
+import { AnalysisMessagesHeaders } from 'src/app/_interfaces/analysis.interface';
 
 @Component({
   selector: 'app-incoming',
@@ -25,6 +27,8 @@ export class IncomingComponent implements OnInit, OnDestroy {
   haslink = false;
   links: SequenceFlow[];
   hasAlias = false;
+
+  hasMapping = false;
 
   variableForm: FormGroup;
   variables: Variable[] = [];
@@ -56,6 +60,30 @@ export class IncomingComponent implements OnInit, OnDestroy {
         this.variables.push(data);
       }
     ));
+
+    this.subs.add(
+      this.communicationService.commMessage$.subscribe(
+        mapping => {
+          if (mapping.module === Module.PUBLISH) {
+            if (mapping.header === PublishMessageHeader.ADDMAPPING) {
+              console.log('Incoming intercept message :', mapping);
+              if (mapping.commObject.relatedToId === this.incoming) {
+                this.varValue = mapping.commObject.object;
+                this.hasMapping = true;
+              }
+            } else {
+              if (mapping.header === PublishMessageHeader.CHANGEMAPPING) {
+                      console.log('Incoming intercept message :', mapping);
+                      if (mapping.commObject.relatedToId === this.incoming) {
+                        this.varValue = mapping.commObject.object.new;
+                        this.hasMapping = true;
+                      }
+            }
+          }
+        }
+      }
+      )
+    );
   }
 
   ngOnInit() {

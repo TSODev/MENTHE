@@ -20,6 +20,7 @@ export class Variable {
   type: VariableType;
   name: string;
   defaultValue: any;
+  mapped: boolean;
 }
 
 export class Mapping {

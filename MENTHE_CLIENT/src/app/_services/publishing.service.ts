@@ -15,8 +15,6 @@ import { Module } from '../_interfaces/communication.interface';
 export class PublishingService {
 
   private toBePublished: PublishList[] = [];
-//  private variables: Variable[] = [];
-//  private publishListSource = new ReplaySubject<PublishList>();
   private publishListSource = new Subject<Publication>();
   public toBePublished$ = this.publishListSource.asObservable();
 
@@ -27,7 +25,6 @@ export class PublishingService {
 
   constructor(
     private dbVariableService: DBVariableService,
-//    private communicationService: CommunicationService,
   ) {
 
     this.subs.add(
@@ -36,7 +33,6 @@ export class PublishingService {
                   data.forEach
                     (o => {
                               this.variablesSource.next(o);
- //                             console.log('PUSH ', o);
                           });
         }
       )
@@ -55,12 +51,8 @@ export class PublishingService {
     this.publishListSource.next({action: PublishingAction.REMOVE, post: {object, role}});
   }
 
-  // addVariableInList(direction: VariableDirection, type: VariableType, name: string, defaultValue?: any) {
-  //   this.variables.push({direction, type, name, defaultValue});
-  // }
 
   addVariableInPublishList(v: Variable) {
-//    console.log('Push new variable in List : ', v);
     this.variablesSource.next(v);
     this.addToPublishList(v, 'Variable');
   }
@@ -76,12 +68,12 @@ export class PublishingService {
     });
   }
 
-  // getVariableList(): Variable[] {
-  //   return this.variables;
-  // }
-
   getPublishList(): PublishList[] {
     return this.toBePublished;
+  }
+
+  getPublishListByElement(element: string) {
+    return this.toBePublished.filter(o => o.role === element);
   }
 
   closeService() {

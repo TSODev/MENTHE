@@ -310,13 +310,31 @@ export class CommunicationService {
 
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDMAPPING)),
-                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Mapping')
+                (data) =>  {
+                  this.publishingService.addToPublishList(data.commObject.object, 'Mapping');
+                  const flows = this.analysisService.getLinkedFlow(data.commObject.relatedToId, this.analysisService.getElementList().flow);
+                  console.log('found linked flow ', flows);
+                  flows.forEach(flow => {
+                    if (typeof flow.attr !== 'undefined') {
+                      flow.attr.mappedTo = data.commObject.object;
+                    }
+                  });
+                  }
                 ],
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.CHANGEMAPPING)),
                 (data) =>  {
                   this.publishingService.removeFromPublishList(data.commObject.object.old, 'Mapping');
                   this.publishingService.addToPublishList(data.commObject.object.new, 'Mapping');
+                  const flows = this.analysisService.getLinkedFlow(
+                                  data.commObject.relatedToId, this.analysisService.getElementList().flow
+                    );
+                  console.log('found linked flow ', flows);
+                  flows.forEach(flow => {
+                    if (typeof flow.attr !== 'undefined') {
+                      flow.attr.mappedTo = data.commObject.object.new;
+                    }
+                  });
                 }
                 ],
 

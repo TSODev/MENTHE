@@ -25,6 +25,7 @@ export class OutgoingComponent implements OnInit, OnDestroy {
     links: SequenceFlow[];
     haslink = false;
     hasAlias = false;
+    hasMapping = false;
 
     variableForm: FormGroup;
     variables: Variable[] = [];
@@ -55,6 +56,31 @@ export class OutgoingComponent implements OnInit, OnDestroy {
         this.variables.push(data);
       }
     ));
+
+    this.subs.add(
+      this.communicationService.commMessage$.subscribe(
+        mapping => {
+          if (mapping.module === Module.PUBLISH) {
+            if (mapping.header === PublishMessageHeader.ADDMAPPING) {
+              console.log('Outgoing intercept message :', mapping);
+              if (mapping.commObject.relatedToId === this.outgoing) {
+                this.varValue = mapping.commObject.object;
+                this.hasMapping = true;
+              }
+            } else {
+              if (mapping.header === PublishMessageHeader.CHANGEMAPPING) {
+                      console.log('Outgoing intercept message :', mapping);
+                      if (mapping.commObject.relatedToId === this.outgoing) {
+                        this.varValue = mapping.commObject.object.new;
+                        this.hasMapping = true;
+                      }
+            }
+          }
+        }
+      }
+      )
+    );
+
    }
 
   ngOnInit() {

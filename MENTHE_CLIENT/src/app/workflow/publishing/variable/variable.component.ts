@@ -90,6 +90,7 @@ export class VariableComponent implements OnInit, OnDestroy {
             defaultValue: this.inputVariableForm.controls.defaultValue.value,
             processId: this.process.attr.id,
             workflowId: this.workflow.workflow_id,
+            mapped: false,
           }
         }
       }
