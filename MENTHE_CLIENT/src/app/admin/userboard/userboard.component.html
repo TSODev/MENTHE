@@ -1,6 +1,6 @@
 <app-main-nav></app-main-nav>
 <br>
-<div class=container>
+<div class=container >
   <form [formGroup]="boardForm">
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap="10%" fxLayoutAlign="space-around">
     <mat-form-field fxFlex="85%" class="search-form">
@@ -17,8 +17,11 @@
                         (userDeleted)="onDelete($event)"
                         *ngFor="let user of users | userfilter: filter"
                         class=card
-                        [user]=user >
+                        [user]=user
+                        (editmode)='onEdit($event)'
+                        [class.disabled]="modeedit">
       </app-accountadmin>
   </div>
+
 
 

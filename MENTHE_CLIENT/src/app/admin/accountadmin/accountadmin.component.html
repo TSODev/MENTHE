@@ -1,8 +1,8 @@
 <br>
-<mat-card class="background primary" class="card-article">
+<mat-card class="card-article" [attr.disabled]="modeedit ? true : null">
   <mat-card-title fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
     <span fxFlex="80%" (click)='doNothing()'>{{ user.firstname }} {{ user.lastname }}</span>
-    <mat-icon (click)='editUser()'>edit</mat-icon>
+    <mat-icon (click)='editUser(user)'>edit</mat-icon>
     <mat-icon *ngIf="Admin" fxFlex="7%" (click)='doNothing()'>lock</mat-icon>
     <mat-icon *ngIf="!Admin" fxFlex="7%" (click)='OnUserDelete(user)'>delete</mat-icon>
   </mat-card-title>
@@ -12,8 +12,12 @@
   </mat-card-header>
   <mat-card-content class="dashboard-card-content" (click)='doNothing()'>
     <mat-divider></mat-divider>
-    <p class="description">{{ user.email}}</p>
+    <p class="description">email : {{ user.email}}</p>
     <mat-divider></mat-divider>
+    <div class="description" fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne="center">
+      <div fxFlex="20%" class = groups>Member of</div>
+      <div fxFlex="80%" class="groups" *ngFor="let group of user.groups"> {{ group | uppercase }}></div>
+    </div>
   </mat-card-content>
   <mat-card-footer fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne="center">
     <div fxFlex="100%" class="roles" *ngFor="let role of user.roles"> {{ role | uppercase }}</div>

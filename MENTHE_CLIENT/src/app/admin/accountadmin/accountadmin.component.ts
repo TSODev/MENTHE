@@ -4,6 +4,8 @@ import { User } from '../../_models';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { SubSink } from 'subsink';
+import { MatDialog } from '@angular/material';
+import { UsereditdialogComponent } from './usereditdialog/usereditdialog.component';
 
 @Component({
   selector: 'app-accountadmin',
@@ -17,19 +19,23 @@ export class AccountadminComponent implements OnInit, OnDestroy {
 
   @Output()
   userDeleted = new EventEmitter();
+  @Output()
+  editmode = new EventEmitter();
 
-//  users: User[];
+  modeedit = true;
   subs = new SubSink();
   Admin = false;
+  edited: User;
 
   constructor(
     private userService: UserService,
     private alert: AlertService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
-//    this.loadUsers();
     this.Admin = this.isAdmin(this.user);
+
   }
 
   ngOnDestroy(): void {
@@ -56,11 +62,25 @@ export class AccountadminComponent implements OnInit, OnDestroy {
     );
   }
 
-  editUser() {
-
-  }
-
   doNothing() {
 
   }
+
+  editUser(user: User): void {
+    const dialogRef = this.dialog.open(UsereditdialogComponent, {
+      width: '500px',
+      data: user,
+    });
+    this.editmode.emit(true);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.editmode.emit(false);
+      this.edited = result;
+      if (typeof result !== 'undefined') {
+        console.log('The dialog was closed with : ', this.edited);
+      }
+    });
+  }
 }
+

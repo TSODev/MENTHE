@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InlineSVGModule } from 'ng-inline-svg';
 
@@ -35,6 +35,8 @@ import { MatInputModule,
           MatBadgeModule,
           MatExpansionModule,
           MatSelectModule,
+          MAT_DIALOG_DEFAULT_OPTIONS,
+          MatDialogModule,
         } from '@angular/material';
 import { MainNavComponent } from './mainpage/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -77,6 +79,7 @@ import { DBProcessService } from './_services/process.service';
 import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.component';
 import { AutofocusDirective } from './_directives/autofocus.directive';
 import { UserBoardComponent } from './admin/userboard/userboard.component';
+import { UsereditdialogComponent } from './admin/accountadmin/usereditdialog/usereditdialog.component';
 
 @NgModule({
   declarations: [
@@ -118,11 +121,13 @@ import { UserBoardComponent } from './admin/userboard/userboard.component';
     BasicviewerComponent,
     AutofocusDirective,
     UserBoardComponent,
+    UsereditdialogComponent,
 
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     InlineSVGModule.forRoot(),
@@ -147,8 +152,14 @@ import { UserBoardComponent } from './admin/userboard/userboard.component';
     MatSortModule,
     MatGridListModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
   ],
+
+  entryComponents: [
+    UsereditdialogComponent,
+  ],
+
   providers: [
     AuthGuard,
     AlertService,
@@ -162,6 +173,7 @@ import { UserBoardComponent } from './admin/userboard/userboard.component';
     { provide: HTTP_INTERCEPTORS, useClass: ApiRequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
   ],
   bootstrap: [AppComponent]
 })

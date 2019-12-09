@@ -16,7 +16,7 @@ export class UserBoardComponent implements OnInit {
   boardForm: FormGroup;
   filter = '';
   users: User[] = [];
-
+  modeedit = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,6 +39,10 @@ export class UserBoardComponent implements OnInit {
 
   onDelete(event) {
     this.users = this.users.filter(u => u.user_id !== event.user_id);
+  }
+
+  onEdit(event) {
+    this.modeedit = event;
   }
 
 }
