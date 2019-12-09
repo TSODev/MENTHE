@@ -26,7 +26,7 @@ class InMongoDatabase {
         let workflow = new Workflow({
             workflow_id: id,
             domain: data.domain,
-            company: data.company,
+            company: by.company,
             title: data.title,
             description: data.description,
             state: data.state,
