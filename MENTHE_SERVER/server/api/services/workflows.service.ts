@@ -4,9 +4,15 @@ import l from '../../common/logger';
 import mongoose from 'mongoose';
 import { Workflow, WorkflowSchema, IWorkflow } from '../models/workflows.model';
 import { IUser } from '../models/users.model';
+import { dbUser } from './user.service';
+import * as _ from 'lodash';
 
 
 class InMongoDatabase {
+
+    isAdmin(user: IUser) {
+        return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
+      }
 
     async createWorkflow(data: IWorkflow, by: IUser) {
         const workflowPerId = await db.findWorkflowById(data.workflow_id)
@@ -39,12 +45,21 @@ class InMongoDatabase {
         return workflow;
     }
 
-   async findWorkflowById(workflowId:string){
+   async findWorkflowById(workflowId: string){
         return await Workflow.findOne({workflow_id: workflowId});
     }
 
     async findAllWorkflows() {
         return await Workflow.find();
+    }
+
+    async findAllWorkflowsForTenant(userId: string) {
+        const user = await dbUser.findUserById(userId);
+        if (this.isAdmin(user)){
+            return await Workflow.find();
+        } else {
+            return await Workflow.find({company: user.company});
+        }
     }
 
     async deleteWorkflow(id: string) {

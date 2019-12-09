@@ -19,7 +19,7 @@ export default express.Router()
     .get('/user', checkIfAuthenticated, usercontroller.getUser)                       // Get user email address from SESSIONID cookie
     .get('/user/:id', checkIfAuthenticated, usercontroller.getUserById)
     .get('/user/email/:email', checkIfAuthenticated,usercontroller.getUserByEmail)
-    .get('/users', checkIfAuthenticated, usercontroller.allUsers)
+    .get('/users', checkIfAuthenticated, usercontroller.getAllUsersInTenant)
     .delete('/user/:id', checkIfAuthenticated,
                     _.partial(checkIfAuthorized,(['ADMIN']))
                     , usercontroller.deleteUser)
@@ -44,7 +44,7 @@ export default express.Router()
 
 // Workflow 
 .post('/workflow', workflowcontroller.createWorkflow)
-.get('/workflows', workflowcontroller.allWorkflows)
+.get('/workflows', workflowcontroller.getAllWorkflowByTenant)
 .get('/workflow', workflowcontroller.getWorkflow)
 .get('/workflow/:id', workflowcontroller.getWorkflowById)
 .delete('/workflow/:id', _.partial(checkIfAuthorized,(['ADMIN','LOCAL_ADMIN'])),

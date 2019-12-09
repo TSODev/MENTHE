@@ -2,13 +2,18 @@
 
 import l from '../../common/logger';
 import mongoose from 'mongoose';
-import { User, UserSchema } from '../models/users.model';
+import { User, UserSchema, IUser } from '../models/users.model';
 import { Group, GroupSchema } from '../models/groups.model';
+import * as _ from 'lodash';
 
 
 class InMongoDatabase {
 
     public dbConnected = false;
+
+    isAdmin(user: IUser) {
+        return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
+      }
 // 
     constructor() {
         const connectionString = process.env.DB_CONNECTION_STRING +
@@ -84,19 +89,28 @@ class InMongoDatabase {
     }
 
 
-    async findUserByEmail(email: string) {
+    async findUserByEmail(email: string): Promise<IUser> {
         return await User.findOne({email: email});
     }
 
-    async findUserById(userId:string){
+    async findUserById(userId:string): Promise<IUser>{
         return await User.findOne({user_id: userId});
     }
 
-    async findAllUsers() {
+    async findAllUsers(): Promise<IUser[]> {
         return await User.find();
     }
 
-    async deleteUser(id: string) {
+
+    async findAllUsersForTenant(userId: string) {
+        const user = await dbUser.findUserById(userId);
+        if (this.isAdmin(user)){
+            return await User.find();
+        } else {
+            return await User.find({company: user.company});
+        }
+    }
+    async deleteUser(id: string): Promise<IUser> {
         l.debug('Deleting userId : ', id);
         return await User.findOneAndDelete({user_id: id});
     }

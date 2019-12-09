@@ -9,9 +9,18 @@ import { IUser } from '../../models/users.model'
 
 export class workflowControler {
 
+    async getConnectedUser(req: Request): Promise<IUser> {
+      return dbUser.findUserById(req['userId']);
+    }
+
     async allWorkflows(req: Request, res:Response){
         const workflows = await db.findAllWorkflows();
         res.status(200).json({workflows: workflows});
+    }
+
+    async getAllWorkflowByTenant(req:Request, res:Response){
+      const workflows = await db.findAllWorkflowsForTenant(req['userId'].sub);
+      res.status(200).json({workflows: workflows});
     }
 
     async createWorkflow(req: Request, res: Response): Promise<void> {

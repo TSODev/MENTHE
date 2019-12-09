@@ -18,6 +18,12 @@ export class userController {
     res.status(200).json({users: users});
   }
 
+  async getAllUsersInTenant(req: Request, res: Response) {
+    if (!dbUser.dbConnected) res.sendStatus(500);
+    const users = await dbUser.findAllUsersForTenant(req['userId'].sub);
+    res.status(200).json({users: users});
+  }
+
   createUser(req: Request, res: Response): void {
     if (!dbUser.dbConnected) res.sendStatus(500);
    const credentials = req.body;
