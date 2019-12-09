@@ -15,8 +15,8 @@
     <p class="description">email : {{ user.email}}</p>
     <mat-divider></mat-divider>
     <div class="description" fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne="center">
-      <div fxFlex="20%" class = groups>Member of</div>
-      <div fxFlex="80%" class="groups" *ngFor="let group of user.groups"> {{ group | uppercase }}></div>
+      <div fxFlex="25%" class = groups>Member of</div>
+      <div fxFlex="75%" class="groups" *ngFor="let group of user.groups"> {{ group | uppercase }}</div>
     </div>
   </mat-card-content>
   <mat-card-footer fxLayout = "row" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAligne="center">
