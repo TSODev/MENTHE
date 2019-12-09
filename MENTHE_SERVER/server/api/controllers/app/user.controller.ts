@@ -12,6 +12,10 @@ import { IUser } from '../../models/users.model';
 
 export class userController {
 
+  async whoAmI(req: Request, res: Response) {
+    return await dbUser.findUserById(req['userId'].sub);
+  }
+
   async allUsers(req: Request, res: Response) {
     if (!dbUser.dbConnected) res.sendStatus(500);
     const users = await dbUser.findAllUsers();

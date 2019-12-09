@@ -35,7 +35,6 @@ export class AccountadminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.Admin = this.isAdmin(this.user);
-
   }
 
   ngOnDestroy(): void {
@@ -43,6 +42,10 @@ export class AccountadminComponent implements OnInit, OnDestroy {
   }
   isAdmin(user: User) {
     return ((_.intersection(user.roles, ['ADMIN'])).length > 0);
+  }
+
+  amIAdmin() {
+    return this.userService.
   }
 
   OnUserDelete(user: User) {

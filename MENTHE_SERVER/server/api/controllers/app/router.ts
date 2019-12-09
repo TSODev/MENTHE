@@ -23,6 +23,7 @@ export default express.Router()
     .delete('/user/:id', checkIfAuthenticated,
                     _.partial(checkIfAuthorized,(['ADMIN']))
                     , usercontroller.deleteUser)
+    .get('/user/whoami', checkIfAuthenticated, usercontroller.whoAmI)
 
 // Groups
     .post('/group', groupcontroller.createGroup)
