@@ -7,7 +7,7 @@
       <mat-menu #bpmnMenu="matMenu">
         <button mat-menu-item [routerLink]="['/workflow/create']">Create New Workflow</button>
       </mat-menu>
-      <div *rbacAllow="['ADMIN']">
+      <div *rbacAllow="['ADMIN','LOCALADMIN']">
         <button mat-button [matMenuTriggerFor]="appAdminMenu">Admin</button>
         <mat-menu #appAdminMenu="matMenu">
           <button mat-menu-item [routerLink]="['/Accountadmin']">

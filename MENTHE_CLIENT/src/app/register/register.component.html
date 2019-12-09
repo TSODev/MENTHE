@@ -25,6 +25,15 @@
               </mat-form-field>
             </p>
             <p>
+                <mat-form-field apparence="legacy">
+                  <mat-label>Company</mat-label>
+                  <input matInput type="text" formControlName="company" placeholder="company" />
+                  <mat-error *ngIf="submitted && f.company.errors" class="invalid-feedback">
+                    <div *ngIf="f.company.errors.required">Company is required</div>
+                  </mat-error>
+                </mat-form-field>
+              </p>
+            <p>
               <mat-form-field apparence=legacy>
                 <mat-label>Email Address</mat-label>
                 <input matInput type="text" formControlName="email" placeholder="email" />
