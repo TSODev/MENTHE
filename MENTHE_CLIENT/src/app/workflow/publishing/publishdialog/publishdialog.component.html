@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Publication preparation is now finished !</h1>
+<div mat-dialog-content>
+  <p>Would you like to publish this workflow now ?</p>
+  <br>
+  <p> If you quit this dialog , your mapping will be lost and you will need to remap them !</p>
+  <!-- <mat-form-field>
+    <input matInput placeholder="LastName" [(ngModel)]='data.lastname'>
+  </mat-form-field>
+  <mat-form-field>
+      <input matInput placeholder="FirstName" [(ngModel)]='data.firstname'>
+  </mat-form-field>
+  <mat-form-field>
+      <input matInput placeholder="Email" [(ngModel)]='data.email'>
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="onOKClick(data)" cdkFocusInitial>Ok</button>
+</div>

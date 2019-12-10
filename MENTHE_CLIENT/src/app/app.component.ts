@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { AnalysisService } from './_services/analysis.service';
-//import { Process, Participant, Task, GenericGateway, SequenceFlow } from './_models/bpmn';
 import { SubSink } from 'subsink';
 import { CommunicationService } from './_services/communication.service';
 import { PublishingService } from './_services/publishing.service';
-import { PublishList, Publication } from './_interfaces/publish.interface';
+import { Publication } from './_interfaces/publish.interface';
+import { MatDialog } from '@angular/material';
+import { PublishdialogComponent } from './workflow/publishing/publishdialog/publishdialog.component';
 
 export let browserRefresh = false;
 
@@ -21,15 +21,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-//  subscription: Subscription;
-
-
-
   constructor(
       private router: Router,
       private analysisService: AnalysisService,
       private communicationService: CommunicationService,
       private publishingService: PublishingService,
+      public dialog: MatDialog,
       ) {
 
     this.subs.add(
@@ -52,7 +49,20 @@ export class AppComponent implements OnInit, OnDestroy {
         this.publishingService.publishIsDone$.subscribe(
           done => {
             if ( done ) {
-               console.log('[END OF PUBLICATION]', this.publication);
+               const dialogRef = this.dialog.open(PublishdialogComponent, {
+                width: '500px',
+                data: '',
+              });
+
+               dialogRef.afterClosed().subscribe(result => {
+                if (typeof result !== 'undefined') {
+                  if (result === 'OK') {
+                    this.publishingService.publish(this.publication);
+                    this.router.navigate(['/home']);
+                  }
+                }
+              });
+
                }
           }
         )

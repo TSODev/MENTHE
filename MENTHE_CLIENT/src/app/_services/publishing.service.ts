@@ -111,6 +111,10 @@ getPublishListByElement(element: string) {
   return this.toBePublished.filter(o => o.role === element);
 }
 
+publish(publication: Publication[]) {
+  console.log('publication has been sent to the server ....', publication);
+}
+
 closeService() {
   this.subs.unsubscribe();
 }

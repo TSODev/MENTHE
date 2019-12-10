@@ -80,6 +80,7 @@ import { BasicviewerComponent } from './workflow/viewer/basicviewer/basicviewer.
 import { AutofocusDirective } from './_directives/autofocus.directive';
 import { UserBoardComponent } from './admin/userboard/userboard.component';
 import { UsereditdialogComponent } from './admin/accountadmin/usereditdialog/usereditdialog.component';
+import { PublishdialogComponent } from './workflow/publishing/publishdialog/publishdialog.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { UsereditdialogComponent } from './admin/accountadmin/usereditdialog/use
     AutofocusDirective,
     UserBoardComponent,
     UsereditdialogComponent,
+    PublishdialogComponent,
 
   ],
   imports: [
@@ -158,6 +160,7 @@ import { UsereditdialogComponent } from './admin/accountadmin/usereditdialog/use
 
   entryComponents: [
     UsereditdialogComponent,
+    PublishdialogComponent,
   ],
 
   providers: [
