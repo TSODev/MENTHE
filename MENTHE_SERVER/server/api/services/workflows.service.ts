@@ -15,7 +15,7 @@ class InMongoDatabase {
       }
 
     async createWorkflow(data: IWorkflow, by: IUser) {
-        const workflowPerId = await db.findWorkflowById(data.workflow_id)
+        const workflowPerId = await this.findWorkflowById(data.workflow_id)
            if (workflowPerId) {
                const message = "This Workflow id already exist in database";
                 l.error(message);
@@ -84,6 +84,6 @@ class InMongoDatabase {
 }
 
 
-export const db = new InMongoDatabase();
+export const dbWorkFlow = new InMongoDatabase();
 
 

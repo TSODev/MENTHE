@@ -10,6 +10,7 @@ import groupcontroller from './group.controller';
 import { checkIfAuthenticated } from '../../../authentication/auth.middleware';
 import { checkCsrfToken } from '../../../common/csrf.middleware';
 import { checkIfAuthorized } from '../../../autorization/autorization.middleware';
+import analysisController from './analysis.controller';
 
 export default express.Router()
     .post('/signup', usercontroller.createUser)
@@ -78,4 +79,10 @@ processcontroller.deleteProcess)
 .put('/process/:id', processcontroller.updateProcess)  
 .patch('/process/:id', processcontroller.updateProcess) 
 .put('/process/owner/:id', processcontroller.insertOwnerInProcess)
-    ;
+
+
+// Analysis
+.get('/analysis/data/workflow/:id', analysisController.getWorkflowData)
+
+
+;
