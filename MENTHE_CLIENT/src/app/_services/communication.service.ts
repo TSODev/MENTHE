@@ -3,13 +3,13 @@ import { Subject } from 'rxjs';
 import { CommunicationMessage} from '../_interfaces/communication.interface';
 import { SubSink } from 'subsink';
 import { AnalysisService } from './analysis.service';
-import { AnalysisMessagesHeaders} from '../_interfaces/analysis.interface';
+import { AnalysisMessagesHeaders, ListOfElement} from '../_interfaces/analysis.interface';
 import { TaskTypeEnumerated, GatewayTypeFamily, SequenceFlow} from '../_models/bpmn';
 import { UserService } from './user.service';
 import { PublishingService } from './publishing.service';
 import * as _ from 'lodash';
 import * as R from 'ramda';
-import { PublishMessageHeader } from '../_interfaces/publish.interface';
+import { PublishMessageHeader, PublishedItem } from '../_interfaces/publish.interface';
 import { DBVariableService } from './variable.service';
 import { DBProcessService } from './process.service';
 import { ProcessState } from '../_models/process';
@@ -276,17 +276,20 @@ export class CommunicationService {
       [R.pipe(R.prop('module'), R.equals('PUBLISH')),
           R.cond([
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.STARTPUBLISHING)),
-                  (data) =>  console.log(PublishMessageHeader.STARTPUBLISHING)
+                  (data) =>  this.publishingService.startPublishing()
                 ],
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDPARTICIPANT)),
-                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Owner')
+                (data) =>  {
+                  this.publishingService.addToPublishList(data.commObject.object, PublishedItem.OWNER);
+                  this.publishingService.markValidated(ListOfElement.PARTICIPANT);
+                }
                 ],
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.CHANGEPARTICIPANT)),
                 (data) =>  {
-                  this.publishingService.removeFromPublishList(data.commObject.object.old, 'Owner');
-                  this.publishingService.addToPublishList(data.commObject.object.new, 'Owner');
+                  this.publishingService.removeFromPublishList(data.commObject.object.old, PublishedItem.OWNER);
+                  this.publishingService.addToPublishList(data.commObject.object.new, PublishedItem.OWNER);
                 }
                 ],
 
@@ -311,25 +314,24 @@ export class CommunicationService {
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ADDMAPPING)),
                 (data) =>  {
-                  this.publishingService.addToPublishList(data.commObject.object, 'Mapping');
+                  this.publishingService.addToPublishList(data.commObject.object, PublishedItem.MAPPING);
                   const flows = this.analysisService.getLinkedFlow(data.commObject.relatedToId, this.analysisService.getElementList().flow);
-                  console.log('found linked flow ', flows);
                   flows.forEach(flow => {
                     if (typeof flow.attr !== 'undefined') {
                       flow.attr.mappedTo = data.commObject.object;
                     }
                   });
+                  this.publishingService.markValidated(ListOfElement.FLOW);
                   }
                 ],
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.CHANGEMAPPING)),
                 (data) =>  {
-                  this.publishingService.removeFromPublishList(data.commObject.object.old, 'Mapping');
-                  this.publishingService.addToPublishList(data.commObject.object.new, 'Mapping');
+                  this.publishingService.removeFromPublishList(data.commObject.object.old, PublishedItem.MAPPING);
+                  this.publishingService.addToPublishList(data.commObject.object.new, PublishedItem.MAPPING);
                   const flows = this.analysisService.getLinkedFlow(
                                   data.commObject.relatedToId, this.analysisService.getElementList().flow
                     );
-                  console.log('found linked flow ', flows);
                   flows.forEach(flow => {
                     if (typeof flow.attr !== 'undefined') {
                       flow.attr.mappedTo = data.commObject.object.new;
@@ -339,7 +341,7 @@ export class CommunicationService {
                 ],
 
                 [R.pipe(R.prop('header'), R.equals(PublishMessageHeader.ALIAS)),
-                (data) =>  this.publishingService.addToPublishList(data.commObject.object, 'Alias')
+                (data) =>  this.publishingService.addToPublishList(data.commObject.object, PublishedItem.ALIAS)
                 ],
 
                 [R.T, (data) => console.log('this header is not supported : ', data.header)]

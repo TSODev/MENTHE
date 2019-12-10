@@ -41,15 +41,14 @@ export class StartEventComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder,
+//    private formBuilder: FormBuilder,
     private analysisService: AnalysisService,
-    private communicationService: CommunicationService,
-    private publishingService: PublishingService,
+//    private communicationService: CommunicationService,
+//    private publishingService: PublishingService,
   ) {
-    this.inputVariableForm = this.formBuilder.group({
-      variableType: ['', Validators.required],
-      input: ['', Validators.required],
-    });
+    // this.inputVariableForm = this.formBuilder.group({
+    //   input: ['', Validators.required],
+    // });
 
     // this.publishingService.variables$.subscribe(
     //   data => {

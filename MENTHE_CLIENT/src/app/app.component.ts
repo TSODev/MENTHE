@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.publishingService.toBePublished$.subscribe(
         data => {
           this.publication.push(data);
-          console.log('[PUBLISH]', this.publication);
+//          console.log('[PUBLISH]', this.publication);
         }
       )
 

@@ -4,7 +4,9 @@
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
       <mat-toolbar color="secondary">
-        <span fxFlex="95%">Participant</span>
+        <mat-icon fxFlex="5%" *ngIf="!userForm.valid">error</mat-icon>
+        <mat-icon fxFlex="5%" *ngIf="userForm.valid">done</mat-icon>
+        <span fxFlex="90%">Participant</span>
         <span fxFlex="5%">
           <img class="taskicon" src='assets/task_icons/Participant.png'>
         </span>
@@ -26,18 +28,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <!-- <div fxFlex="15%"></div>
-        <div fxFlex="5%">
-            <button mat-fab color="primary" *ngIf="!publishedOK"
-                                            [disabled]="!validationOK"
-                                            [ngClass]="isPublishValid()"
-                                            >Publish</button>
-        </div>
-        <div fxFlex="5%">
-            <button mat-fab color="secondary" *ngIf="publishedOK"
-                                              [disabled]="publishedOK"
-                                              class="status">DONE</button>
-        </div> -->
         </form>
       </div>
 

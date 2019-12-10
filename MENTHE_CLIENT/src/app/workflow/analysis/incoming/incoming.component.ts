@@ -47,7 +47,7 @@ export class IncomingComponent implements OnInit, OnDestroy {
     private communicationService: CommunicationService,
   ) {
     this.variableForm = this.formBuilder.group({
-      variableType: ['', Validators.required],
+//      variableType: ['', Validators.required],
       name: ['', Validators.required],
       defaultValue: [''],
       alias: [''],
@@ -66,15 +66,15 @@ export class IncomingComponent implements OnInit, OnDestroy {
         mapping => {
           if (mapping.module === Module.PUBLISH) {
             if (mapping.header === PublishMessageHeader.ADDMAPPING) {
-              console.log('Incoming intercept message :', mapping);
               if (mapping.commObject.relatedToId === this.incoming) {
+                this.variableForm.controls.name.setValue(mapping.commObject.object);
                 this.varValue = mapping.commObject.object;
                 this.hasMapping = true;
               }
             } else {
               if (mapping.header === PublishMessageHeader.CHANGEMAPPING) {
-                      console.log('Incoming intercept message :', mapping);
                       if (mapping.commObject.relatedToId === this.incoming) {
+                        this.variableForm.controls.name.setValue(mapping.commObject.object.new);
                         this.varValue = mapping.commObject.object.new;
                         this.hasMapping = true;
                       }

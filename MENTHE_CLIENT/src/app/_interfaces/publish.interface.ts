@@ -55,4 +55,12 @@ export enum PublishMessageHeader {
   CHANGEMAPPING = 'CHANGEMAPPING',
   ALIAS = 'ALIAS',
   ENDPUBLISHING = 'ENDPUBLISHING',
+  PARTICIPANTVALID= 'PARTICIPANTVALID',
+}
+
+export enum PublishedItem {
+  OWNER = 'Owner',
+  MAPPING = 'Mapping',
+  ALIAS = 'Alias',
+  VARIABLE = 'Variable',
 }

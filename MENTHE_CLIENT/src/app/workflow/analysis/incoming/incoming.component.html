@@ -1,7 +1,9 @@
 <div *ngFor='let link of links'>
     <form [formGroup]="variableForm">
   <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="start">
-    <div fxFlex="60%">
+      <mat-icon fxFlex="5%" *ngIf="!variableForm.valid">error</mat-icon>
+      <mat-icon fxFlex="5%" *ngIf="variableForm.valid">done</mat-icon>
+    <div fxFlex="55%">
       <mat-card-content class="linkName" *ngIf="haslink">
         <div *ngIf="!hasAlias">
          [ input = {{ link.attr.name }} ]
@@ -31,7 +33,11 @@
         </mat-form-field>
         <mat-form-field *ngIf="hasMapping">
             <mat-label>Mapped to : </mat-label>
-            <input matInput placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
+            <mat-select placeholder="Variable" formControlName='name' id='name' [(value)]='varValue' (selectionChange)='onChange()'>
+                <mat-option *ngFor="let variable of variables" [value]="variable.name">
+                  <span>{{variable.name}}</span>
+                </mat-option>
+              </mat-select>
           </mat-form-field>
 
     </div>

@@ -13,6 +13,16 @@ import {
           } from '../_models/bpmn';
 import { Workflow } from '../_models/workflow';
 
+export enum ListOfElement {
+  COLLECTION = 'coll',
+  PROCESS = 'proc',
+  PARTICIPANT = 'part',
+  TASK = 'task',
+  GATEWAYE = 'gate',
+  FLOW = 'flow',
+  WORKFLOW = 'wf',
+}
+
 export interface ElementList {
   coll: Collaboration[];
   proc: Process[];
@@ -21,11 +31,11 @@ export interface ElementList {
   gate: GenericGateway[];
   flow: SequenceFlow[];
   wf: Workflow;
-  // compgate: ComplexGateway[];
-  // exclgate: ExclusiveGateway[];
-  // inclgate: InclusiveGateway[];
-  // evengate: EventBasedGateway[];
-  // paragate: ParallelGateway[];
+}
+
+export interface ElementListCount {
+  name: string;
+  count: number;
 }
 
 export enum AnalysisMessagesHeaders {
