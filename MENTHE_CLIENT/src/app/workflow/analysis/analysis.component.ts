@@ -29,6 +29,8 @@ export class AnalysisComponent implements OnInit, OnDestroy {
   processes: bpmn.Process[] = [];
   participants: bpmn.Participant;
 
+  hasToDisplayWorkflow = false;
+
   jsoncontent: string;
 
   constructor(
@@ -292,6 +294,18 @@ export class AnalysisComponent implements OnInit, OnDestroy {
           this.datatodisplay = true;
         }
       ));
+
+  }
+
+  displayWorkflow() {
+    if (this.hasToDisplayWorkflow) {
+      this.viewworkflow(this.workflow);
+    }
+    this.hasToDisplayWorkflow = !this.hasToDisplayWorkflow;
+  }
+
+  viewworkflow(wf: Workflow) {
+
 
   }
 

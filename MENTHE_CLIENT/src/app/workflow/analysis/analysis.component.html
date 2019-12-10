@@ -5,6 +5,19 @@
       <textarea matInput placeholder="JSON Content"> {{ jsoncontent }}</textarea>
     </mat-form-field> -->
 
+    <div fxLayout="row" fxLayout.gt-xs="row" fxLayout.xs="columun" fxLayoutAlign="space-between center">
+        <mat-toolbar color="secondary" (click)='displayWorkflow()'>
+          <span fxFlex="95%">Workflow : {{ workflow.title }}</span>
+          <span fxFlex="5%">
+            <mat-icon *ngIf="!hasToDisplayWorkflow">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="hasToDisplayWorkflow">keyboard_arrow_up</mat-icon>
+          </span>
+        </mat-toolbar>
+    </div>
+    <div class='viewer' *ngIf="hasToDisplayWorkflow">
+      <app-basicviewer [workflow]='workflow'></app-basicviewer>
+    </div>
+
     <app-collaboration [collaboration]='collaboration'></app-collaboration>
 
     <mat-divider></mat-divider>
