@@ -21,21 +21,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-  subscription: Subscription;
+//  subscription: Subscription;
 
-  // private ProcessList: Process[] = [];
-  // private ParticipantList: Participant[] = [];
-  // private TaskList: Task[] = [];
-  // private GatewayList: GenericGateway[] = [];
-  // private FlowList: SequenceFlow[] = [];
-
-  // public ElementList = {
-  //   processes:  this.ProcessList,
-  //   participants: this.ParticipantList,
-  //   tasks:  this.TaskList,
-  //   gateways: this.GatewayList,
-  //   flows: this.FlowList
-  // };
 
 
   constructor(
@@ -57,11 +44,20 @@ export class AppComponent implements OnInit, OnDestroy {
       this.publishingService.toBePublished$.subscribe(
         data => {
           this.publication.push(data);
-//          console.log('[PUBLISH]', this.publication);
         }
       )
-
     );
+
+    this.subs.add(
+        this.publishingService.publishIsDone$.subscribe(
+          done => {
+            if ( done ) {
+               console.log('[END OF PUBLICATION]', this.publication);
+               }
+          }
+        )
+      );
+
 
   }
 

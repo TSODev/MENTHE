@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Variable,
           PublishList,
           Mapping,
           Publication,
           PublishingAction,
           PublishedItem } from '../_interfaces/publish.interface';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DBVariableService } from './variable.service';
 import { AnalysisService } from './analysis.service';
@@ -26,6 +26,8 @@ export class PublishingService {
   private variablesSource = new ReplaySubject<Variable>();
   public variables$ = this.variablesSource.asObservable();
 
+  private publishDoneSource = new BehaviorSubject<boolean>(false);
+  public publishIsDone$ = this.publishDoneSource.asObservable();
 
   subs = new SubSink();
   elements: ElementList;
@@ -68,7 +70,7 @@ export class PublishingService {
     const element = this.nbItems.find(e => e.name === elementName);
     element.count -= 1;
     if (this.isPublishingFinished()) {
-      console.log('Seems you have finished to map things !');
+      this.publishDoneSource.next(true);
     }
   }
 
