@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { db } from '../../services/workflows.service';
+import { dbWorkFlow } from '../../services/workflows.service';
 import l from '../../../common/logger';
 
 import { IWorkflow } from '../../models/workflows.model';
@@ -14,12 +14,12 @@ export class workflowControler {
     }
 
     async allWorkflows(req: Request, res:Response){
-        const workflows = await db.findAllWorkflows();
+        const workflows = await dbWorkFlow.findAllWorkflows();
         res.status(200).json({workflows: workflows});
     }
 
     async getAllWorkflowByTenant(req:Request, res:Response){
-      const workflows = await db.findAllWorkflowsForTenant(req['userId'].sub);
+      const workflows = await dbWorkFlow.findAllWorkflowsForTenant(req['userId'].sub);
       res.status(200).json({workflows: workflows});
     }
 
@@ -31,7 +31,7 @@ export class workflowControler {
         try {
           const user: IUser = await dbUser.findUserById(userId.sub);
           try {
-              const workflow = await db.createWorkflow(workflow_data, user);
+              const workflow = await dbWorkFlow.createWorkflow(workflow_data, user);
               res.status(200).json({workflow: workflow});
           } catch (error) {
               res.status(500).json({error: "Workflow already exist in database"});
@@ -44,7 +44,7 @@ export class workflowControler {
 
     async getWorkflow(req: Request, res: Response){
         l.debug("looking for workflow (id): ",req['workflowId']);
-        const workflow: IWorkflow = await db.findWorkflowById(req["workflowId"].sub);
+        const workflow: IWorkflow = await dbWorkFlow.findWorkflowById(req["workflowId"].sub);
         if (workflow) {
             res.status(200).json({workflow: workflow});
         } else {
@@ -55,7 +55,7 @@ export class workflowControler {
     async getWorkflowById(req: Request, res: Response){
         const id = req.params['id'];
         l.debug("looking for workflowId: ", id);
-        const workflow = await db.findWorkflowById(id);
+        const workflow = await dbWorkFlow.findWorkflowById(id);
         if (workflow) {
           res.status(200).json({workflow: workflow});
         } else {
@@ -65,7 +65,7 @@ export class workflowControler {
  
       async deleteWorkflow(req: Request, res:Response){
         l.debug('Request for delete workflowId:', req.params.id);
-        const workflow = await db.deleteWorkflow(req.params.id)
+        const workflow = await dbWorkFlow.deleteWorkflow(req.params.id)
           .catch(err => res.sendStatus(500));
         res.sendStatus(204);
       }
@@ -74,7 +74,7 @@ export class workflowControler {
         const userId = req['userId'];
         const user: IUser = await dbUser.findUserById(userId.sub);
         l.debug('Request for update workflowId:', req.params.id);
-        const workflow = await db.updateWorkflow(req.params.id, req.body, user)
+        const workflow = await dbWorkFlow.updateWorkflow(req.params.id, req.body, user)
           .catch(err => res.sendStatus(500));
         res.sendStatus(204);
       }
