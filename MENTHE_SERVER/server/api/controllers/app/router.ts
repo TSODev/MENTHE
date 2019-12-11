@@ -90,6 +90,7 @@ processcontroller.deleteProcess)
 .get('/analysis/data/startevent/:wid/:pid', analysisController.getStartEvent)
 .get('/analysis/data/endevents/:id', analysisController.getStartEvents)
 .get('/analysis/data/endevent/:wid/:pid', analysisController.getStartEvent)
+.get('/analysis/data/:id', analysisController.analyseData)
 
 
 ;

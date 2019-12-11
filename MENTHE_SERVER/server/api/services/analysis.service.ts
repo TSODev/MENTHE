@@ -40,48 +40,88 @@ class Analysis {
 
   }
 
+  async getWorkFlowXML(worlkflowId: string){
+    return new Promise (resolve => 
+        { dbWorkFlow.findWorkflowById(worlkflowId)
+          .then(data => resolve(data.xmlcontent))
+          .catch(err => l.error(err))
+        })
+  }
+
+  async analyseData(worlkflowId: string) {
+    const elementList = new Array;
+    const workKeyList = new Array;
+    const elementKeyList = new Array;
+    return new Promise (resolve => 
+      {
+        this.getWorkFlowData(worlkflowId)
+          .then (data => {
+            const definitionKeys = Object.keys(data['definitions']);
+            definitionKeys.forEach(key => {
+              workKeyList.push({key: key, value: Object.keys(data['definitions'][key])});
+            });
+            workKeyList.forEach(
+              element => {
+                elementList.push(
+                  {
+                    key: element.key,
+                    elementkey: Object.keys(data['definitions'][element.key]),
+                    elementdata: data['definitions'][element.key],
+                  }
+                )
+              }
+            )
+            l.debug('Workflow Elements :', elementList);
+            resolve(elementList);
+          })
+          .catch(err => l.error(err))
+      })
+  }
+
   async getParticipant(id: string) {
     const data = await this.getWorkFlowData(id);
     return data['definitions'].collaboration.participant;
   }
 
   async getProcesses(workflowid: string) {
+    let result = new Array;
     const data = await this.getWorkFlowData(workflowid);
-    return data['definitions'].process;
+    result.push(data['definitions'].process);
+    return result;
   }
 
 
   async getProcess(workflowid: string, processid: string) {
     const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o.attr.id === processid);
+    return processes.filter(o => o['attr'].id === processid);
   }
 
   async getStartEvents(workflowid: string) {
     const data = await this.getProcesses(workflowid);
     const startEvents = [];
     data.forEach(element => {
-      startEvents.push(element.startEvent);
+      startEvents.push(element['startEvent']);
     });
     return startEvents;
   }
 
   async getStartEvent(workflowid: string, processid: string) {
     const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o.attr.id === processid)[0].startEvent;
+    return processes.filter(o => o['attr'].id === processid)[0]['startEvent'];
   }
 
   async getEndEvents(workflowid: string) {
     const data = await this.getProcesses(workflowid);
     const endEvents = [];
     data.forEach(element => {
-      endEvents.push(element.startEvent);
+      endEvents.push(element['startEvent']);
     });
     return endEvents;
   }
 
   async getEndEvent(workflowid: string, processid: string) {
     const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o.attr.id === processid)[0].endEvent;
+    return processes.filter(o => o['attr'].id === processid)[0]['endEvent'];
   }
 
 

@@ -10,6 +10,11 @@ export class AnalysisController {
 
     }
 
+    async analyseData(req: Request, res: Response) {
+        const data = await analysis.analyseData(req.params.id);
+        res.status(200).json({elementList: data});
+    }
+
     async getParticipant(req: Request, res: Response) {
         const participant = await analysis.getParticipant(req.params.id);
         res.status(200).json({participant: participant});
