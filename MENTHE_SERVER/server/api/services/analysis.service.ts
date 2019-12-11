@@ -58,21 +58,31 @@ class Analysis {
           .then (data => {
             const definitionKeys = Object.keys(data['definitions']);
             definitionKeys.forEach(key => {
-              workKeyList.push({key: key, value: Object.keys(data['definitions'][key])});
+              workKeyList.push({key: key});
             });
             workKeyList.forEach(
               element => {
                 elementList.push(
                   {
                     key: element.key,
-                    elementkey: Object.keys(data['definitions'][element.key]),
                     elementdata: data['definitions'][element.key],
                   }
                 )
               }
             )
-            l.debug('Workflow Elements :', elementList);
-            resolve(elementList);
+
+            const result = new Array();
+            result.push({workflow: {id: worlkflowId}});
+            elementList.forEach(
+              element => {
+
+                    const o: Object = new Object();
+                    o[element.key] = element.elementdata;
+                    result.push(o)
+
+              }
+            )
+            resolve(result);
           })
           .catch(err => l.error(err))
       })
