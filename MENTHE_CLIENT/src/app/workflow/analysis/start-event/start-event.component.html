@@ -12,7 +12,7 @@
     <div>
     <mat-card class=" matCardInfo">
       <div class="divcard" >
-          <mat-card-subtitle class="startevent">{{ startEvent.attr.name | uppercase }}</mat-card-subtitle>
+          <mat-card-subtitle *ngFor="let startEvent of startEvents" class="startevent">{{ startEvent.attr.name | uppercase }}</mat-card-subtitle>
         <mat-card-content *ngFor="let outgoing of outgoings">
           <app-outgoing [outgoing]='outgoing'></app-outgoing>
         </mat-card-content>

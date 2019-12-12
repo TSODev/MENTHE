@@ -3,6 +3,7 @@ import { IWorkflow } from '../models/workflows.model';
 import * as he from 'he';
 import * as parser from 'fast-xml-parser';
 import l from '../../common/logger';
+import { type } from 'os';
 
 class Analysis {
 
@@ -75,6 +76,13 @@ class Analysis {
             result.push({workflow: {id: worlkflowId}});
             elementList.forEach(
               element => {
+
+                    if (!Array.isArray(element.elementdata)) {
+                      l.debug('type is ', typeof element.elementdata);
+                      const array = [];
+                      array.push(element.elementdata);
+                      element.elementdata = array;
+                    }
 
                     const o: Object = new Object();
                     o[element.key] = element.elementdata;

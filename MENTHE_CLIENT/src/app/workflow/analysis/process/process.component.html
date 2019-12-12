@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <app-start-event *ngIf="hasStartEvent" [process]='process' [startEvent]='startEvent'></app-start-event>
+  <app-start-event *ngIf="hasStartEvent" [process]='process' [startEvents]='startEvent'></app-start-event>
   <div *ngIf="hasTask">
     <div *ngFor="let task of masterTask">
       <app-task [task]='task'></app-task>
@@ -54,7 +54,7 @@
   </div>
 
 
-  <app-end-event *ngIf="hasEndEvent" [process]='process' [endEvent]='endEvent'></app-end-event>
+  <app-end-event *ngIf="hasEndEvent" [process]='process' [endEvents]='endEvent'></app-end-event>
 </mat-expansion-panel>
 </div>
 <div class="progress-loader" *ngIf="!datatoshow" [hidden]="datatoshow">

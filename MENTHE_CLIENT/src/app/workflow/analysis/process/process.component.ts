@@ -98,6 +98,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
       }
     );
 
+    console.log(this.analysisService.getProcessList());
     if (this.analysisService.getProcessList().length > 0) {
       this.hasProcess = true;
       this.process = this.analysisService.getProcessList()[0];
@@ -124,7 +125,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     this.sequenceFlows = this.analysisService.getFlowList();
     this.hasSequenceFlow = (this.sequenceFlows != null);
 
-    if (this.analysisService.getTaskList(this.process.attr.id).length > 0) {
+//    if (this.analysisService.getTaskList(this.process.attr.id).length > 0) {
     this.complexGateways = this.analysisService.getGatewayList(
                 GatewayTypeFamily.COMPLEX, this.process.attr.id ) as unknown as ComplexGateway[];
     this.eventbasedGateways = this.analysisService.getGatewayList(
@@ -135,7 +136,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
                 GatewayTypeFamily.INCLUSIVE, this.process.attr.id) as unknown as InclusiveGateway[];
     this.parallelGateways = this.analysisService.getGatewayList(
                 GatewayTypeFamily.PARALLEL, this.process.attr.id) as unknown as ParallelGateway[];
-    }
+//    }
 
     this.hasComplexGateway = (this.complexGateways != null);
     this.hasEventBasedGateway = (this.eventbasedGateways != null);

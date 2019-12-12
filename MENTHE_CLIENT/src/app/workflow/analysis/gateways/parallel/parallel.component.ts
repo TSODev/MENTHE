@@ -22,6 +22,7 @@ export class ParallelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+      console.log(this.gateway);
       this.type = 'PARALLEL';
       this.incomings = this.analysisService.getElementAsArray(this.gateway.incoming);
       this.outgoings = this.analysisService.getElementAsArray(this.gateway.outgoing);

@@ -18,7 +18,7 @@ export class StartEventComponent implements OnInit {
   @Input()
     process: Process;
   @Input()
-    startEvent: StartEvent;
+    startEvents: StartEvent[];
 
     hasVariables = false;
     variables: Variable[] = [];
@@ -61,7 +61,9 @@ export class StartEventComponent implements OnInit {
 
 
   ngOnInit() {
-    this.outgoings = this.analysisService.getElementAsArray(this.startEvent.outgoing);
+    this.startEvents.forEach(
+      sEvent => this.outgoings = this.analysisService.getElementAsArray(sEvent.outgoing)
+    );
   }
 
   onSubmit() {

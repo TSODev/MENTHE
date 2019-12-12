@@ -114,6 +114,10 @@ export class WorkflowService {
     return this.bpmnData;
   }
 
+  getAnalizedData(id: string) {
+    return this.http.get<[]>(environment.APIEndpoint + '/api/v1/analysis/data/' + id)
+      .pipe(map(resp => resp['elementList'])) as Observable<[]>;
+  }
 
 
 }

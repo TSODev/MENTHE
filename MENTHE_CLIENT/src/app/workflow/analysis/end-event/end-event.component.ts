@@ -12,7 +12,7 @@ export class EndEventComponent implements OnInit {
   @Input()
     process: Process;
   @Input()
-    endEvent: EndEvent;
+    endEvents: EndEvent[];
 
     linkedFlow: SequenceFlow;
     incomings: SequenceFlow[];
@@ -22,7 +22,10 @@ export class EndEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.incomings = this.analysisService.getElementAsArray(this.endEvent.incoming);
+    this.endEvents.forEach(
+      eEvent =>  this.incomings = this.analysisService.getElementAsArray(eEvent.incoming)
+    );
+
   }
 
 }

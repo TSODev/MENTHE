@@ -47,7 +47,6 @@ export default express.Router()
 // Workflow 
 .post('/workflow', workflowcontroller.createWorkflow)
 .get('/workflows', workflowcontroller.getAllWorkflowByTenant)
-.get('/workflow', workflowcontroller.getWorkflow)
 .get('/workflow/:id', workflowcontroller.getWorkflowById)
 .delete('/workflow/:id', _.partial(checkIfAuthorized,(['ADMIN','LOCAL_ADMIN'])),
                         workflowcontroller.deleteWorkflow)

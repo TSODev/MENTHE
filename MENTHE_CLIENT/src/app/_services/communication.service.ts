@@ -107,7 +107,17 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.STANDARD)),
+                // [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.STANDARD)),
+                // (data) =>  {
+                //   data.commObject.object.forEach(element => {
+                //     this.analysisService.addTaskInList(
+                //       element, TaskTypeEnumerated.STANDARD, data.commObject.relatedToId);
+                //   });
+                //   this.publishingService.addToPublishList(data.commObject.object, 'Task');
+                // }
+                // ],
+
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.TASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -117,7 +127,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SEND)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SENDTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -127,7 +137,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.RECEIVE)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.RECEIVETASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -137,7 +147,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.USER)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.USERTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -147,7 +157,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SERVICE)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SERVICETASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -157,7 +167,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SCRIPT)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SCRIPTTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -167,7 +177,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.MANUAL)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.MANUALTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -187,7 +197,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.BUSINESS)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.BUSINESSTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -197,7 +207,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASED)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASEDTASK)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     this.analysisService.addTaskInList(
@@ -207,7 +217,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.COMPLEX)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.COMPLEXGATEWAY)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     R.assoc('type', GatewayTypeFamily.COMPLEX, element);
@@ -217,7 +227,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EXCLUSIVE)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EXCLUSIVEGATEWAY)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     R.assoc('type', GatewayTypeFamily.EXCLUSIVE, element);
@@ -227,7 +237,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.PARALLEL)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.PARALLELGATEWAY)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     R.assoc('type', GatewayTypeFamily.PARALLEL, element);
@@ -237,7 +247,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.INCLUSIVE)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.INCLUSIVEGATEWAY)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     R.assoc('type', GatewayTypeFamily.INCLUSIVE, element);
@@ -247,7 +257,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASED)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.EVENTBASEDGATEWAY)),
                 (data) =>  {
                   data.commObject.object.forEach(element => {
                     R.assoc('type', GatewayTypeFamily.EVENTBASED, element);
@@ -257,7 +267,7 @@ export class CommunicationService {
                 }
                 ],
 
-                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.FLOW)),
+                [R.pipe(R.prop('header'), R.equals(AnalysisMessagesHeaders.SEQUENCEFLOW)),
                 (data) =>    data.commObject.object.forEach(
                   element => {
                     this.analysisService.addFlowInList(element as unknown as SequenceFlow);
@@ -269,7 +279,7 @@ export class CommunicationService {
                 (data) =>  console.log(AnalysisMessagesHeaders.ENDANALYSIS)
                 ],
 
-                [R.T, (data) => console.log('this header is not supported : ', data.header)]
+                [R.T, (data) => console.error('this header is not supported : ', data.header)]
               ])],
 
 

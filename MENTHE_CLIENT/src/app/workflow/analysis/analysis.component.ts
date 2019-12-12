@@ -8,6 +8,7 @@ import * as bpmn from 'src/app/_models/bpmn';
 import { CommunicationService } from 'src/app/_services/communication.service';
 import { CommunicationMessage, CommunicationMessageHeader, Module } from 'src/app/_interfaces/communication.interface';
 import { AnalysisMessagesHeaders } from 'src/app/_interfaces/analysis.interface';
+import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
 
 
@@ -73,224 +74,47 @@ export class AnalysisComponent implements OnInit, OnDestroy {
             }
           );
 
-          this.bpmnData = this.workflowService.getBPMNData(wf);
-          this.jsoncontent = JSON.stringify(this.bpmnData, null, '\t');
+          this.workflowService.getAnalizedData(wf.workflow_id).subscribe(
+            element => {
+                  Object.entries(element).forEach(
+                    e => {
 
-          this.collaboration = this.bpmnData.definitions.collaboration;
-          this.communicationService.announce(
-            {
-              header: AnalysisMessagesHeaders.COLLABORATION,
-              module: Module.ANALYSIS,
-              commObject: { object: this.collaboration }
-            });
+                      const header = Object.keys(e[1])[0];
+                      switch (header) {
+                        case 'collaboration':
+                            const collaborations: bpmn.Collaboration[] = e[1]['collaboration'];
+                            collaborations.forEach( c => {
+                              this.collaboration = c;
+                              this.communicateOnNewElement(AnalysisMessagesHeaders.PARTICIPANT, c.participant);
+                            });
+                            break;
+                        case 'process':
+                            this.processes = e[1]['process'];
+                            this.processes.forEach(p => {
+//                                  console.log(p.attr.id);
+                                  this.communicateOnNewElement(AnalysisMessagesHeaders.PROCESS, p);
+                                  // console.log(p.startEvent.attr.name);
+                                  // this.communicateOnNewElement(AnalysisMessagesHeaders.STARTEVENT, p.startEvent, p.attr.id);
+                                  Object.entries(p).forEach(
+                                    entry => {
+//                                  console.log(entry);
+                                  this.communicateOnNewElement(entry[0].toUpperCase(), entry[1], p.attr.id);
+                                  }
+                              );
+                            });
+                            break;
 
-          this.process = this.bpmnData.definitions.process;
-          this.processes = this.analysisService.getElementAsArray(this.process);
-
-          this.communicationService.announce({
-            header: AnalysisMessagesHeaders.PROCESS,
-            module: Module.ANALYSIS,
-            commObject: { object: this.processes,
-                          relatedToId: this.analysisService.getElementList().wf.workflow_id
-             },
-
-          });
-
-
-          this.communicationService.announce(
-            {
-              header: AnalysisMessagesHeaders.PARTICIPANT,
-              module: Module.ANALYSIS,
-              commObject: { object: this.analysisService.getElementAsArray(this.collaboration.participant) }
-            });
-
-          this.processes.forEach(
-            p => {
-              if (typeof p.startEvent !== 'undefined') {
-
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.STARTEVENT,
-                    module: Module.ANALYSIS,
-                    commObject: { object: p.startEvent, relatedToId: p.attr.id }
-                  });
-
-              }
-              if (typeof p.endEvent !== 'undefined') {
-                //                this.communicationService.announceNewElement(p.endEvent, 'EndEvent', p.attr.id);
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.ENDEVENT,
-                    module: Module.ANALYSIS,
-                    commObject: { object: p.endEvent, relatedToId: p.attr.id }
-                  });
-
-              }
-
-              if (typeof p.task !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.STANDARD,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.task),
-                      relatedToId: p.attr.id
+                      }
+                    });
+                  this.communicationService.announce(
+                      {
+                        header: AnalysisMessagesHeaders.ENDANALYSIS,
+                        module: Module.ANALYSIS,
+                        commObject: { object: this.workflow }
+                      }
+                    );
                     }
-                  });
-              }
-              if (typeof p.sendTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.SEND,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.sendTask),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.receiveTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.RECEIVE,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.receiveTask),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.manualTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.MANUAL,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.manualTask),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.scriptTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.SCRIPT,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.scriptTask),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.serviceTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.SERVICE,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.serviceTask),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.businessruleTask !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.BUSINESS,
-                    module: Module.ANALYSIS,
-                    commObject: { object: this.analysisService.getElementAsArray(p.businessruleTask), relatedToId: p.attr.id }
-                  });
-              }
-              if (typeof p.callActivity !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.CALLACTIVITY,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.callActivity),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-
-              if (typeof p.complexGateway !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.COMPLEX,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.complexGateway),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.exclusiveGateway !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.EXCLUSIVE,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.exclusiveGateway),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.inclusiveGateway !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.INCLUSIVE,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.inclusiveGateway),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.parallelGateway !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.PARALLEL,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.parallelGateway),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-              if (typeof p.eventbasedGateway !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.EVENTBASED,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.eventbasedGateway),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-
-              if (typeof p.sequenceFlow !== 'undefined') {
-                this.communicationService.announce(
-                  {
-                    header: AnalysisMessagesHeaders.FLOW,
-                    module: Module.ANALYSIS,
-                    commObject: {
-                      object: this.analysisService.getElementAsArray(p.sequenceFlow),
-                      relatedToId: p.attr.id
-                    }
-                  });
-              }
-            }
-          );
-
-          this.communicationService.announce(
-            {
-              header: AnalysisMessagesHeaders.ENDANALYSIS,
-              module: Module.ANALYSIS,
-              commObject: { object: this.workflow }
-            }
-          );
-
+                  );
           this.datatodisplay = true;
         }
       ));
@@ -304,9 +128,14 @@ export class AnalysisComponent implements OnInit, OnDestroy {
     this.hasToDisplayWorkflow = !this.hasToDisplayWorkflow;
   }
 
-  viewworkflow(wf: Workflow) {
+  viewworkflow(wf: Workflow) {  }
 
 
+  communicateOnNewElement(header: string, object: any, relatedToId?: string) {
+    this.communicationService.announce(
+      {header, module: Module.ANALYSIS, commObject: {
+        object: this.analysisService.getElementAsArray(object), relatedToId }}
+      );
   }
 
 

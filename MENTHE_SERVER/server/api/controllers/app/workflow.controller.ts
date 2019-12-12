@@ -42,15 +42,15 @@ export class workflowControler {
 
     }
 
-    async getWorkflow(req: Request, res: Response){
-        l.debug("looking for workflow (id): ",req['workflowId']);
-        const workflow: IWorkflow = await dbWorkFlow.findWorkflowById(req["workflowId"].sub);
-        if (workflow) {
-            res.status(200).json({workflow: workflow});
-        } else {
-            res.sendStatus(204);
-        }
-    }
+    // async getWorkflow(req: Request, res: Response){
+    //     l.debug("looking for workflow (id): ",req['workflowId']);
+    //     const workflow: IWorkflow = await dbWorkFlow.findWorkflowById(req["workflowId"].sub);
+    //     if (workflow) {
+    //         res.status(200).json({workflow: workflow});
+    //     } else {
+    //         res.sendStatus(204);
+    //     }
+    // }
 
     async getWorkflowById(req: Request, res: Response){
         const id = req.params['id'];
