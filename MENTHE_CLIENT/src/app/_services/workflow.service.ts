@@ -16,6 +16,7 @@ import { Participant,
           SequenceFlow} from '../_models/bpmn';
 import * as parser from 'fast-xml-parser';
 import * as he from 'he';
+import { Publication } from '../_interfaces/publish.interface';
 
 
 @Injectable()
@@ -78,6 +79,14 @@ export class WorkflowService {
         return response;
       }));
   }
+
+  publish(publication: Publication[]) {
+    return this.http.post(environment.APIEndpoint + '/api/v1/publish/', publication, {
+        observe: 'response',
+        responseType: 'text'
+      }) as unknown as Observable<Workflow>;
+  }
+
 
   getImage(id: string) {
     this.getWorkflowById(id).subscribe(

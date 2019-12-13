@@ -82,14 +82,14 @@ processcontroller.deleteProcess)
 
 // Analysis
 .get('/analysis/data/workflow/:id', analysisController.getWorkflowData)
-.get('/analysis/data/participants/:id', analysisController.getParticipant)
-.get('/analysis/data/processes/:id', analysisController.getProcesses)
-.get('/analysis/data/process/:wid/:pid', analysisController.getProcess)
-.get('/analysis/data/startevents/:id', analysisController.getStartEvents)
-.get('/analysis/data/startevent/:wid/:pid', analysisController.getStartEvent)
-.get('/analysis/data/endevents/:id', analysisController.getStartEvents)
-.get('/analysis/data/endevent/:wid/:pid', analysisController.getStartEvent)
+// .get('/analysis/data/participants/:id', analysisController.getParticipant)
+// .get('/analysis/data/processes/:id', analysisController.getProcesses)
+// .get('/analysis/data/process/:wid/:pid', analysisController.getProcess)
+// .get('/analysis/data/startevents/:id', analysisController.getStartEvents)
+// .get('/analysis/data/startevent/:wid/:pid', analysisController.getStartEvent)
+// .get('/analysis/data/endevents/:id', analysisController.getStartEvents)
+// .get('/analysis/data/endevent/:wid/:pid', analysisController.getStartEvent)
 .get('/analysis/data/:id', analysisController.analyseData)
-
+.post('/publish', analysisController.createPublication)
 
 ;

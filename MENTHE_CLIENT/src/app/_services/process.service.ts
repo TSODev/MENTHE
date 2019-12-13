@@ -7,6 +7,7 @@ import { map, partition } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { UserService } from './user.service';
 import { User } from '../_models/user';
+import { Publication } from '../_interfaces/publish.interface';
 
 
 @Injectable()

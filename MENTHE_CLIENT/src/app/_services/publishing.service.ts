@@ -5,11 +5,12 @@ import { Variable,
           Publication,
           PublishingAction,
           PublishedItem } from '../_interfaces/publish.interface';
-import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 import { SubSink } from 'subsink';
 import { DBVariableService } from './variable.service';
 import { AnalysisService } from './analysis.service';
 import { ElementList, ElementListCount, ListOfElement } from '../_interfaces/analysis.interface';
+import { WorkflowService } from './workflow.service';
 
 
 
@@ -37,6 +38,7 @@ export class PublishingService {
   constructor(
     private dbVariableService: DBVariableService,
     private analysisService: AnalysisService,
+    private workflowService: WorkflowService,
   ) {
 
     this.subs.add(
@@ -111,8 +113,15 @@ getPublishListByElement(element: string) {
   return this.toBePublished.filter(o => o.role === element);
 }
 
+
+
 publish(publication: Publication[]) {
   console.log('publication has been sent to the server ....', publication);
+    //        console.log('Updating : ', workflow);
+  this.workflowService.publish(publication).subscribe(
+    result => console.log('Result : ', result),
+    error => console.log('Error : ', error)
+  );
 }
 
 closeService() {

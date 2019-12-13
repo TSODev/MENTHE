@@ -1,12 +1,54 @@
 import { dbWorkFlow } from './workflows.service';
-import { IWorkflow } from '../models/workflows.model';
 import * as he from 'he';
 import * as parser from 'fast-xml-parser';
+import * as R from 'ramda';
 import l from '../../common/logger';
-import { type } from 'os';
+import { IUser } from '../models/users.model';
+import { Publication } from '../models/publish.model';
+
 
 class Analysis {
 
+private switchOnInsertPublicationElement = R.cond([
+  [R.pipe(R.prop('role'), R.equals('Workflow')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Participant')),  element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Process')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('StartEvent')),   element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('EndEvent')),     element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Task')),         element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Gateway')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Flow')),         element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Owner')),        element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Mapping')),      element => console.log(element.object)],
+  [R.T,  element => console.log('This ' + element.role + ' is not supported' )]
+]);
+
+private switchOnRemovePublicationElement = R.cond([
+  [R.pipe(R.prop('role'), R.equals('Workflow')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Participant')),  element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Process')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('StartEvent')),   element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('EndEvent')),     element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Task')),         element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Gateway')),      element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Flow')),         element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Owner')),        element => console.log(element.object)],
+  [R.pipe(R.prop('role'), R.equals('Mapping')),      element => console.log(element.object)],
+  [R.T,  element => console.log('This ' + element.role + ' is not supported' )]
+]);
+
+
+  private switchOnPublicationAction = R.cond([
+    [R.pipe(R.prop('action'), R.equals('INSERT')),  data => this.switchOnInsertPublicationElement(data.post)],
+    [R.pipe(R.prop('action'), R.equals('REMOVE')),  data => this.switchOnRemovePublicationElement(data.post)],
+    [R.T,  action => console.log('Don t know what to do with this action : ' + action)]
+  ]);
+  
+
+  private actionOnEachPublication = (pub: Publication) => {
+    this.switchOnPublicationAction(pub);
+  }
+  
   async getWorkFlowData(id: string) {
     const options = {
       attributeNamePrefix: '',
@@ -78,7 +120,6 @@ class Analysis {
               element => {
 
                     if (!Array.isArray(element.elementdata)) {
-                      l.debug('type is ', typeof element.elementdata);
                       const array = [];
                       array.push(element.elementdata);
                       element.elementdata = array;
@@ -96,52 +137,11 @@ class Analysis {
       })
   }
 
-  async getParticipant(id: string) {
-    const data = await this.getWorkFlowData(id);
-    return data['definitions'].collaboration.participant;
+
+
+  createPublication(publication: Publication[], user: IUser) {
+    R.forEach(this.actionOnEachPublication, publication);
   }
-
-  async getProcesses(workflowid: string) {
-    let result = new Array;
-    const data = await this.getWorkFlowData(workflowid);
-    result.push(data['definitions'].process);
-    return result;
-  }
-
-
-  async getProcess(workflowid: string, processid: string) {
-    const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o['attr'].id === processid);
-  }
-
-  async getStartEvents(workflowid: string) {
-    const data = await this.getProcesses(workflowid);
-    const startEvents = [];
-    data.forEach(element => {
-      startEvents.push(element['startEvent']);
-    });
-    return startEvents;
-  }
-
-  async getStartEvent(workflowid: string, processid: string) {
-    const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o['attr'].id === processid)[0]['startEvent'];
-  }
-
-  async getEndEvents(workflowid: string) {
-    const data = await this.getProcesses(workflowid);
-    const endEvents = [];
-    data.forEach(element => {
-      endEvents.push(element['startEvent']);
-    });
-    return endEvents;
-  }
-
-  async getEndEvent(workflowid: string, processid: string) {
-    const processes = await this.getProcesses(workflowid);
-    return processes.filter(o => o['attr'].id === processid)[0]['endEvent'];
-  }
-
 
 }
 
